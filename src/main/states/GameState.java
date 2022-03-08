@@ -3,6 +3,7 @@ package main.states;
 import main.Game;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
 
 public class GameState extends State
 {
@@ -16,7 +17,6 @@ public class GameState extends State
     @Override
     public void tick()
     {
-
 
     }
 
