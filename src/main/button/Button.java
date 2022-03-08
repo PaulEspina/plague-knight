@@ -5,10 +5,13 @@ import main.gfx.ImageLoader;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
+import static java.lang.System.exit;
+
 public class Button{
     private Point pos;
     private Point size;
     private Point imagePos;
+    private Point imageSize;
     private BufferedImage picture;
     private BufferedImage image;
 
@@ -18,6 +21,9 @@ public class Button{
 
     public Point getImagePos(){ return imagePos; }
     public void setImagePos(Point imagePos){ this.imagePos = imagePos; }
+
+    public Point getImageSize() { return imageSize; }
+
     public Point getPos() {
         return pos;
     }
@@ -39,17 +45,12 @@ public class Button{
         this.size = size;
     }
 
-    public void tick(){
-
-    }
-    public void draw(Graphics g){
-
-    }
-
     //    This function is used to load menu buttons and cut the sprite sheet
     public void loadTexture(Point imagePos, Point imageSize, String path){
 
         this.imagePos = imagePos;
+        this.imageSize = imageSize;
+
 //        "/assets/menu/menubuttons/menubuttons.png"
 
 //        Get Sprite sheet
@@ -59,9 +60,15 @@ public class Button{
         image = picture.getSubimage((int) imagePos.getX(), (int) imagePos.getY(), (int) imageSize.getX(), (int) imageSize.getY());
     }
     public void setFrame(Point imagePos, Point imageSize){
-        this.imagePos = imagePos;
 
+        this.imagePos = imagePos;
+        this.imageSize = imageSize;
 
         image = picture.getSubimage((int) imagePos.getX(), (int) imagePos.getY(), (int) imageSize.getX(), (int) imageSize.getY());
+    }
+
+    public void exitGameNotification(){
+        System.out.println("Quitting.....");
+        exit(0);
     }
 }

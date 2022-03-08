@@ -1,20 +1,24 @@
 package main;
 
+import main.button.Button;
 import main.display.Display;
 import main.input.KeyManager;
 import main.input.MouseManager;
 import main.states.GameState;
 import main.states.MenuState;
 import main.states.State;
+import main.states.SurvivalMenuState;
 
 import java.awt.*;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferStrategy;
 
 public class Game implements Runnable
 {
-
+    private final String MENUBUTTONPATH = "/assets/menu/menubuttons/menubuttonsv3.png";
     public State menuState;
     public State gameState;
+    public State survivalMenuState;
     private final String title;
     private final int width;
 	private final int height;
@@ -47,6 +51,7 @@ public class Game implements Runnable
 
         menuState = new MenuState(this);
         gameState = new GameState(this);
+        survivalMenuState = new SurvivalMenuState(this);
         State.setState(menuState);
     }
 
@@ -156,6 +161,44 @@ public class Game implements Runnable
     public MouseManager getMouseManager()
     {
         return mouseManager;
+    }
+
+    public String getMENUBUTTONPATH() { return MENUBUTTONPATH; }
+
+    public boolean isInside(float x, float y, Button butt, String buttonName){
+
+        Point getPos = butt.getImagePos();
+//        x <= image.width + image.x && x >= image.x
+//        y <= image.width + image.y && y >= image.y
+        if((x <= butt.getSize().getX() + butt.getPos().getX() && x >=  butt.getPos().getX()) &&
+                (y <= butt.getSize().getY() + butt.getPos().getY() && y >= butt.getPos().getY())){
+
+            butt.setFrame(new Point((int) (butt.getImagePos().getX() + 174), 0), new Point(173, 87));
+
+//            If button clicked
+            if(this.getMouseManager().getMouseButtonState(MouseEvent.BUTTON1)){
+//              Animate button
+                butt.setFrame(new Point((int) (butt.getImagePos().getX() + 174), 0), new Point(173, 87));
+                butt.setImagePos(getPos);
+                if(buttonName == "story"){
+                    System.out.println("Game Mode is Disable");
+                }
+                else if(buttonName == "survival"){
+                    System.out.println("Survival Game");
+                    return true;
+                }
+                else if(buttonName == "exit"){
+                    butt.exitGameNotification();
+                }
+                return true;
+            }
+            butt.setImagePos(getPos);
+            return false;
+        }
+
+        butt.setFrame(new Point((int) (butt.getImagePos().getX()), 0), new Point(173, 87));
+        butt.setImagePos(getPos);
+        return false;
     }
 
 }
