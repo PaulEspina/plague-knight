@@ -4,10 +4,7 @@ import main.button.Button;
 import main.display.Display;
 import main.input.KeyManager;
 import main.input.MouseManager;
-import main.states.GameState;
-import main.states.MenuState;
-import main.states.State;
-import main.states.SurvivalMenuState;
+import main.states.*;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -20,6 +17,7 @@ public class Game implements Runnable
     public State menuState;
     public State gameState;
     public State survivalMenuState;
+    public State pauseState;
     private final String title;
     private final int width;
 	private final int height;
@@ -53,7 +51,8 @@ public class Game implements Runnable
         menuState = new MenuState(this);
         gameState = new GameState(this);
         survivalMenuState = new SurvivalMenuState(this);
-        State.setState(survivalMenuState);
+        pauseState = new PauseState(this);
+        State.setState(pauseState);
     }
 
     private void tick()
