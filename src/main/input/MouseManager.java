@@ -12,7 +12,7 @@ public class MouseManager implements MouseListener, MouseMotionListener
 
     public MouseManager()
     {
-        mouse = new boolean[2];
+        mouse = new boolean[256];
     }
 
     public void tick()
