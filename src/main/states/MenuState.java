@@ -13,11 +13,9 @@ import static java.lang.Thread.sleep;
 public class MenuState extends State
 {
     private Game game;
-    private SurvivalMenuState survivalMenuState;
     private Button storyButton;
     private Button survivalButton;
     private Button exitButton;
-    private String path = "/assets/menu/menubuttons/menubuttonsv3.png";
     // TODO Auto-generated method stub
 
 
