@@ -12,7 +12,8 @@ import static java.lang.Thread.sleep;
 public class MenuState extends State
 {
     private Game game;
-    private String path;
+    private String buttonPath;
+    private String backgroundPath;
     private Button storyButton;
     private Button survivalButton;
     private Button exitButton;
@@ -22,16 +23,17 @@ public class MenuState extends State
     public MenuState(Game game)
     {
         this.game = game;
-        path = Config.MENUBUTTONPATH;
+        buttonPath = Config.MENUBUTTONPATH;
+        backgroundPath = Config.MENUBACKGROUNDPATH;
 //        Coordinate in Frame
         survivalButton = new Button(game, new Point(300, 250), new Point(180, 100), "survival");
         storyButton = new Button(game, new Point(300, 370), new Point(180, 100), "story");
         exitButton = new Button(game, new Point(300, 490), new Point(180, 100), "exit");
 
 //        Coordinate in Photos
-        survivalButton.loadTexture(new Point(0, 0), new Point(173, 87), path);
-        storyButton.loadTexture(new Point(522, 0), new Point(173, 87), path);
-        exitButton.loadTexture(new Point(1044, 0), new Point(173, 87), path);
+        survivalButton.loadTexture(new Point(0, 0), new Point(173, 87), buttonPath);
+        storyButton.loadTexture(new Point(522, 0), new Point(173, 87), buttonPath);
+        exitButton.loadTexture(new Point(1044, 0), new Point(173, 87), buttonPath);
 
     }
 
@@ -81,6 +83,7 @@ public class MenuState extends State
     @Override
     public void render(Graphics g)
     {
+
         survivalButton.draw(g);
         storyButton.draw(g);
         exitButton.draw(g);
