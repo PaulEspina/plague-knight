@@ -36,6 +36,12 @@ public class Vector2f
         this.y += y;
     }
 
+    public void add(float c)
+    {
+        this.x += c;
+        this.y += c;
+    }
+
     public void sub(Vector2f vec)
     {
         sub(vec.x, vec.y);
@@ -47,6 +53,12 @@ public class Vector2f
         this.y -= y;
     }
 
+    public void sub(float c)
+    {
+        this.x -= c;
+        this.y -= c;
+    }
+
     public void mul(Vector2f vec)
     {
         mul(vec.x, vec.y);
@@ -56,6 +68,12 @@ public class Vector2f
     {
         this.x *= x;
         this.y *= y;
+    }
+
+    public void mul(float c)
+    {
+        this.x *= c;
+        this.y *= c;
     }
 
     public void div(Vector2f vec)
@@ -72,6 +90,17 @@ public class Vector2f
 
         this.x /= x;
         this.y /= y;
+    }
+
+    public void div(float c)
+    {
+        if(c == 0)
+        {
+            throw new ArithmeticException("Cannot divide by 0.");
+        }
+
+        this.x /= c;
+        this.y /= c;
     }
 
     public float getX()
