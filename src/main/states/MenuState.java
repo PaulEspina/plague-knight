@@ -1,18 +1,18 @@
 package main.states;
 
+import main.Config;
 import main.Game;
 import main.button.Button;
-import main.gfx.ImageLoader;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
 
 import static java.lang.Thread.sleep;
 
 public class MenuState extends State
 {
     private Game game;
+    private String path;
     private Button storyButton;
     private Button survivalButton;
     private Button exitButton;
@@ -22,15 +22,16 @@ public class MenuState extends State
     public MenuState(Game game)
     {
         this.game = game;
+        path = Config.MENUBUTTONPATH;
 //        Coordinate in Frame
-        survivalButton = new Button(new Point(300, 250), new Point(180, 100));
-        storyButton = new Button(new Point(300, 370), new Point(180, 100));
-        exitButton = new Button(new Point(300, 490), new Point(180, 100));
+        survivalButton = new Button(game, new Point(300, 250), new Point(180, 100), "survival");
+        storyButton = new Button(game, new Point(300, 370), new Point(180, 100), "story");
+        exitButton = new Button(game, new Point(300, 490), new Point(180, 100), "exit");
 
 //        Coordinate in Photos
-        survivalButton.loadTexture(new Point(0, 0), new Point(173, 87), game.getMENUBUTTONPATH());
-        storyButton.loadTexture(new Point(522, 0), new Point(173, 87), game.getMENUBUTTONPATH());
-        exitButton.loadTexture(new Point(1044, 0), new Point(173, 87), game.getMENUBUTTONPATH());
+        survivalButton.loadTexture(new Point(0, 0), new Point(173, 87), path);
+        storyButton.loadTexture(new Point(522, 0), new Point(173, 87), path);
+        exitButton.loadTexture(new Point(1044, 0), new Point(173, 87), path);
 
     }
 
@@ -39,8 +40,40 @@ public class MenuState extends State
         int x = game.getMouseManager().getMouseX();
         int y = game.getMouseManager().getMouseY();
 
-        if(game.isInside(x, y, storyButton, "story") || game.isInside(x, y, survivalButton, "survival") || game.isInside(x, y, exitButton, "exit")){
-//            MenuState.setState(survivalMenuState);
+        if(survivalButton.isInside(x, y)){
+            survivalButton.hoveredImage();
+            //If button clicked
+            if(game.getMouseManager().getMouseButtonState(MouseEvent.BUTTON1)) {
+                //Animate button
+                survivalButton.clickedImage();
+            }
+        }
+        else{
+            survivalButton.unhoveredImage();
+        }
+
+        if(storyButton.isInside(x, y)){
+            storyButton.hoveredImage();
+            //If button clicked
+            if(game.getMouseManager().getMouseButtonState(MouseEvent.BUTTON1)) {
+                //Animate button
+                storyButton.clickedImage();
+            }
+        }
+        else{
+            storyButton.unhoveredImage();
+        }
+
+        if(exitButton.isInside(x, y)){
+            exitButton.hoveredImage();
+            //If button clicked
+            if(game.getMouseManager().getMouseButtonState(MouseEvent.BUTTON1)) {
+                //Animate button
+                exitButton.clickedImage();
+            }
+        }
+        else{
+            exitButton.unhoveredImage();
         }
 
     }
@@ -48,14 +81,9 @@ public class MenuState extends State
     @Override
     public void render(Graphics g)
     {
-        g.drawImage(survivalButton.getImage(), (int) survivalButton.getPos().getX(), (int) survivalButton.getPos().getY(),
-                (int) survivalButton.getSize().getX(), (int) survivalButton.getSize().getY(), null);
-
-        g.drawImage(storyButton.getImage(), (int) storyButton.getPos().getX(), (int) storyButton.getPos().getY(),
-                (int) storyButton.getSize().getX(), (int) storyButton.getSize().getY(), null);
-
-        g.drawImage(exitButton.getImage(), (int) exitButton.getPos().getX(), (int) exitButton.getPos().getY(),
-                (int) exitButton.getSize().getX(), (int) exitButton.getSize().getY(), null);
+        survivalButton.draw(g);
+        storyButton.draw(g);
+        exitButton.draw(g);
     }
 
 
