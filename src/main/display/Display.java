@@ -1,5 +1,7 @@
 package main.display;
 
+import main.Config;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -11,11 +13,11 @@ public class Display
     private JFrame frame;
     private Canvas canvas;
 
-    public Display(String title, int width, int height)
+    public Display()
     {
-        this.title = title;
-        this.width = width;
-        this.height = height;
+        this.title = Config.TITLE;
+        this.width = Config.SCREEN_WIDTH;
+        this.height = Config.SCREEN_HEIGHT;
 
         createDisplay();
     }

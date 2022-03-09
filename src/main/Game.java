@@ -15,9 +15,6 @@ public class Game implements Runnable
 
     public State menuState;
     public State gameState;
-    private final String title;
-    private final int width;
-	private final int height;
     private Boolean running = false;
     private Display display;
     private BufferStrategy bs;
@@ -26,19 +23,15 @@ public class Game implements Runnable
     private final KeyManager keyManager;
     private final MouseManager mouseManager;
 
-    public Game(String title, int width, int height)
+    public Game()
     {
-        this.title = title;
-        this.width = width;
-        this.height = height;
-
         keyManager = new KeyManager();
         mouseManager = new MouseManager();
     }
 
     private void init()
     {
-        display = new Display(title, width, height);
+        display = new Display();
         display.getFrame().addKeyListener(keyManager);
         display.getFrame().addMouseListener(mouseManager);
         display.getFrame().addMouseMotionListener(mouseManager);
@@ -47,7 +40,7 @@ public class Game implements Runnable
 
         menuState = new MenuState(this);
         gameState = new GameState(this);
-        State.setState(menuState);
+        State.setState(gameState);
     }
 
     private void tick()
@@ -73,7 +66,7 @@ public class Game implements Runnable
         }
 
         g = bs.getDrawGraphics();
-        g.clearRect(0, 0, width, height);
+        g.clearRect(0, 0, Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT);
 
         //Draw here
 
@@ -156,15 +149,5 @@ public class Game implements Runnable
     public MouseManager getMouseManager()
     {
         return mouseManager;
-    }
-
-    public int getScreenWidth()
-    {
-        return width;
-    }
-
-    public int getScreenHeight()
-    {
-        return height;
     }
 }
