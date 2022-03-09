@@ -158,4 +158,13 @@ public class Game implements Runnable
         return mouseManager;
     }
 
+    public int getScreenWidth()
+    {
+        return width;
+    }
+
+    public int getScreenHeight()
+    {
+        return height;
+    }
 }
