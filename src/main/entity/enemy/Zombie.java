@@ -13,6 +13,7 @@ public class Zombie extends Enemy
     private String direction;
     private BufferedImage sprite;
     private BufferedImage[] images;
+    private int animationIndex;
 
     public Zombie()
     {
@@ -20,6 +21,7 @@ public class Zombie extends Enemy
         direction = "south";
         sprite = null;
         images = new BufferedImage[3];
+        animationIndex = 0;
     }
 
     public Zombie(Vector2f pos, Vector2f size)
@@ -30,18 +32,23 @@ public class Zombie extends Enemy
 
     public Zombie(Vector2f pos, Vector2f size, String type)
     {
+        this();
         this.pos = pos;
         this.size = size;
         this.type = type;
         int randNum = (int) (Math.random() * 100) % 3;
-        images = new BufferedImage[3];
         sprite = ImageLoader.loadImage(Config.ZOMBIE_SPRITE_PATH);
         sprite = sprite.getSubimage(0, (int) size.getY() * randNum, (int) size.getX() * 12, (int) size.getY());
-        images[0] = sprite.getSubimage(0, 0, (int) size.getX(), (int) size.getY());
+        images[0] = sprite.getSubimage(0,
+                                       0,
+                                       (int) size.getX(),
+                                       (int) size.getY());
+
         images[1] = sprite.getSubimage((int) (size.getX() * 1),
                                        0,
                                        (int) size.getX(),
                                        (int) size.getY());
+
         images[2] = sprite.getSubimage((int) (size.getX() * 2),
                                        0,
                                        (int) size.getX(),
@@ -104,7 +111,6 @@ public class Zombie extends Enemy
             {
                 direction = "west";
             }
-            System.out.println(dtheta + "," + thetaDistNorth);
         }
         catch(ArithmeticException e)
         {
@@ -164,10 +170,14 @@ public class Zombie extends Enemy
         }
     }
 
+    public void animate()
+    {
+        animationIndex = (animationIndex + 1) % 3;
+    }
+
     @Override
     public void draw(Graphics g)
     {
-        g.drawRect((int) pos.getX(), (int) pos.getY(), (int) size.getX(), (int) size.getY());
-        g.drawImage(images[0], (int) pos.getX(), (int) pos.getY(), null);
+        g.drawImage(images[animationIndex], (int) pos.getX(), (int) pos.getY(), null);
     }
 }

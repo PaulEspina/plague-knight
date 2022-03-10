@@ -24,12 +24,20 @@ public class GameState extends State
                             new Vector2f(Config.ZOMBIE_SPRITE_WIDTH, Config.ZOMBIE_SPRITE_HEIGHT));
     }
 
+
+    private double maxFrame = 20;
+    private double deltaCounter = 0;
     @Override
     public void tick()
     {
         Vector2f mouse = new Vector2f(mouseManager.getMouseX(), mouseManager.getMouseY());
         zombie.follow(mouse, 2);
 
+        deltaCounter += game.getDeltaPlease();
+        if(deltaCounter >= maxFrame){
+            zombie.animate();
+            deltaCounter = 0;
+        }
         zombie.update();
 
     }
