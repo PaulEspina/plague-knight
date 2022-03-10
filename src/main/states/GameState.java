@@ -5,9 +5,7 @@ import main.Game;
 import main.Vector2f;
 import main.entity.enemy.Zombie;
 import main.input.MouseManager;
-
 import java.awt.*;
-import java.util.Vector;
 
 public class GameState extends State
 {
@@ -22,16 +20,16 @@ public class GameState extends State
 
         mouseManager = game.getMouseManager();
 
-        zombie = new Zombie(new Vector2f((float) Config.SCREEN_WIDTH / 2, (float) Config.SCREEN_HEIGHT / 2), new Vector2f(36, 48));
-        System.out.println(zombie.getPos().getX() + "," + zombie.getPos().getY());
+        zombie = new Zombie(new Vector2f((float) Config.SCREEN_WIDTH / 2, (float) Config.SCREEN_HEIGHT / 2),
+                            new Vector2f(Config.ZOMBIE_SPRITE_WIDTH, Config.ZOMBIE_SPRITE_HEIGHT));
     }
 
     @Override
     public void tick()
     {
         Vector2f mouse = new Vector2f(mouseManager.getMouseX(), mouseManager.getMouseY());
+        zombie.follow(mouse, 2);
 
-        zombie.follow(mouse, 1);
         zombie.update();
     }
 
