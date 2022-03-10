@@ -1,6 +1,8 @@
 package main.entity;
 
+import main.Drawable;
 import main.Game;
+import main.Vector2f;
 import main.gfx.ImageLoader;
 import main.states.GameState;
 
@@ -10,150 +12,84 @@ import java.awt.image.BufferedImage;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
-public class Player{
+public class Player extends Entity implements Drawable{
 
-    private Game game;
-    public static int xAxis = 0, yAxis = 0;
-    private int velX, velY, speed;
-    private Point pos;
-    private Point size;
-    private double movement;
-    public static int counter = 0;
+    private Vector2f vel;
+    private String direction;
+    private BufferedImage sprite;
+    private BufferedImage[] images;
+    private int animationIndex;
 
-    //for images
-    private BufferedImage character;
-    private BufferedImage newCharacter;
-
-    public static final String path = "/main/entity/playermovements.png";
-    private Point imagePos;
-
-    public BufferedImage getNewCharacter() { return newCharacter; }
-    public Point getImagePos() { return imagePos; }
-    public void setImagePos(Point imagePos) { this.imagePos = imagePos; }
-    public Point getPos(){ return pos; }
-    public void setPos(Point pos) { this.pos = pos; }
-    public Point getSize() { return size; }
-    public void setSize(Point size) { this.size = size; }
-
-    public void setVelX(int velX)
+    public Player(Vector2f pos, Vector2f size)
     {
-        this.velX = velX;
-    }
-    public void setVelY(int velY)
-    {
-        this.velY = velY;
-    }
-    public int getVelX()
-    {
-        return velX;
-    }
-    public int getVelY()
-    {
-        return velY;
-    }
-
-    public Player(Point pos, Point size, Game game)
-    {
-        this.game = game;
         this.pos = pos;
         this.size = size;
-        velX = 0;
-        velY = 0;
+        vel = new Vector2f(0, 0);
     }
 
-    public void multiply(double speed)
+    @Override
+    public void update()
     {
-        velX *= speed;
-        velY *= speed;
+        pos.add(vel);
     }
 
-    private void move()
+    @Override
+    public void draw(Graphics g)
     {
-        setPos(new Point(getVelX(), getVelY()));
-
-        if(game.getKeyManager().getKeyState(KeyEvent.VK_W))
-        {
-            counter++;
-            System.out.println(counter);
-            loadTexture(new Point(56,145), new Point(47, 47), path);
-            if(counter % 2 == 0) //left
-            {
-                loadTexture(new Point(7,145), new Point(47, 47), path);
-            }
-            else //right
-            {
-                loadTexture(new Point(97,145), new Point(47, 47), path);
-            }
-            velY-=5;
-        }
-
-        if(game.getKeyManager().getKeyState(KeyEvent.VK_S))
-        {
-            counter++;
-            loadTexture(new Point(56,2), new Point(47, 47), path);
-
-            if(counter % 2 == 0)
-            {
-                loadTexture(new Point(7,2), new Point(47, 47), path);
-            }
-            else
-            {
-                loadTexture(new Point(97,2), new Point(47, 47), path);
-            }
-            velY+=5;
-        }
-
-        if(game.getKeyManager().getKeyState(KeyEvent.VK_D))
-        {
-            counter++;
-            loadTexture(new Point(56,98), new Point(47, 47), path);
-            if(counter % 2 == 0)
-            {
-                loadTexture(new Point(7,99), new Point(47, 47), path);
-            }
-            else
-            {
-                loadTexture(new Point(97,99), new Point(47, 47), path);
-            }
-            velX+=5;
-        }
-
-        if(game.getKeyManager().getKeyState(KeyEvent.VK_A))
-        {
-            counter++;
-            loadTexture(new Point(56,50), new Point(47, 47), path);
-            if(counter % 2 == 0)
-            {
-                loadTexture(new Point(7,51), new Point(47, 47), path);
-            }
-            else
-            {
-                loadTexture(new Point(97,51), new Point(47, 47), path);
-            }
-            velX-=5;
-        }
+        g.drawRect((int) pos.getX(), (int) pos.getY(), (int) size.getX(), (int) size.getY());
+//        g.drawImage(player.getNewCharacter(),
+//                    (int)player.getPos().getX(),
+//                    (int)player.getPos().getY(),
+//                    (int)player.getSize().getX(),
+//                    (int)player.getSize().getY(),
+//                    null);
     }
 
-    public void tick()
+//    public void multiply(double speed)
+//    {
+//        velX *= speed;
+//        velY *= speed;
+//    }
+
+
+//    public void loadTexture(Point imagePos, Point imageSize, String path)
+//    {
+//        this.imagePos = imagePos;
+//        character = ImageLoader.loadImage(path);
+//        newCharacter = character.getSubimage((int)imagePos.getX(), (int)imagePos.getY(), (int)imageSize.getX(), (int)imageSize.getY());
+//    }
+//
+//    public void setFrame(Point imagePos, Point imageSize)
+//    {
+//        this.imagePos = imagePos;
+//        newCharacter = character.getSubimage((int)imagePos.getX(), (int)imagePos.getY(), (int)imageSize.getX(), (int)imageSize.getY());
+//    }
+
+    public void setVelX(float velX)
     {
-        move();
+        vel.setX(velX);
+    }
+    public void setVelY(float velY)
+    {
+        vel.setY(velY);
+    }
+    public float getVelX()
+    {
+        return vel.getX();
     }
 
-    public void render(Graphics g)
+    public float getVelY()
     {
-
+        return vel.getY();
     }
 
-    public void loadTexture(Point imagePos, Point imageSize, String path)
+    public Vector2f getVel()
     {
-        this.imagePos = imagePos;
-        character = ImageLoader.loadImage(path);
-        newCharacter = character.getSubimage((int)imagePos.getX(), (int)imagePos.getY(), (int)imageSize.getX(), (int)imageSize.getY());
+        return vel;
     }
 
-    public void setFrame(Point imagePos, Point imageSize)
+    public void setVel(Vector2f vel)
     {
-        this.imagePos = imagePos;
-        newCharacter = character.getSubimage((int)imagePos.getX(), (int)imagePos.getY(), (int)imageSize.getX(), (int)imageSize.getY());
+        this.vel = vel;
     }
 }
