@@ -1,0 +1,39 @@
+survive button idle
+1,1; 174,1; 174,89; 1,89;
+survive button hover
+175,19; 347,19; 347,89; 175,89;
+
+story button idle
+348,1; 522,1; 522,89; 348,89;
+story button hover
+523,19; 695,19; 695,89; 523,89;
+
+exit button idle
+696,1; 868,1; 868,89; 696,89;
+exit button hover
+869,19; 1041,19; 1041,89; 869,89;
+
+resume button idle
+1,90; 174,90; 174,178; 1,178;
+resume button hover
+175,108; 347,108; 347,178; 175,178;
+
+menu button idle
+348,90; 522,90; 522,178; 248,178;
+menu button hover
+523,108; 695,108; 695,178; 523,178;
+
+start button idle
+1,179; 174,179; 174,268; 1,268;
+start button hover
+175,197; 347,197; 347,268; 175,268;
+
+cancel button idle
+348,179; 522,179; 522,268; 348,268;
+cancel button hover
+523,197; 695,197; 695,268; 523,268;
+
+pause button idle
+696,90; 828,90; 828,222; 696,222;
+pause button hover
+829,90; 961,90; 961,222; 829,222;

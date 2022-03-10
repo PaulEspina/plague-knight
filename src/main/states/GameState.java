@@ -31,6 +31,7 @@ public class GameState extends State
         zombie.follow(mouse, 2);
 
         zombie.update();
+
     }
 
     @Override

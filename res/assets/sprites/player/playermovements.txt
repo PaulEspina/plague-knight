@@ -1,0 +1,27 @@
+player idle facing front
+56,2; 88,2; 88,47; 56,47;
+player walking facing front 1
+6,2; 40,2; 40,47; 6,47;
+player walking facing front 2
+104,2; 137,2; 137,47; 104,47;
+
+player idle facing left
+54,50; 86,50; 86,95; 54,95;
+player walking facing left 1
+8,51; 40,51; 40,95; 8,95;
+player walking facing left 2
+102,51; 135,51; 135,95; 102,95;
+
+player idle facing right
+56,98; 89,98; 89,143; 56,143;
+player walking facing right 1
+7,99; 39,99; 39,143; 7,143;
+player walking facing right 2
+104,99; 136,99; 136,143; 104,143;
+
+player idle facing back
+54,146; 87,146; 87,191; 54,191;
+player walking facing back 1
+6,146; 42,146; 42,191; 6,191;
+player walking facing back 2
+101,146; 136,146; 136,191; 101,191;
