@@ -1,5 +1,7 @@
 package main.input;
 
+import main.states.GameState;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.Arrays;
@@ -33,11 +35,13 @@ public class KeyManager implements KeyListener
     public void keyPressed(KeyEvent e)
     {
         keys[e.getKeyCode()] = true;
+
     }
 
     @Override
     public void keyReleased(KeyEvent e)
     {
-        keys[e.getKeyCode()] = true;
+        keys[e.getKeyCode()] = false;
+        //GameState.counter = 0;
     }
 }

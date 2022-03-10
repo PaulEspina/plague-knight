@@ -1,6 +1,7 @@
 package main;
 
 import main.display.Display;
+import main.entity.Player;
 import main.input.KeyManager;
 import main.input.MouseManager;
 import main.states.GameState;
@@ -12,7 +13,6 @@ import java.awt.image.BufferStrategy;
 
 public class Game implements Runnable
 {
-
     public State menuState;
     public State gameState;
     private final String title;
@@ -22,6 +22,7 @@ public class Game implements Runnable
     private Display display;
     private BufferStrategy bs;
     private Graphics g;
+    private Player player;
     private Thread thread;
     private final KeyManager keyManager;
     private final MouseManager mouseManager;
@@ -47,7 +48,9 @@ public class Game implements Runnable
 
         menuState = new MenuState(this);
         gameState = new GameState(this);
-        State.setState(menuState);
+
+        State.setState(gameState);
+
     }
 
     private void tick()

@@ -6,8 +6,7 @@ import java.awt.*;
 
 public class MenuState extends State
 {
-
-    private Game game;
+    Game game;
 
     public MenuState(Game game)
     {
@@ -17,13 +16,12 @@ public class MenuState extends State
     @Override
     public void tick()
     {
+
     }
 
     @Override
     public void render(Graphics g)
     {
         // TODO Auto-generated method stub
-
     }
-
 }
