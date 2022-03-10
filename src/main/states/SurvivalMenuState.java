@@ -36,7 +36,6 @@ public class SurvivalMenuState extends State{
         disableStoryButton = new Button(game, new Point(480, 465), new Point(85, 50), "story");
         disableExitButton = new Button(game, new Point(606, 465), new Point(85, 50), "exit");
 
-
 //        Coordinate in Photos
         startButton.loadTexture(new Point(0, 176), new Point(173, 87), buttonPath);
         cancelButton.loadTexture(new Point(522, 176), new Point(173, 87), buttonPath);

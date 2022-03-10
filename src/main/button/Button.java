@@ -4,7 +4,6 @@ import main.Game;
 import main.gfx.ImageLoader;
 
 import java.awt.*;
-import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
 import static java.lang.System.exit;
@@ -82,6 +81,18 @@ public class Button{
         clickedImage = picture.getSubimage((int) imagePos.getX() + (2 * (int) (imageSize.getX())), (int) imagePos.getY(), (int) imageSize.getX(), (int) imageSize.getY());
     }
 
+    public void loadScreen(Point imagePos, Point imageSize, String path){
+
+//        "/assets/menu/menubuttons/menubuttons.png"
+
+//        Get Sprite sheet
+        picture = ImageLoader.loadImage(path);
+
+//        Slice sprite through coordinates
+        unhoveredImage = picture.getSubimage((int) imagePos.getX(), (int) imagePos.getY(), (int) imageSize.getX(), (int) imageSize.getY());
+
+    }
+
     public void hoveredImage(){
         currentImage = hoveredImage;
     }
@@ -110,5 +121,7 @@ public class Button{
     public void draw(Graphics g){
         g.drawImage(currentImage, (int) getPos().getX(), (int) getPos().getY(), (int) getSize().getX(), (int) getSize().getY(), null);
     }
+
+
 
 }

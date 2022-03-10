@@ -22,4 +22,6 @@ public abstract class State
 
     public abstract void render(Graphics g);
 
+    public void paintComponent(Graphics g) {
+    }
 }
