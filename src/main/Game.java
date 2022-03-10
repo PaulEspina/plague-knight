@@ -44,7 +44,7 @@ public class Game implements Runnable
         gameState = new GameState(this);
         survivalMenuState = new SurvivalMenuState(this);
         pauseState = new PauseState(this);
-        State.setState(menuState);
+        State.setState(gameState);
 
     }
 
@@ -88,7 +88,6 @@ public class Game implements Runnable
         g.dispose();
     }
 
-
     @Override
     public void run()
     {
@@ -122,7 +121,7 @@ public class Game implements Runnable
             if(System.currentTimeMillis() - timer > 1000)
             {
                 timer+= 1000;
-//                System.out.println("FPS: " + frames);
+                //System.out.println("FPS: " + frames);
                 frames = 0;
             }
         }
