@@ -21,7 +21,10 @@ public class MenuState extends State
     private String buttonPath;
     private String backgroundPath;
     private String dottedPath;
+    private String brokenPath;
+
     private BufferedImage backgroundImage;
+    private BufferedImage brokenImage;
 
 //     Create Buttons
     private Button storyButton;
@@ -41,11 +44,13 @@ public class MenuState extends State
     {
         this.game = game;
         survivalMenuState = new SurvivalMenuState(game);
-        buttonPath = Config.MENUBUTTONPATH;
-        backgroundPath = Config.MENUBACKGROUNDPATH;
-        dottedPath = Config.DOTTEDBACKGROUNDPATH;
+        buttonPath = Config.MENU_BUTTON_PATH;
+        backgroundPath = Config.MENU_BACKGROUND_PATH;
+        dottedPath = Config.DOTTED_BACKGROUND_PATH;
+        brokenPath = Config.BROKEN_BACKGROUND_PATH;
 
         backgroundImage = ImageLoader.loadImage(backgroundPath);
+        brokenImage = ImageLoader.loadImage(brokenPath);
 
 
 //        Coordinate in Frame
@@ -70,9 +75,18 @@ public class MenuState extends State
 
 
     }
-    private double maxFrame = 20;
-    private double deltaCounter = 0;
-    private boolean flag;
+    private double maxFrame1 = 80;
+    private double deltaCounter1 = 0;
+    private boolean flag = false;
+
+    private double maxFrame2 = 1000;
+    private double deltaCounter2 = 0;
+    private boolean isClicked = false;
+
+    private double maxFrame3 = 1000;
+    private double deltaCounter3 = 0;
+    private boolean isNext = false;
+
     @Override
     public void tick() {
         int x = game.getMouseManager().getMouseX();
@@ -81,10 +95,11 @@ public class MenuState extends State
         dottedBG.unhoveredImage();
         defaultBG.unhoveredImage();
 
-        deltaCounter += game.getDeltaPlease();
-        if(deltaCounter >= maxFrame){
+
+        deltaCounter1 += game.getDeltaPlease();
+        if(deltaCounter1 >= maxFrame1){
             flag = true;
-            deltaCounter = 0;
+            deltaCounter1 = 0;
         }
         else{
             flag = false;
@@ -97,9 +112,12 @@ public class MenuState extends State
             survivalButton.hoveredImage();
             //If button clicked
             if(game.getMouseManager().getMouseButtonState(MouseEvent.BUTTON1)) {
+
                 //Animate button
                 survivalButton.clickedImage();
-                State.setState(survivalMenuState);
+
+                isClicked = true;
+
             }
         }
         else{
@@ -117,7 +135,7 @@ public class MenuState extends State
         else{
             storyButton.unhoveredImage();
         }
-
+//        System.out.println(game.getDeltaPlease());
         if(exitButton.isInside(x, y)){
             exitButton.hoveredImage();
             //If button clicked
@@ -129,9 +147,7 @@ public class MenuState extends State
         else{
             exitButton.unhoveredImage();
         }
-
     }
-
 
     @Override
     public void render(Graphics g)
@@ -143,12 +159,32 @@ public class MenuState extends State
         disableStartButton.draw(g);
         disableCancelButton.draw(g);
 
-
+//      Animation in main menu
         if(flag){
             dottedBG.draw(g);
         }
         else{
             defaultBG.draw(g);
+        }
+
+
+//        Broken image
+        if(isClicked){
+            deltaCounter2 += game.getDeltaPlease();
+            if(deltaCounter2 > maxFrame2){
+                g.drawImage(brokenImage, 0, 0, Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT, null);
+                isNext = true;
+                deltaCounter2 = maxFrame2;
+            }
+        }
+
+//        Next state
+        if(isNext){
+            deltaCounter3 += game.getDeltaPlease();
+            if(deltaCounter3 > maxFrame3){
+                setState(survivalMenuState);
+                deltaCounter3 = maxFrame3;
+            }
         }
     }
 
@@ -159,14 +195,13 @@ public class MenuState extends State
 //        deltaCounter += delta;
 //        if(deltaCounter >= maxFrame){
 //            blink(g);
-//            deltaCounter = 0;
 //        }
 //
 //    }
 
 
 //    public void blink(Graphics g){
-//        bigDottedBG.draw(g);
+//        g.drawImage(brokenImage, 0, 0, Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT, null);
 //    }
 
 }

@@ -107,8 +107,6 @@ public class Game implements Runnable
 //            LINAGAY KO TO LINE 108
             this.deltaPlease = delta;
 
-//            System.out.println("delta: " + delta);
-//            System.out.println("LAST TIME: " + lastTime);
             lastTime = now;
             while(delta >= 1)
             {

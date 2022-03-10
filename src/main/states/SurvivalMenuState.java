@@ -25,8 +25,8 @@ public class SurvivalMenuState extends State{
 
     public SurvivalMenuState(Game game){
         this.game = game;
-        buttonPath = Config.MENUBUTTONPATH;
-        backgroundPath = Config.MENUBACKGROUNDPATH;
+        buttonPath = Config.MENU_BUTTON_PATH;
+        backgroundPath = Config.MENU_BACKGROUND_PATH;
         backgroundImage = ImageLoader.loadImage(backgroundPath);
 
 //        Coordinate in Frame
@@ -39,7 +39,7 @@ public class SurvivalMenuState extends State{
 //        Coordinate in Photos
         startButton.loadTexture(new Point(0, 176), new Point(173, 87), buttonPath);
         cancelButton.loadTexture(new Point(522, 176), new Point(173, 87), buttonPath);
-        disableSurvivalButton.loadTexture(new Point(0, 264), new Point(173, 87), buttonPath);
+        disableSurvivalButton.loadTexture(new Point(348, 0), new Point(173, 87), buttonPath);
         disableStoryButton.loadTexture(new Point(174, 264), new Point(173, 87), buttonPath);
         disableExitButton.loadTexture(new Point(348, 264), new Point(173, 87), buttonPath);
 
