@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
+import java.util.Random;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
@@ -75,9 +76,11 @@ public class MenuState extends State
 
 
     }
-    private double maxFrame1 = 80;
+    private double maxFrame1 = 20;
     private double deltaCounter1 = 0;
-    private boolean flag = false;
+//    private boolean flag = false;
+    private Random rand = new Random();
+    private int random;
 
     private double maxFrame2 = 1000;
     private double deltaCounter2 = 0;
@@ -91,6 +94,7 @@ public class MenuState extends State
     public void tick() {
         int x = game.getMouseManager().getMouseX();
         int y = game.getMouseManager().getMouseY();
+//        int random = rand.nextInt(100);
 
         dottedBG.unhoveredImage();
         defaultBG.unhoveredImage();
@@ -98,12 +102,13 @@ public class MenuState extends State
 
         deltaCounter1 += game.getDeltaPlease();
         if(deltaCounter1 >= maxFrame1){
-            flag = true;
+            random = rand.nextInt(100);
+//            flag = true;
             deltaCounter1 = 0;
         }
-        else{
-            flag = false;
-        }
+//        else{
+//            flag = false;
+//        }
 
         disableStartButton.unhoveredImage();
         disableCancelButton.unhoveredImage();
@@ -160,7 +165,7 @@ public class MenuState extends State
         disableCancelButton.draw(g);
 
 //      Animation in main menu
-        if(flag){
+        if(random % 2 == 0){
             dottedBG.draw(g);
         }
         else{
