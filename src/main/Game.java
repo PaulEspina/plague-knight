@@ -26,6 +26,8 @@ public class Game implements Runnable
     private final KeyManager keyManager;
     private final MouseManager mouseManager;
 
+    private double deltaDelay;
+
     public Game(String title, int width, int height)
     {
         this.title = title;
@@ -87,6 +89,10 @@ public class Game implements Runnable
         g.dispose();
     }
 
+    public double getDeltaDelay() {
+        return deltaDelay;
+    }
+
     @Override
     public void run()
     {
@@ -101,6 +107,9 @@ public class Game implements Runnable
         {
             long now = System.nanoTime();
             delta += (now - lastTime) / ns;
+
+            this.deltaDelay = delta;
+
             lastTime = now;
             while(delta >= 1)
             {

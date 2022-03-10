@@ -5,7 +5,6 @@ import main.gfx.ImageLoader;
 import java.awt.*;
 
 import java.awt.image.BufferedImage;
-import java.util.Random;
 
 public class Crate extends Entity{
 
@@ -14,7 +13,9 @@ public class Crate extends Entity{
     private Point imagePos;
     private BufferedImage picture;
     private BufferedImage image;
+    private BufferedImage clickedBox;
 
+    String[] items = {"Heart", "Apple", "Boots", "Attack Boost", "Defense Boost"};
 
     @Override
     public Point getPos() {
@@ -34,6 +35,19 @@ public class Crate extends Entity{
     @Override
     public void setSize(Point size) {
         this.size = size;
+    }
+//    @Override
+//    public void update(float delta){
+//        time += delta;
+//        System.out.println(time);
+//        if(time > maxTime){
+//            System.out.println("werqfaswe");
+//        }
+//    }
+
+    public void setFrame(Point imagePos, Point imageSize) {
+        this.imagePos = imagePos;
+        image = picture.getSubimage((int)imagePos.getX(), (int)imagePos.getY(), (int)imageSize.getX(), (int)imageSize.getY());
     }
 
     public Point getImagePos() {
@@ -60,28 +74,37 @@ public class Crate extends Entity{
         this.image = image;
     }
 
-
-
     public void loadTexture(Point imagePos, Point imageSize, String path)
     {
         this.imagePos = imagePos;
         picture = ImageLoader.loadImage(path);
         image = picture.getSubimage((int)imagePos.getX(), (int)imagePos.getY(), (int)imageSize.getX(), (int)imageSize.getY());
+        clickedBox = picture.getSubimage((int) imagePos.getX() + (1 * (int) (imageSize.getX())), (int) imagePos.getY(), (int) imageSize.getX(), (int) imageSize.getY());
     }
+
+    public BufferedImage getClickedBox() {
+        return clickedBox;
+    }
+
 
     public Crate(Point pos, Point size){
         this.pos = pos;
         this.size = size;
     };
 
+    public boolean isInside(float x, float y) {
 
-//    public void randomDrop(){
-//        String[] Items = {"Heart", "Apple","Boots", "Attack Boosts","Defense Boost"};
-//        Random drop = new Random();
-//        int randid = drop.nextInt(Items.length);
-//
-//        if(randid == 1){
-//            //store heart into inventory
-//        }
-//    }
+        if ((x <= this.getSize().getX() + this.getPos().getX() && x >= this.getPos().getX()) &&
+                (y <= this.getSize().getY() + this.getPos().getY() && y >= this.getPos().getY())) {
+            return true;
+        }
+        return false;
+    }
+
+    public Item randomDrop(){
+
+        int select = (int) (Math.random()*100 % items.length);
+
+        return new Item(items[select]);
+    }
 }

@@ -1,78 +1,109 @@
 package main.entity;
 
 
+import main.gfx.ImageLoader;
+
+import java.awt.*;
+import java.awt.image.BufferedImage;
+
 public class Item extends Entity{
 
-    public int healthBuff;
-    public int health;
-    public int damage;
-    public int defense;
-    int counter = 0;
 
-    public void itemDuration(int seconds, String buffname){
-        counter = seconds;
-        counter++;
+    private Point pos;
+    private Point size;
+    private Point imagePos;
+    private BufferedImage picture;
+    private BufferedImage image;
+    private String type;
 
-        if(counter == 5 && buffname == "bootsBuff" ){
-            //character.remove(Boots)
-        }
-        if(counter == 5 && buffname == "attackBuff"){
-            //character.remove(attackBoost)
-        }
-        if(counter == 5 && buffname == "defenseBuff"){
-            //character.remove(defenseBoost)
-        }
+//    String heart;
+//    String apple;
+//    String boots;
+//    String attackBoost;
+//    String defenseBoost;
+//    String key;
+//    String sage;
+//    String hyssop;
+//    String chamonile;
+//    String comfrey;
+//    String rue;
+
+    @Override
+    public Point getPos() {
+        return pos;
     }
 
-    public void Heart(){
-        //adds permanent hp
-        healthBuff = healthBuff + 1;
+    @Override
+    public void setPos(Point pos) {
+        this.pos = pos;
     }
 
-    public void Apple(){
-        health = health + 1;
+    @Override
+    public Point getSize() {
+        return size;
     }
 
-    public void Boots(){
-        String buff = "bootsBuff";
-        movementSpeed = movementSpeed + 5;
-        itemDuration(5000,buff);
+    @Override
+    public void setSize(Point size) {
+        this.size = size;
     }
 
-    public void attackBoost(){
-        String buff = "attackBuff";
-        damage = damage + 5;
-        itemDuration(5000,buff);
+
+    public void setFrame(Point imagePos, Point imageSize) {
+        this.imagePos = imagePos;
+        image = picture.getSubimage((int)imagePos.getX(), (int)imagePos.getY(), (int)imageSize.getX(), (int)imageSize.getY());
     }
 
-    public void DefenseBoost(){
-        String buff = "defenseBuff";
-        defense = defense + 5;
-        itemDuration(5000,buff);
+    public Point getImagePos() {
+        return imagePos;
     }
 
-    public void Key(){
+    public void setImagePos(Point imagePos) {
+        this.imagePos = imagePos;
+    }
+
+    public BufferedImage getPicture() {
+        return picture;
+    }
+
+    public void setPicture(BufferedImage picture) {
+        this.picture = picture;
+    }
+
+    public BufferedImage getImage() {
+        return image;
+    }
+
+    public void setImage(BufferedImage image) {
+        this.image = image;
+    }
+
+    public Item(Point pos, Point size){
+        this.pos = pos;
+        this.size = size;
+    }
+
+    public Item(){
 
     }
 
-    public void Sage(){
+    public Item(String type){
+        this.type = type;
+    }
+
+    public void showItem(){
 
     }
 
-    public void Hyssop(){
+    public void hideItem(){
 
     }
 
-    public void Chamomile(){
-
-    }
-
-    public void Comfrey(){
-
-    }
-
-    public void Rue(){
-
+    public void loadTexture(Point imagePos, Point imageSize, String path)
+    {
+        this.imagePos = imagePos;
+        picture = ImageLoader.loadImage(path);
+        image = picture.getSubimage((int)imagePos.getX(), (int)imagePos.getY(), (int)imageSize.getX(), (int)imageSize.getY());
     }
 
 }
