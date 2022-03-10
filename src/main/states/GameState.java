@@ -50,21 +50,38 @@ public class GameState extends State
     @Override
     public void tick()
     {
-        if(keyManager.getKeyState(KeyEvent.VK_W))
+        if(keyManager.isKeyDown(KeyEvent.VK_W))
         {
-            player.setVelY(-2);
+            player.setVelY(-10);
         }
-        if(keyManager.getKeyState(KeyEvent.VK_S))
+        if(keyManager.isKeyDown(KeyEvent.VK_S))
         {
-            player.setVelY(2);
+            player.setVelY(10);
         }
-        if(keyManager.getKeyState(KeyEvent.VK_A))
+        if(keyManager.isKeyDown(KeyEvent.VK_A))
         {
-            player.setVelX(-2);
+            player.setVelX(-10);
         }
-        if(keyManager.getKeyState(KeyEvent.VK_D))
+        if(keyManager.isKeyDown(KeyEvent.VK_D))
         {
-            player.setVelX(2);
+            player.setVelX(10);
+        }
+
+        if(keyManager.isKeyUp(KeyEvent.VK_W))
+        {
+            player.setVelY(0);
+        }
+        if(keyManager.isKeyUp(KeyEvent.VK_S))
+        {
+            player.setVelY(0);
+        }
+        if(keyManager.isKeyUp(KeyEvent.VK_A))
+        {
+            player.setVelX(0);
+        }
+        if(keyManager.isKeyUp(KeyEvent.VK_D))
+        {
+            player.setVelX(0);
         }
 
 
