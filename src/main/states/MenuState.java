@@ -6,22 +6,32 @@ import main.button.Button;
 import main.gfx.ImageLoader;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 
 import static java.lang.Thread.sleep;
 
 public class MenuState extends State
 {
     private Game game;
+//    Get the path from config.java
     private String buttonPath;
     private String backgroundPath;
     private BufferedImage backgroundImage;
+
+//     Create Buttons
     private Button storyButton;
     private Button survivalButton;
     private Button exitButton;
     private Button disableStartButton;
     private Button disableCancelButton;
+
+//    For Blinking Lights
+    ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
     // TODO Auto-generated method stub
 
 
@@ -44,6 +54,13 @@ public class MenuState extends State
         exitButton.loadTexture(new Point(1044, 0), new Point(173, 87), buttonPath);
         disableStartButton.loadTexture(new Point(522, 264), new Point(173, 87), buttonPath);
         disableCancelButton.loadTexture(new Point(348, 264), new Point(173, 87), buttonPath);
+
+//    scheduledExecutorService.scheduleAtFixedRate(new Runnable() {
+//        @Override
+//        public void run() {
+//            repaint();
+//        }
+//    })
     }
 
     @Override
@@ -101,8 +118,31 @@ public class MenuState extends State
         exitButton.draw(g);
         disableStartButton.draw(g);
         disableCancelButton.draw(g);
+        delay(g, game.getDeltaPlease());
     }
 
+//    Ito mga binago ko :D
+    private double maxFrame = 20;
+    private double deltaCounter = 0;
+    public void delay(Graphics g, double delta){
 
+        deltaCounter += delta;
+        System.out.println(delta);
+        if(deltaCounter >= maxFrame){
+//            blink(g);
+            deltaCounter = 0;
+        }
+        else{
+//            blink(g);
+        }
+    }
+
+//    UNTIL HERE
+
+
+    public void blink(Graphics g){
+        g.setColor(new Color(74, 185, 0));
+        g.fillRect(169, 69, 463, 222);
+    }
 
 }

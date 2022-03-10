@@ -1,13 +1,11 @@
 package main;
 
-import main.button.Button;
 import main.display.Display;
 import main.input.KeyManager;
 import main.input.MouseManager;
 import main.states.*;
 
 import java.awt.*;
-import java.awt.event.MouseEvent;
 import java.awt.image.BufferStrategy;
 
 public class Game implements Runnable
@@ -25,6 +23,7 @@ public class Game implements Runnable
     private Thread thread;
     private final KeyManager keyManager;
     private final MouseManager mouseManager;
+
 
     public Game()
     {
@@ -45,9 +44,12 @@ public class Game implements Runnable
         gameState = new GameState(this);
         survivalMenuState = new SurvivalMenuState(this);
         pauseState = new PauseState(this);
-        State.setState(survivalMenuState);
+        State.setState(menuState);
 
     }
+
+//    DINAGDAG KO TONG VARIABLE
+    private double deltaPlease;
 
     private void tick()
     {
@@ -86,6 +88,7 @@ public class Game implements Runnable
         g.dispose();
     }
 
+
     @Override
     public void run()
     {
@@ -100,6 +103,12 @@ public class Game implements Runnable
         {
             long now = System.nanoTime();
             delta += (now - lastTime) / ns;
+
+//            LINAGAY KO TO LINE 108
+            this.deltaPlease = delta;
+
+//            System.out.println("delta: " + delta);
+//            System.out.println("LAST TIME: " + lastTime);
             lastTime = now;
             while(delta >= 1)
             {
@@ -113,11 +122,16 @@ public class Game implements Runnable
             if(System.currentTimeMillis() - timer > 1000)
             {
                 timer+= 1000;
-                //System.out.println("FPS: " + frames);
+//                System.out.println("FPS: " + frames);
                 frames = 0;
             }
         }
         stop();
+    }
+
+//    I MADE THIS FUNCTION
+    public double getDeltaPlease(){
+        return deltaPlease;
     }
 
     public synchronized void start()
@@ -146,6 +160,7 @@ public class Game implements Runnable
             e.printStackTrace();
         }
     }
+
 
     public KeyManager getKeyManager()
     {
