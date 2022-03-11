@@ -10,7 +10,6 @@ import java.awt.image.BufferStrategy;
 
 public class Game implements Runnable
 {
-
     private Boolean running = false;
     private Display display;
     private BufferStrategy bs;
@@ -47,6 +46,9 @@ public class Game implements Runnable
 
     }
 
+//    DINAGDAG KO TONG VARIABLE
+    private double deltaPlease;
+
     private void tick()
     {
 		if(State.getState() != null)
@@ -58,6 +60,7 @@ public class Game implements Runnable
         mouseManager.tick();
 
     }
+
 
     private void render()
     {
@@ -82,6 +85,7 @@ public class Game implements Runnable
         bs.show();
         g.dispose();
     }
+
 
     @Override
     public void run()

@@ -16,11 +16,9 @@ public abstract class State
         currentState = state;
     }
 
-
     //------------
     public abstract void tick();
 
     public abstract void render(Graphics g);
-
 
 }

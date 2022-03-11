@@ -1,10 +1,10 @@
 package main.button;
 
+import main.Config;
 import main.Game;
 import main.gfx.ImageLoader;
 
 import java.awt.*;
-import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
 import static java.lang.System.exit;
@@ -80,6 +80,19 @@ public class Button{
         hoveredImage = picture.getSubimage((int) imagePos.getX() + (1 * (int) (imageSize.getX())), (int) imagePos.getY(), (int) imageSize.getX(), (int) imageSize.getY());
 
         clickedImage = picture.getSubimage((int) imagePos.getX() + (2 * (int) (imageSize.getX())), (int) imagePos.getY(), (int) imageSize.getX(), (int) imageSize.getY());
+    }
+
+//    Used for the screen in main menu
+    public void loadScreen(Point imagePos, Point imageSize, String path){
+
+//        "/assets/menu/menubuttons/menubuttons.png"
+
+//        Get Sprite sheet
+        picture = ImageLoader.loadImage(path);
+
+//        Slice sprite through coordinates
+        unhoveredImage = picture.getSubimage((int) imagePos.getX(), (int) imagePos.getY(), (int) imageSize.getX(), (int) imageSize.getY());
+
     }
 
     public void hoveredImage(){
