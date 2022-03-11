@@ -24,6 +24,7 @@ public class Game implements Runnable
     private final KeyManager keyManager;
     private final MouseManager mouseManager;
 
+    private double deltaDelay;
 
     public Game()
     {
@@ -45,7 +46,6 @@ public class Game implements Runnable
         survivalMenuState = new SurvivalMenuState(this);
         pauseState = new PauseState(this);
         State.setState(menuState);
-
     }
 
 //    DINAGDAG KO TONG VARIABLE
@@ -88,6 +88,9 @@ public class Game implements Runnable
         g.dispose();
     }
 
+    public double getDeltaDelay() {
+        return deltaDelay;
+    }
 
     @Override
     public void run()
@@ -104,11 +107,8 @@ public class Game implements Runnable
             long now = System.nanoTime();
             delta += (now - lastTime) / ns;
 
-//            LINAGAY KO TO LINE 108
-            this.deltaPlease = delta;
+            this.deltaDelay = delta;
 
-//            System.out.println("delta: " + delta);
-//            System.out.println("LAST TIME: " + lastTime);
             lastTime = now;
             while(delta >= 1)
             {

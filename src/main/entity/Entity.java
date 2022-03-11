@@ -15,6 +15,9 @@ public abstract class Entity implements Drawable
     protected int animationSpeed;
     protected int movementSpeed;
 
+    float time;
+    float maxTime = 5;
+
     public void move(Vector2f vel)
     {
         pos.add(vel.getX(), vel.getY());
@@ -48,41 +51,38 @@ public abstract class Entity implements Drawable
         this.size = size;
     }
 
-    public BufferedImage getTexture()
-    {
+    public BufferedImage getTexture() {
         return texture;
     }
 
-    public void setTexture(String path)
-    {
+    public void setTexture(String path) {
         texture = ImageLoader.loadImage(path);
     }
 
-    public int getAnimationSpeed()
-    {
+    public int getAnimationSpeed() {
         return animationSpeed;
     }
 
-    public void setAnimationSpeed(int animationSpeed)
-    {
-        if(animationSpeed <= 0)
-        {
+    public void setAnimationSpeed(int animationSpeed) {
+        if (animationSpeed <= 0) {
             animationSpeed = 1;
         }
         this.animationSpeed = animationSpeed;
     }
 
-    public int getMovementSpeed()
-    {
+    public int getMovementSpeed() {
         return movementSpeed;
     }
 
-    public void setMovementSpeed(int movementSpeed)
-    {
-        if(movementSpeed < 0)
-        {
+    public void setMovementSpeed(int movementSpeed) {
+        if (movementSpeed < 0) {
             movementSpeed = 0;
         }
         this.movementSpeed = movementSpeed;
     }
+
+//    public void update(float delta){
+//        this.update(delta);
+//    }
+
 }
