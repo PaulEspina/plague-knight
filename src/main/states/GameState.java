@@ -6,17 +6,26 @@ import main.entity.Crate;
 import main.entity.Item;
 import main.Vector2f;
 import main.entity.enemy.Zombie;
+import main.input.KeyManager;
 import main.input.MouseManager;
-import java.awt.*;
+import main.entity.Player;
 import java.awt.event.MouseEvent;
 
-public class GameState extends State {
+import java.awt.*;
+import java.awt.event.KeyEvent;
 
+public class GameState extends State
+{
     private Game game;
     private Crate crate;
     private String imgPath = "/assets/sprites/world/crate/cratev1.png";
     private Item item;
     private String itemPath = "/assets/items/boosts/boosts.png";
+    private KeyManager keyManager;
+
+    private Player player;
+    private int counter = 0;
+    private int velX = 0, velY = 0;
 
     private Zombie zombie;
     private final MouseManager mouseManager;
@@ -24,6 +33,14 @@ public class GameState extends State {
     public GameState(Game game)
     {
         this.game = game;
+        keyManager = game.getKeyManager();
+
+        //character position and size
+        player = new Player(new Vector2f((float) Config.SCREEN_WIDTH / 2, (float) Config.SCREEN_HEIGHT / 2),
+                            new Vector2f(Config.PLAYER_SPRITE_WIDTH, Config.PLAYER_SPRITE_HEIGHT));
+
+        //character facing forward
+//        player.loadTexture(new Point(56,2), new Point(47, 47), player.path);
 
         mouseManager = game.getMouseManager();
 
@@ -37,9 +54,49 @@ public class GameState extends State {
     @Override
     public void tick()
     {
+        if(keyManager.isKeyDown(KeyEvent.VK_W))
+        {
+            player.setVelY(-10);
+        }
+        if(keyManager.isKeyDown(KeyEvent.VK_S))
+        {
+            player.setVelY(10);
+        }
+        if(keyManager.isKeyDown(KeyEvent.VK_A))
+        {
+            player.setVelX(-10);
+        }
+        if(keyManager.isKeyDown(KeyEvent.VK_D))
+        {
+            player.setVelX(10);
+        }
+
+        if(keyManager.isKeyUp(KeyEvent.VK_W))
+        {
+            player.setVelY(0);
+        }
+        if(keyManager.isKeyUp(KeyEvent.VK_S))
+        {
+            player.setVelY(0);
+        }
+        if(keyManager.isKeyUp(KeyEvent.VK_A))
+        {
+            player.setVelX(0);
+        }
+        if(keyManager.isKeyUp(KeyEvent.VK_D))
+        {
+            player.setVelX(0);
+        }
+
+
+
+
+        player.update();
+
+
         Vector2f mouse = new Vector2f(mouseManager.getMouseX(), mouseManager.getMouseY());
 
-        zombie.follow(mouse, 2);
+        zombie.follow(player.getPos(), 2);
 
         animationCounter++;
         if(animationCounter % Config.ZOMBIE_ANIMATION_DELAY == 0)
@@ -69,6 +126,8 @@ public class GameState extends State {
     @Override
     public void render(Graphics g)
     {
+        // TODO move to player.draw()
+        player.draw(g);
         crate.draw(g);
         if(item != null)
         {
@@ -76,4 +135,5 @@ public class GameState extends State {
         }
         zombie.draw(g);
     }
+
 }

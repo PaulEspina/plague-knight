@@ -4,7 +4,6 @@ import java.awt.*;
 
 public abstract class State
 {
-
     private static State currentState = null;
 
     public static State getState()
@@ -16,6 +15,7 @@ public abstract class State
     {
         currentState = state;
     }
+
 
     //------------
     public abstract void tick();

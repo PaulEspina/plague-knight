@@ -13,6 +13,10 @@ public class Config {
     public static final int ZOMBIE_ASSET_HEIGHT = 48;
     public static final int ZOMBIE_ANIMATION_DELAY = 20; // Number of frames before next image
 
+    public static final String PLAYER_SPRITE_PATH = "/assets/sprites/player/playermovements.png";
+    public static final int PLAYER_SPRITE_WIDTH = 36;
+    public static final int PLAYER_SPRITE_HEIGHT = 48;
+
     public static final float DEGREES_NORTH = -90f;
     public static final float DEGREES_SOUTH = 90f;
     public static final float DEGREES_EAST = 0f;

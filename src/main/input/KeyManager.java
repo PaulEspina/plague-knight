@@ -1,43 +1,54 @@
 package main.input;
 
+import main.states.GameState;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.Arrays;
 
 public class KeyManager implements KeyListener
 {
-    private boolean[] keys;
+    private boolean[] keyDown;
+    private boolean[] keyUp;
 
     public KeyManager()
     {
-        keys = new boolean[256];
+        keyDown = new boolean[256];
+        keyUp = new boolean[256];
+
+
     }
 
     public void tick()
     {
-        Arrays.fill(keys, false);
+        Arrays.fill(keyDown, false);
+        Arrays.fill(keyUp, false);
     }
 
-    public boolean getKeyState(int key)
+    public boolean isKeyDown(int key)
     {
-        return keys[key];
+        return keyDown[key];
+    }
+
+    public boolean isKeyUp(int key)
+    {
+        return keyUp[key];
     }
 
     @Override
     public void keyTyped(KeyEvent e)
     {
-
     }
 
     @Override
     public void keyPressed(KeyEvent e)
     {
-        keys[e.getKeyCode()] = true;
+        keyDown[e.getKeyCode()] = true;
     }
 
     @Override
     public void keyReleased(KeyEvent e)
     {
-        keys[e.getKeyCode()] = true;
+        keyUp[e.getKeyCode()] = true;
     }
 }
