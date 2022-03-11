@@ -27,29 +27,18 @@ public class Crate extends Entity{
         this.pos = pos;
         this.size = size;
         asset = AssetManager.getInstance().getCrate();
-        images[0] = asset.getSubimage(0,
-                                       0,
-                                       (int) size.getX(),
-                                       (int) size.getY());
+        images[0] = asset.getSubimage(0, 0, Config.CRATE_ASSET_WIDTH, Config.CRATE_ASSET_HEIGHT);
 
-        images[1] = asset.getSubimage((int) (size.getX() * 1),
-                                       0,
-                                       (int) size.getX(),
-                                       (int) size.getY());
+        images[1] = asset.getSubimage(Config.CRATE_ASSET_WIDTH, 0, Config.CRATE_ASSET_WIDTH, Config.CRATE_ASSET_HEIGHT);
     };
-
-    public boolean isInside(float x, float y) {
-
-        return (x <= this.getSize().getX() + this.getPos().getX() && x >= this.getPos().getX()) &&
-               (y <= this.getSize().getY() + this.getPos().getY() && y >= this.getPos().getY());
-    }
 
     public Item destroy()
     {
         destroyed = true;
         int select = (int) (Math.random() * 100 % Config.TOTAL_ITEMS);
-        return new Item(Item.Type.values()[select]);
-        // TODO animate
+        return new Item(new Vector2f(pos.getX(), pos.getY()),
+                        new Vector2f(10, 10),
+                        Item.Type.values()[select]);
     }
 
     @Override
@@ -61,6 +50,9 @@ public class Crate extends Entity{
     @Override
     public void draw(Graphics g)
     {
-        g.drawImage(destroyed ? images[1] : images[0], (int) pos.getX(), (int) pos.getY(), (int) size.getX() / 2, (int) size.getY() / 2, null);
+        g.drawImage(destroyed ? images[1] : images[0],
+                    (int) pos.getX() - (int) size.getX() /2, (int) pos.getY() - (int) size.getY() / 2,
+                    (int) size.getX(), (int) size.getY(),
+                    null);
     }
 }

@@ -39,7 +39,7 @@ public class Item extends Entity{
 
         this.imagePos = imagePos;
         // TODO get images (waiting for jyron)
-//        asset = ImageLoader.loadImage(Config.ITEMS_PATH);
+//        asset = ImageLoader.loadImage(Config.ITEMS_ASSET_PATH);
 //        image = asset.getSubimage(0, 0, (int)imageSize.getX(), (int)imageSize.getY());
     }
 
@@ -68,6 +68,7 @@ public class Item extends Entity{
     {
         if(shouldShow)
         {
+            g.drawRect((int) pos.getX() - (int) size.getX() / 2, (int) pos.getY() - (int) size.getY() / 2, (int) size.getX(), (int) size.getY());
 //            g.drawImage(image, (int) pos.getX(), (int) pos.getY(), (int) size.getX(), (int) size.getY(), null);
         }
     }
