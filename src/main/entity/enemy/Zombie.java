@@ -24,7 +24,7 @@ public class Zombie extends Enemy
         images = new BufferedImage[3];
         animationIndex = 0;
         animationSpeed = 20;
-        movementSpeed = 5;
+        movementSpeed = 1;
     }
 
     public Zombie(Vector2f pos, Vector2f size)
@@ -81,9 +81,9 @@ public class Zombie extends Enemy
             float theta = (float) Math.atan2(polarCoord.getY(), polarCoord.getX()); // get theta
             float x = (float) Math.cos(theta);
             float y = (float) Math.sin(theta);
+
             float newDistance = (float) Math.sqrt(Math.pow(Math.abs(target.getX() - (pos.getX() + x)), 2) +
                                                   Math.pow(Math.abs(target.getY() - (pos.getY() + y)), 2));
-            System.out.println(newDistance);
             if(newDistance >= movementSpeed) // clamp
             {
                 pos.add(x * (float) movementSpeed, y * (float) movementSpeed);
