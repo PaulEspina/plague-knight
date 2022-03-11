@@ -24,8 +24,8 @@ public class StoryMenuState extends State{
 
     public StoryMenuState(Game game){
         this.game = game;
-        buttonPath = Config.MENU_BUTTON_PATH;
-        backgroundPath = Config.MENU_BACKGROUND_PATH;
+        buttonPath = Config.MENU_BUTTON_ASSET_PATH;
+        backgroundPath = Config.MENU_BACKGROUND_ASSET_PATH;
         backgroundImage = ImageLoader.loadImage(backgroundPath);
 
 //        Coordinate in Frame
@@ -92,12 +92,12 @@ public class StoryMenuState extends State{
         disableSurvivalButton.draw(g);
         disableExitButton.draw(g);
 
-        if(cancelClicked){
-            deltaCounter2 += game.getDeltaPlease();
-            if(deltaCounter2 > maxFrame2){
-                setState(new MenuState(game));
-                deltaCounter2 = maxFrame2;
-            }
-        }
+//        if(cancelClicked){
+//            deltaCounter2 += game.getDeltaPlease();
+//            if(deltaCounter2 > maxFrame2){
+//                setState(new MenuState(game));
+//                deltaCounter2 = maxFrame2;
+//            }
+//        }
     }
 }

@@ -6,13 +6,9 @@ import main.button.Button;
 import main.gfx.ImageLoader;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.util.Random;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
 
 public class MenuState extends State
 {
@@ -46,11 +42,11 @@ public class MenuState extends State
     public MenuState(Game game)
     {
         this.game = game;
-        buttonPath = Config.MENU_BUTTON_PATH;
-        backgroundPath = Config.MENU_BACKGROUND_PATH;
-        dottedPath = Config.DOTTED_BACKGROUND_PATH;
-        brokenSurvivalPath = Config.BROKEN_SURVIVAL_BACKGROUND_PATH;
-        brokenStoryPath = Config.BROKEN_SOTRY_BACKGROUND_PATH;
+        buttonPath = Config.MENU_BUTTON_ASSET_PATH;
+        backgroundPath = Config.MENU_BACKGROUND_ASSET_PATH;
+        dottedPath = Config.DOTTED_BACKGROUND_ASSET_PATH;
+        brokenSurvivalPath = Config.BROKEN_SURVIVAL_BACKGROUND_ASSET_PATH;
+        brokenStoryPath = Config.BROKEN_SOTRY_BACKGROUND_ASSET_PATH;
 
         backgroundImage = ImageLoader.loadImage(backgroundPath);
         brokenSurvivalImage = ImageLoader.loadImage(brokenSurvivalPath);
@@ -105,7 +101,7 @@ public class MenuState extends State
         defaultBG.unhoveredImage();
 
 
-        deltaCounter1 += game.getDeltaPlease();
+//        deltaCounter1 += game.getDeltaPlease();
         if(deltaCounter1 >= maxFrame1){
             random = rand.nextInt(100);
 //            flag = true;
@@ -178,41 +174,41 @@ public class MenuState extends State
         }
 
 
-//        Broken survival BG
-        if(survivalIsClicked){
-            deltaCounter2 += game.getDeltaPlease();
-            if(deltaCounter2 > maxFrame2){
-                g.drawImage(brokenSurvivalImage, 0, 0, Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT, null);
-                survivalNext = true;
-                deltaCounter2 = maxFrame2;
-            }
-        }
-
-//        Broken story BG
-        if(storyIsClicked){
-            deltaCounter2 += game.getDeltaPlease();
-            if(deltaCounter2 > maxFrame2){
-                g.drawImage(brokenStoryImage, 0, 0, Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT, null);
-                storyNext = true;
-                deltaCounter2 = maxFrame2;
-            }
-        }
-
-//        Next state
-        if(survivalNext){
-            deltaCounter3 += game.getDeltaPlease();
-            if(deltaCounter3 > maxFrame3){
-                setState(new SurvivalMenuState(game));
-                deltaCounter3 = maxFrame3;
-            }
-        }
-        if(storyNext){
-            deltaCounter3 += game.getDeltaPlease();
-            if(deltaCounter3 > maxFrame3){
-                setState(new StoryMenuState(game));
-                deltaCounter3 = maxFrame3;
-            }
-        }
+////        Broken survival BG
+//        if(survivalIsClicked){
+//            deltaCounter2 += game.getDeltaPlease();
+//            if(deltaCounter2 > maxFrame2){
+//                g.drawImage(brokenSurvivalImage, 0, 0, Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT, null);
+//                survivalNext = true;
+//                deltaCounter2 = maxFrame2;
+//            }
+//        }
+//
+////        Broken story BG
+//        if(storyIsClicked){
+//            deltaCounter2 += game.getDeltaPlease();
+//            if(deltaCounter2 > maxFrame2){
+//                g.drawImage(brokenStoryImage, 0, 0, Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT, null);
+//                storyNext = true;
+//                deltaCounter2 = maxFrame2;
+//            }
+//        }
+//
+////        Next state
+//        if(survivalNext){
+//            deltaCounter3 += game.getDeltaPlease();
+//            if(deltaCounter3 > maxFrame3){
+//                setState(new SurvivalMenuState(game));
+//                deltaCounter3 = maxFrame3;
+//            }
+//        }
+//        if(storyNext){
+//            deltaCounter3 += game.getDeltaPlease();
+//            if(deltaCounter3 > maxFrame3){
+//                setState(new StoryMenuState(game));
+//                deltaCounter3 = maxFrame3;
+//            }
+//        }
     }
 
 
