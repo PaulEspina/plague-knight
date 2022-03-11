@@ -3,21 +3,19 @@ package main;
 import main.display.Display;
 import main.input.KeyManager;
 import main.input.MouseManager;
-import main.states.GameState;
-import main.states.MenuState;
-import main.states.State;
+import main.states.*;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 
 public class Game implements Runnable
 {
-
     public State menuState;
     public State gameState;
-    private final String title;
-    private final int width;
-	private final int height;
+
+    public State survivalMenuState;
+    public State pauseState;
+
     private Boolean running = false;
     private Display display;
     private BufferStrategy bs;
@@ -28,19 +26,15 @@ public class Game implements Runnable
 
     private double deltaDelay;
 
-    public Game(String title, int width, int height)
+    public Game()
     {
-        this.title = title;
-        this.width = width;
-        this.height = height;
-
         keyManager = new KeyManager();
         mouseManager = new MouseManager();
     }
 
     private void init()
     {
-        display = new Display(title, width, height);
+        display = new Display();
         display.getFrame().addKeyListener(keyManager);
         display.getFrame().addMouseListener(mouseManager);
         display.getFrame().addMouseMotionListener(mouseManager);
@@ -49,8 +43,13 @@ public class Game implements Runnable
 
         menuState = new MenuState(this);
         gameState = new GameState(this);
-        State.setState(gameState);
+        survivalMenuState = new SurvivalMenuState(this);
+        pauseState = new PauseState(this);
+        State.setState(menuState);
     }
+
+//    DINAGDAG KO TONG VARIABLE
+    private double deltaPlease;
 
     private void tick()
     {
@@ -75,7 +74,7 @@ public class Game implements Runnable
         }
 
         g = bs.getDrawGraphics();
-        g.clearRect(0, 0, width, height);
+        g.clearRect(0, 0, Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT);
 
         //Draw here
 
@@ -123,11 +122,16 @@ public class Game implements Runnable
             if(System.currentTimeMillis() - timer > 1000)
             {
                 timer+= 1000;
-                //System.out.println("FPS: " + frames);
+//                System.out.println("FPS: " + frames);
                 frames = 0;
             }
         }
         stop();
+    }
+
+//    I MADE THIS FUNCTION
+    public double getDeltaPlease(){
+        return deltaPlease;
     }
 
     public synchronized void start()
@@ -157,6 +161,7 @@ public class Game implements Runnable
         }
     }
 
+
     public KeyManager getKeyManager()
     {
         return keyManager;
@@ -166,5 +171,4 @@ public class Game implements Runnable
     {
         return mouseManager;
     }
-
 }

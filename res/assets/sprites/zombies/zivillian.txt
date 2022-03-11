@@ -1,0 +1,27 @@
+Zivillian idle front facing
+55,1; 87,1; 87,47; 55,47;
+Zivillian walking front facing 1
+7,1; 38,1; 38,47; 7,47;
+Zivillian walking front facing 2
+104,1; 135,1; 135,47; 104,47;
+
+Zivillian idle facing left
+57,51; 87,51; 87,95; 57,95;
+Zivillian walking facing left 1
+7,51; 38,51; 38,95; 7,95;
+Zivillian walking facing left 2
+103,51; 135,51; 135,95; 103,95;
+
+Zivillian idle facing right
+56,99; 89,99; 89,143; 56,143;
+Zivillian walking facing right 1
+5,99; 38,99; 38,143; 5,143;
+Zivillian walking facing right 2
+103,99; 136,99; 136,143; 103,143;
+
+Zivillian idle facing back
+57,146; 88,146; 88,191; 57,191;
+Zivillian walking facing back 1
+7,146; 38,146; 38,191; 7,191;
+Zivillian walking facing back 2
+104,146; 135,146; 135,191; 104,191;

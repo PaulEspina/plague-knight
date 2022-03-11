@@ -1,13 +1,16 @@
 package main.entity;
 
+import main.Drawable;
+import main.Vector2f;
 import main.gfx.ImageLoader;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public abstract class Entity {
-    protected Point pos;
-    protected Point size;
+public abstract class Entity implements Drawable
+{
+    protected Vector2f pos;
+    protected Vector2f size;
     protected BufferedImage texture;
     protected int animationSpeed;
     protected int movementSpeed;
@@ -15,28 +18,35 @@ public abstract class Entity {
     float time;
     float maxTime = 5;
 
-    public void move(Point vel) {
-        pos.translate(vel.x, vel.y);
+    public void move(Vector2f vel)
+    {
+        pos.add(vel.getX(), vel.getY());
     }
 
-    public Point getPos() {
+    public Vector2f getPos()
+    {
         return pos;
     }
 
-    public void setPos(Point pos) {
+    public void setPos(Vector2f pos)
+    {
         this.pos = pos;
     }
 
-    public Point getSize() {
+    public Vector2f getSize()
+    {
         return size;
     }
 
-    public void setSize(Point size) {
-        if (size.x < 0) {
-            size.x = 0;
+    public void setSize(Vector2f size)
+    {
+        if(size.getX() < 0)
+        {
+            size.setX(0);
         }
-        if (size.y < 0) {
-            size.y = 0;
+        if(size.getY() < 0)
+        {
+            size.setY(0);
         }
         this.size = size;
     }
