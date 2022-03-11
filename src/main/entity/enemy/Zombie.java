@@ -73,7 +73,7 @@ public class Zombie extends Enemy
         try
         {
             Vector2f polarCoord = new Vector2f(target);
-            polarCoord.sub(new Vector2f(pos.getX() + size.getX() / 2, pos.getY() + size.getY() / 2)); // polarize
+            polarCoord.sub(new Vector2f(pos.getX(), pos.getY())); // polarize
             polarCoord.div((float) Math.sqrt(Math.pow(polarCoord.getX(), 2) + Math.pow(polarCoord.getY(), 2))); // normalize
 
             float theta = (float) Math.atan2(polarCoord.getY(), polarCoord.getX()); // get theta
@@ -81,7 +81,7 @@ public class Zombie extends Enemy
             float y = (float) Math.sin(theta);
             float newDistance = (float) Math.sqrt(Math.pow(Math.abs(target.getX() - (pos.getX() + size.getX() / 2)), 2) +
                                                   Math.pow(Math.abs(target.getY() - (pos.getY() + size.getY() / 2)), 2));
-            if(newDistance >= 1 || newDistance < 0) // clamp
+            if(newDistance >= speed || newDistance < 0) // clamp
             {
                 pos.add(x * (float) speed, y * (float) speed);
             }
