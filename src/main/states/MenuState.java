@@ -22,10 +22,12 @@ public class MenuState extends State
     private String buttonPath;
     private String backgroundPath;
     private String dottedPath;
-    private String brokenPath;
+    private String brokenSurvivalPath;
+    private String brokenStoryPath;
 
     private BufferedImage backgroundImage;
-    private BufferedImage brokenImage;
+    private BufferedImage brokenSurvivalImage;
+    private BufferedImage brokenStoryImage;
 
 //     Create Buttons
     private Button storyButton;
@@ -48,11 +50,12 @@ public class MenuState extends State
         buttonPath = Config.MENU_BUTTON_PATH;
         backgroundPath = Config.MENU_BACKGROUND_PATH;
         dottedPath = Config.DOTTED_BACKGROUND_PATH;
-        brokenPath = Config.BROKEN_BACKGROUND_PATH;
+        brokenSurvivalPath = Config.BROKEN_SURVIVAL_BACKGROUND_PATH;
+        brokenStoryPath = Config.BROKEN_SOTRY_BACKGROUND_PATH;
 
         backgroundImage = ImageLoader.loadImage(backgroundPath);
-        brokenImage = ImageLoader.loadImage(brokenPath);
-
+        brokenSurvivalImage = ImageLoader.loadImage(brokenSurvivalPath);
+        brokenStoryImage = ImageLoader.loadImage(brokenStoryPath);
 
 //        Coordinate in Frame
         survivalButton = new Button(game, new Point(364, 465), new Point(85, 50), "survival");
@@ -82,13 +85,15 @@ public class MenuState extends State
     private Random rand = new Random();
     private int random;
 
-    private double maxFrame2 = 1000;
+    private double maxFrame2 = 100;
     private double deltaCounter2 = 0;
-    private boolean isClicked = false;
+    private boolean survivalIsClicked = false;
+    private boolean storyIsClicked = false;
 
     private double maxFrame3 = 1000;
     private double deltaCounter3 = 0;
     private boolean isNext = false;
+
 
     @Override
     public void tick() {
@@ -120,8 +125,7 @@ public class MenuState extends State
 
                 //Animate button
                 survivalButton.clickedImage();
-
-                isClicked = true;
+                survivalIsClicked = true;
 
             }
         }
@@ -135,6 +139,7 @@ public class MenuState extends State
             if(game.getMouseManager().getMouseButtonState(MouseEvent.BUTTON1)) {
                 //Animate button
                 storyButton.clickedImage();
+                storyIsClicked = true;
             }
         }
         else{
@@ -173,11 +178,21 @@ public class MenuState extends State
         }
 
 
-//        Broken image
-        if(isClicked){
+//        Broken survival BG
+        if(survivalIsClicked){
             deltaCounter2 += game.getDeltaPlease();
             if(deltaCounter2 > maxFrame2){
-                g.drawImage(brokenImage, 0, 0, Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT, null);
+                g.drawImage(brokenSurvivalImage, 0, 0, Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT, null);
+                isNext = true;
+                deltaCounter2 = maxFrame2;
+            }
+        }
+
+//        Broken story BG
+        if(storyIsClicked){
+            deltaCounter2 += game.getDeltaPlease();
+            if(deltaCounter2 > maxFrame2){
+                g.drawImage(brokenStoryImage, 0, 0, Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT, null);
                 isNext = true;
                 deltaCounter2 = maxFrame2;
             }

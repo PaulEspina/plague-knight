@@ -1,5 +1,6 @@
 package main.button;
 
+import main.Config;
 import main.Game;
 import main.gfx.ImageLoader;
 
@@ -81,6 +82,7 @@ public class Button{
         clickedImage = picture.getSubimage((int) imagePos.getX() + (2 * (int) (imageSize.getX())), (int) imagePos.getY(), (int) imageSize.getX(), (int) imageSize.getY());
     }
 
+//    Used for the screen in main menu
     public void loadScreen(Point imagePos, Point imageSize, String path){
 
 //        "/assets/menu/menubuttons/menubuttons.png"
@@ -121,7 +123,5 @@ public class Button{
     public void draw(Graphics g){
         g.drawImage(currentImage, (int) getPos().getX(), (int) getPos().getY(), (int) getSize().getX(), (int) getSize().getY(), null);
     }
-
-
 
 }
