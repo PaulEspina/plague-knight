@@ -91,7 +91,8 @@ public class MenuState extends State
 
     private double maxFrame3 = 1000;
     private double deltaCounter3 = 0;
-    private boolean isNext = false;
+    private boolean storyNext = false;
+    private boolean survivalNext = false;
 
 
     @Override
@@ -182,7 +183,7 @@ public class MenuState extends State
             deltaCounter2 += game.getDeltaPlease();
             if(deltaCounter2 > maxFrame2){
                 g.drawImage(brokenSurvivalImage, 0, 0, Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT, null);
-                isNext = true;
+                survivalNext = true;
                 deltaCounter2 = maxFrame2;
             }
         }
@@ -192,16 +193,23 @@ public class MenuState extends State
             deltaCounter2 += game.getDeltaPlease();
             if(deltaCounter2 > maxFrame2){
                 g.drawImage(brokenStoryImage, 0, 0, Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT, null);
-                isNext = true;
+                storyNext = true;
                 deltaCounter2 = maxFrame2;
             }
         }
 
 //        Next state
-        if(isNext){
+        if(survivalNext){
             deltaCounter3 += game.getDeltaPlease();
             if(deltaCounter3 > maxFrame3){
                 setState(new SurvivalMenuState(game));
+                deltaCounter3 = maxFrame3;
+            }
+        }
+        if(storyNext){
+            deltaCounter3 += game.getDeltaPlease();
+            if(deltaCounter3 > maxFrame3){
+                setState(new StoryMenuState(game));
                 deltaCounter3 = maxFrame3;
             }
         }
