@@ -23,6 +23,8 @@ public class Zombie extends Enemy
         sprite = null;
         images = new BufferedImage[3];
         animationIndex = 0;
+        animationSpeed = 20;
+        movementSpeed = 5;
     }
 
     public Zombie(Vector2f pos, Vector2f size)
@@ -68,7 +70,7 @@ public class Zombie extends Enemy
         checkRotation();
     }
 
-    public void follow(Vector2f target, double speed)
+    public void follow(Vector2f target)
     {
         try
         {
@@ -79,11 +81,12 @@ public class Zombie extends Enemy
             float theta = (float) Math.atan2(polarCoord.getY(), polarCoord.getX()); // get theta
             float x = (float) Math.cos(theta);
             float y = (float) Math.sin(theta);
-            float newDistance = (float) Math.sqrt(Math.pow(Math.abs(target.getX() - (pos.getX() + size.getX() / 2)), 2) +
-                                                  Math.pow(Math.abs(target.getY() - (pos.getY() + size.getY() / 2)), 2));
-            if(newDistance >= speed || newDistance < 0) // clamp
+            float newDistance = (float) Math.sqrt(Math.pow(Math.abs(target.getX() - (pos.getX() + x)), 2) +
+                                                  Math.pow(Math.abs(target.getY() - (pos.getY() + y)), 2));
+            System.out.println(newDistance);
+            if(newDistance >= movementSpeed) // clamp
             {
-                pos.add(x * (float) speed, y * (float) speed);
+                pos.add(x * (float) movementSpeed, y * (float) movementSpeed);
             }
 
             float dtheta = (theta * 180f / (float) Math.PI);

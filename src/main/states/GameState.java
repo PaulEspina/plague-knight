@@ -92,15 +92,15 @@ public class GameState extends State
 
         Vector2f mouse = new Vector2f(mouseManager.getMouseX(), mouseManager.getMouseY());
 
-        zombie.follow(player.getPos(), 2);
+        zombie.follow(player.getPos());
 
         animationCounter++;
-        if(animationCounter % Config.ZOMBIE_ANIMATION_DELAY == 0)
+        if(animationCounter % zombie.getAnimationSpeed() == 0)
         {
             zombie.animate();
         }
 
-        if(animationCounter % Config.CRATE_ANIMATION_DELAY == 0)
+        if(animationCounter % crate.getAnimationSpeed() == 0)
         {
             //crate.animate();
         }
