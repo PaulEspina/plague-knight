@@ -25,8 +25,8 @@ public class SurvivalMenuState extends State{
 
     public SurvivalMenuState(Game game){
         this.game = game;
-        buttonPath = Config.MENUBUTTONPATH;
-        backgroundPath = Config.MENUBACKGROUNDPATH;
+        buttonPath = Config.MENU_BUTTON_ASSET_PATH;
+        backgroundPath = Config.MENU_BACKGROUND_ASSET_PATH;
         backgroundImage = ImageLoader.loadImage(backgroundPath);
 
 //        Coordinate in Frame

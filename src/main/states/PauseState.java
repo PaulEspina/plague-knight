@@ -16,7 +16,7 @@ public class PauseState extends State{
 
     public PauseState(Game game){
         this.game = game;
-        path = Config.MENUBUTTONPATH;
+        path = Config.MENU_BUTTON_ASSET_PATH;
 //        Coordinate in Frame
 
         resumeButton = new Button(game, new Point(420, 370), new Point(180, 100), "resume");

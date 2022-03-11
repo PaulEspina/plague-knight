@@ -6,8 +6,6 @@ import main.button.Button;
 import main.gfx.ImageLoader;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.util.concurrent.Executors;
@@ -38,8 +36,8 @@ public class MenuState extends State
     public MenuState(Game game)
     {
         this.game = game;
-        buttonPath = Config.MENUBUTTONPATH;
-        backgroundPath = Config.MENUBACKGROUNDPATH;
+        buttonPath = Config.MENU_BUTTON_ASSET_PATH;
+        backgroundPath = Config.MENU_BACKGROUND_ASSET_PATH;
         backgroundImage = ImageLoader.loadImage(backgroundPath);
 //        Coordinate in Frame
         survivalButton = new Button(game, new Point(364, 465), new Point(85, 50), "survival");
@@ -118,7 +116,7 @@ public class MenuState extends State
         exitButton.draw(g);
         disableStartButton.draw(g);
         disableCancelButton.draw(g);
-        delay(g, game.getDeltaPlease());
+//        delay(g, game.getDeltaDelay());
     }
 
 //    Ito mga binago ko :D

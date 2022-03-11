@@ -37,7 +37,7 @@ public class Zombie extends Enemy
         this.size = size;
         this.type = type;
         int randNum = (int) (Math.random() * 100) % 3;
-        sprite = ImageLoader.loadImage(Config.ZOMBIE_SPRITE_PATH);
+        sprite = ImageLoader.loadImage(Config.ZOMBIE_ASSET_PATH);
         sprite = sprite.getSubimage(0, (int) size.getY() * randNum, (int) size.getX() * 12, (int) size.getY());
         images[0] = sprite.getSubimage(0,
                                        0,

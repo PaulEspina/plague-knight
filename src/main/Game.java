@@ -10,11 +10,6 @@ import java.awt.image.BufferStrategy;
 
 public class Game implements Runnable
 {
-    public State menuState;
-    public State gameState;
-
-    public State survivalMenuState;
-    public State pauseState;
 
     private Boolean running = false;
     private Display display;
@@ -24,7 +19,10 @@ public class Game implements Runnable
     private final KeyManager keyManager;
     private final MouseManager mouseManager;
 
-    private double deltaDelay;
+    private State menuState;
+    private State gameState;
+    private State survivalMenuState;
+    private State pauseState;
 
     public Game()
     {
@@ -45,11 +43,8 @@ public class Game implements Runnable
         gameState = new GameState(this);
         survivalMenuState = new SurvivalMenuState(this);
         pauseState = new PauseState(this);
-        State.setState(menuState);
+        State.setState(gameState);
     }
-
-//    DINAGDAG KO TONG VARIABLE
-    private double deltaPlease;
 
     private void tick()
     {
@@ -62,7 +57,6 @@ public class Game implements Runnable
         mouseManager.tick();
 
     }
-
 
     private void render()
     {
@@ -88,10 +82,6 @@ public class Game implements Runnable
         g.dispose();
     }
 
-    public double getDeltaDelay() {
-        return deltaDelay;
-    }
-
     @Override
     public void run()
     {
@@ -106,8 +96,6 @@ public class Game implements Runnable
         {
             long now = System.nanoTime();
             delta += (now - lastTime) / ns;
-
-            this.deltaDelay = delta;
 
             lastTime = now;
             while(delta >= 1)
@@ -127,11 +115,6 @@ public class Game implements Runnable
             }
         }
         stop();
-    }
-
-//    I MADE THIS FUNCTION
-    public double getDeltaPlease(){
-        return deltaPlease;
     }
 
     public synchronized void start()

@@ -1,6 +1,8 @@
 package main.entity;
 
 
+import main.Config;
+import main.Vector2f;
 import main.gfx.ImageLoader;
 
 import java.awt.*;
@@ -8,102 +10,65 @@ import java.awt.image.BufferedImage;
 
 public class Item extends Entity{
 
+    public enum Type {
+        HEART,
+        APPLE,
+        BOOTS,
+        ATTACK_BOOST,
+        DEFENSE_BOOST
+    }
 
-    private Point pos;
-    private Point size;
-    private Point imagePos;
-    private BufferedImage picture;
+    private Vector2f pos;
+    private Vector2f size;
+    private Vector2f imagePos;
+    private BufferedImage asset;
     private BufferedImage image;
-    private String type;
+    private Type type;
 
-//    String heart;
-//    String apple;
-//    String boots;
-//    String attackBoost;
-//    String defenseBoost;
-//    String key;
-//    String sage;
-//    String hyssop;
-//    String chamonile;
-//    String comfrey;
-//    String rue;
-
-    @Override
-    public Point getPos() {
-        return pos;
-    }
-
-    @Override
-    public void setPos(Point pos) {
-        this.pos = pos;
-    }
-
-    @Override
-    public Point getSize() {
-        return size;
-    }
-
-    @Override
-    public void setSize(Point size) {
-        this.size = size;
-    }
-
-
-    public void setFrame(Point imagePos, Point imageSize) {
-        this.imagePos = imagePos;
-        image = picture.getSubimage((int)imagePos.getX(), (int)imagePos.getY(), (int)imageSize.getX(), (int)imageSize.getY());
-    }
-
-    public Point getImagePos() {
-        return imagePos;
-    }
-
-    public void setImagePos(Point imagePos) {
-        this.imagePos = imagePos;
-    }
-
-    public BufferedImage getPicture() {
-        return picture;
-    }
-
-    public void setPicture(BufferedImage picture) {
-        this.picture = picture;
-    }
-
-    public BufferedImage getImage() {
-        return image;
-    }
-
-    public void setImage(BufferedImage image) {
-        this.image = image;
-    }
-
-    public Item(Point pos, Point size){
-        this.pos = pos;
-        this.size = size;
-    }
+    private Boolean shouldShow;
 
     public Item(){
-
+        pos = new Vector2f(0, 0);
+        size = new Vector2f(0, 0);
+        shouldShow = true;
     }
 
-    public Item(String type){
+    public Item(Type type){
+        this();
         this.type = type;
-    }
 
-    public void showItem(){
-
-    }
-
-    public void hideItem(){
-
-    }
-
-    public void loadTexture(Point imagePos, Point imageSize, String path)
-    {
         this.imagePos = imagePos;
-        picture = ImageLoader.loadImage(path);
-        image = picture.getSubimage((int)imagePos.getX(), (int)imagePos.getY(), (int)imageSize.getX(), (int)imageSize.getY());
+        // TODO get images (waiting for jyron)
+//        asset = ImageLoader.loadImage(Config.ITEMS_PATH);
+//        image = asset.getSubimage(0, 0, (int)imageSize.getX(), (int)imageSize.getY());
     }
 
+    public Item(Vector2f pos, Vector2f size, Type type){
+        this(type);
+        this.pos = pos;
+        this.size = size;
+    }
+
+    public void show(){
+        shouldShow = true;
+    }
+
+    public void hide(){
+        shouldShow = false;
+    }
+
+    @Override
+    public void update()
+    {
+
+    }
+
+    @Override
+    public void draw(Graphics g)
+    {
+        if(shouldShow)
+        {
+//            g.drawImage(image, (int) pos.getX(), (int) pos.getY(), (int) size.getX(), (int) size.getY(), null);
+        }
+    }
 }
