@@ -17,7 +17,7 @@ import java.util.concurrent.ScheduledExecutorService;
 public class MenuState extends State
 {
     private Game game;
-    private SurvivalMenuState survivalMenuState;
+//    private SurvivalMenuState survivalMenuState;
 //    Get the path from config.java
     private String buttonPath;
     private String backgroundPath;
@@ -46,7 +46,6 @@ public class MenuState extends State
     public MenuState(Game game)
     {
         this.game = game;
-        survivalMenuState = new SurvivalMenuState(game);
         buttonPath = Config.MENU_BUTTON_PATH;
         backgroundPath = Config.MENU_BACKGROUND_PATH;
         dottedPath = Config.DOTTED_BACKGROUND_PATH;
@@ -202,7 +201,7 @@ public class MenuState extends State
         if(isNext){
             deltaCounter3 += game.getDeltaPlease();
             if(deltaCounter3 > maxFrame3){
-                setState(survivalMenuState);
+                setState(new SurvivalMenuState(game));
                 deltaCounter3 = maxFrame3;
             }
         }

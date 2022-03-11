@@ -44,6 +44,11 @@ public class SurvivalMenuState extends State{
         disableExitButton.loadTexture(new Point(348, 264), new Point(173, 87), buttonPath);
 
     }
+
+    private double maxFrame2 = 100;
+    private double deltaCounter2 = 0;
+    private Boolean cancelClicked = false;
+
     @Override
     public void tick() {
         int x = game.getMouseManager().getMouseX();
@@ -70,6 +75,8 @@ public class SurvivalMenuState extends State{
             if(game.getMouseManager().getMouseButtonState(MouseEvent.BUTTON1)) {
                 //Animate button
                 cancelButton.clickedImage();
+
+                cancelClicked = true;
             }
         }
         else{
@@ -85,6 +92,14 @@ public class SurvivalMenuState extends State{
         disableStoryButton.draw(g);
         disableSurvivalButton.draw(g);
         disableExitButton.draw(g);
+
+        if(cancelClicked){
+            deltaCounter2 += game.getDeltaPlease();
+            if(deltaCounter2 > maxFrame2){
+                setState(new MenuState(game));
+                deltaCounter2 = maxFrame2;
+            }
+        }
     }
 
 }
