@@ -54,6 +54,7 @@ public class GameState extends State
     @Override
     public void tick()
     {
+        // Key Down
         if(keyManager.isKeyDown(KeyEvent.VK_W))
         {
             player.setVelY(-10);
@@ -71,6 +72,7 @@ public class GameState extends State
             player.setVelX(10);
         }
 
+        // Key Up
         if(keyManager.isKeyUp(KeyEvent.VK_W))
         {
             player.setVelY(0);
@@ -87,12 +89,6 @@ public class GameState extends State
         {
             player.setVelX(0);
         }
-
-
-
-
-        player.update();
-
 
         Vector2f mouse = new Vector2f(mouseManager.getMouseX(), mouseManager.getMouseY());
 
@@ -115,6 +111,7 @@ public class GameState extends State
             }
         }
 
+        player.update();
         crate.update();
         if(item != null)
         {

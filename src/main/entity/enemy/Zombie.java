@@ -123,50 +123,25 @@ public class Zombie extends Enemy
     {
         switch(direction)
         {
-//            size.getY() * ((int) (Math.random() * 100) % 3)
             case "north":
                 images[0] = sprite.getSubimage((int) size.getX() * 9, 0, (int) size.getX(), (int) size.getY());
-                images[1] = sprite.getSubimage((int) size.getX() * 10,
-                                               0,
-                                               (int) size.getX(),
-                                               (int) size.getY());
-                images[2] = sprite.getSubimage((int) (size.getX() * 11),
-                                               0,
-                                               (int) size.getX(),
-                                               (int) size.getY());
+                images[1] = sprite.getSubimage((int) size.getX() * 10, 0, (int) size.getX(), (int) size.getY());
+                images[2] = sprite.getSubimage((int) size.getX() * 11, 0, (int) size.getX(), (int) size.getY());
                 break;
             case "south":
                 images[0] = sprite.getSubimage(0, 0, (int) size.getX(), (int) size.getY());
-                images[1] = sprite.getSubimage((int) size.getX(),
-                                               0,
-                                               (int) size.getX(),
-                                               (int) size.getY());
-                images[2] = sprite.getSubimage((int) (size.getX() * 2),
-                                               0,
-                                               (int) size.getX(),
-                                               (int) size.getY());
+                images[1] = sprite.getSubimage((int) size.getX(), 0, (int) size.getX(), (int) size.getY());
+                images[2] = sprite.getSubimage((int) size.getX() * 2, 0, (int) size.getX(), (int) size.getY());
                 break;
             case "west":
                 images[0] = sprite.getSubimage((int) size.getX() * 3, 0, (int) size.getX(), (int) size.getY());
-                images[1] = sprite.getSubimage((int) size.getX() * 4,
-                                               0,
-                                               (int) size.getX(),
-                                               (int) size.getY());
-                images[2] = sprite.getSubimage((int) (size.getX() * 5),
-                                               0,
-                                               (int) size.getX(),
-                                               (int) size.getY());
+                images[1] = sprite.getSubimage((int) size.getX() * 4, 0, (int) size.getX(), (int) size.getY());
+                images[2] = sprite.getSubimage((int) (size.getX() * 5), 0, (int) size.getX(), (int) size.getY());
                 break;
             case "east":
                 images[0] = sprite.getSubimage((int) size.getX() * 6, 0, (int) size.getX(), (int) size.getY());
-                images[1] = sprite.getSubimage((int) size.getX() * 7,
-                                               0,
-                                               (int) size.getX(),
-                                               (int) size.getY());
-                images[2] = sprite.getSubimage((int) (size.getX() * 8),
-                                               0,
-                                               (int) size.getX(),
-                                               (int) size.getY());
+                images[1] = sprite.getSubimage((int) size.getX() * 7, 0, (int) size.getX(), (int) size.getY());
+                images[2] = sprite.getSubimage((int) (size.getX() * 8), 0, (int) size.getX(), (int) size.getY());
                 break;
         }
     }
@@ -179,6 +154,10 @@ public class Zombie extends Enemy
     @Override
     public void draw(Graphics g)
     {
-        g.drawImage(images[animationIndex], (int) pos.getX(), (int) pos.getY(), (int) size.getX(), (int) size.getY(), null);
+        g.drawImage(images[animationIndex], (int) pos.getX() - (int) size.getX() / 2,
+                                            (int) pos.getY() - (int) size.getY() / 2,
+                                               (int) size.getX(),
+                                               (int) size.getY(),
+                                      null);
     }
 }
