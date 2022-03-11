@@ -18,7 +18,7 @@ public class Config {
     public static final float DEGREES_EAST = 0f;
     public static final float DEGREES_WEST = 180f;
 
-    public static final String CRATE_ASSET_PATH = "/assets/world/crate/cratev1.png";
+    public static final String CRATE_ASSET_PATH = "/assets/sprites/world/crate/cratev1.png";
     public static final int CRATE_ANIMATION_DELAY = 20;
 
     public static final String ITEMS_ASSET_PATH = "/assets/items/items.png";

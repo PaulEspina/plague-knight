@@ -31,7 +31,7 @@ public class AssetManager
         try
         {
             zombie = ImageLoader.loadImage(Config.ZOMBIE_ASSET_PATH);
-//            crate = ImageLoader.loadImage(Config.CRATE_ASSET_PATH);
+            crate = ImageLoader.loadImage(Config.CRATE_ASSET_PATH);
 //            item = ImageLoader.loadImage(Config.ITEMS_ASSET_PATH);
         }
         catch(IllegalArgumentException e)

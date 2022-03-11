@@ -179,6 +179,6 @@ public class Zombie extends Enemy
     @Override
     public void draw(Graphics g)
     {
-        g.drawImage(images[animationIndex], (int) pos.getX(), (int) pos.getY(), null);
+        g.drawImage(images[animationIndex], (int) pos.getX(), (int) pos.getY(), (int) size.getX(), (int) size.getY(), null);
     }
 }

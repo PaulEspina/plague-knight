@@ -30,7 +30,7 @@ public class GameState extends State {
         zombie = new Zombie(new Vector2f((float) Config.SCREEN_WIDTH / 2, (float) Config.SCREEN_HEIGHT / 2),
                             new Vector2f(Config.ZOMBIE_ASSET_WIDTH, Config.ZOMBIE_ASSET_HEIGHT));
 
-        crate = new Crate(new Vector2f(300, 100), new Vector2f(100, 100));
+        crate = new Crate(new Vector2f(300, 100), new Vector2f(78, 67));
     }
 
     double animationCounter = 0;
@@ -58,22 +58,22 @@ public class GameState extends State {
             }
         }
 
-        zombie.update();
         crate.update();
         if(item != null)
         {
             item.update();
         }
+        zombie.update();
     }
 
     @Override
     public void render(Graphics g)
     {
-        zombie.draw(g);
         crate.draw(g);
         if(item != null)
         {
             item.draw(g);
         }
+        zombie.draw(g);
     }
 }
