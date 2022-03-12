@@ -6,7 +6,6 @@ public class Config {
     public static final int SCREEN_HEIGHT = 600;
     public static final String TITLE = "Plague Knight";
 
-
     public static final String MENU_BUTTON_ASSET_PATH = "/assets/menu/menubuttons/menubuttonsv4.png";
     public static final String MENU_BACKGROUND_ASSET_PATH = "/assets/menu/menubackground/menubackgroundv2.png";
     public static final String DOTTED_BACKGROUND_ASSET_PATH = "/assets/menu/menubackground/menubackgroundv4.png";
@@ -32,5 +31,8 @@ public class Config {
     public static final int CRATE_ANIMATION_DELAY = 20;
 
     public static final String ITEMS_ASSET_PATH = "/assets/items/itemsv1.png";
+    public static final String ITEMS_ASSET_PATH = "/assets/items/drops/itemdropsv2.png";
+    public static final int ITEMS_ASSET_WIDTH = 48;
+    public static final int ITEMS_ASSET_HEIGHT = 48;
     public static final int TOTAL_ITEMS = 5;
 }

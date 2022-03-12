@@ -3,6 +3,7 @@ package main.entity;
 
 import main.Config;
 import main.Vector2f;
+import main.gfx.AssetManager;
 import main.gfx.ImageLoader;
 
 import java.awt.*;
@@ -23,13 +24,16 @@ public class Item extends Entity{
     private Vector2f imagePos;
     private BufferedImage asset;
     private BufferedImage image;
+    private BufferedImage[] items;
     private Type type;
+    private int randomize;
 
     private Boolean shouldShow;
 
     public Item(){
         pos = new Vector2f(0, 0);
         size = new Vector2f(0, 0);
+        items = new BufferedImage[5];
         shouldShow = true;
     }
 
@@ -39,8 +43,32 @@ public class Item extends Entity{
 
         this.imagePos = imagePos;
         // TODO get images (waiting for jyron)
-//        asset = ImageLoader.loadImage(Config.ITEMS_ASSET_PATH);
-//        image = asset.getSubimage(0, 0, (int)imageSize.getX(), (int)imageSize.getY());
+        asset = ImageLoader.loadImage(Config.ITEMS_ASSET_PATH);
+        image = AssetManager.getInstance().getItem();
+        image = asset.getSubimage(0, 0,Config.ITEMS_ASSET_WIDTH, Config.ITEMS_ASSET_HEIGHT);
+
+        items[0] = asset.getSubimage(0,
+                                     0,
+                                    Config.ITEMS_ASSET_WIDTH,
+                                    Config.ITEMS_ASSET_HEIGHT);
+        items[1] = asset.getSubimage(Config.ITEMS_ASSET_WIDTH * 11,
+                                     0,
+                                    Config.ITEMS_ASSET_WIDTH,
+                                    Config.ITEMS_ASSET_HEIGHT);
+        items[2] = asset.getSubimage(Config.ITEMS_ASSET_WIDTH * 12,
+                                     0,
+                                    Config.ITEMS_ASSET_WIDTH,
+                                    Config.ITEMS_ASSET_HEIGHT);
+        items[3] = asset.getSubimage(Config.ITEMS_ASSET_WIDTH* 13,
+                                     0,
+                                    Config.ITEMS_ASSET_WIDTH,
+                                    Config.ITEMS_ASSET_HEIGHT);
+        items[4] = asset.getSubimage(Config.ITEMS_ASSET_WIDTH * 14,
+                                     0,
+                                    Config.ITEMS_ASSET_WIDTH,
+                                    Config.ITEMS_ASSET_HEIGHT);
+
+
     }
 
     public Item(Vector2f pos, Vector2f size, Type type){
@@ -70,6 +98,7 @@ public class Item extends Entity{
         {
             g.drawRect((int) pos.getX() - (int) size.getX() / 2, (int) pos.getY() - (int) size.getY() / 2, (int) size.getX(), (int) size.getY());
 //            g.drawImage(image, (int) pos.getX(), (int) pos.getY(), (int) size.getX(), (int) size.getY(), null);
+//            g.drawImage(items[randomize], (int) pos.getX(), (int) pos.getY(), (int) size.getX(), (int) size.getY(), null);
         }
     }
 }
