@@ -2,6 +2,7 @@ package main.states;
 
 import main.Config;
 import main.Game;
+import main.button.Pause;
 import main.entity.Crate;
 import main.entity.Item;
 import main.Vector2f;
@@ -36,6 +37,8 @@ public class GameState extends State
 
     private Vector<Item> items;
 
+    private Pause pauseButton;
+
     public GameState(Game game)
     {
         this.game = game;
@@ -44,6 +47,8 @@ public class GameState extends State
         rand = new Random();
 
         settings = new GameSetting();
+
+        pauseButton = new Pause(game, new Point(5, 5), new Point(50, 50), Config.MENU_BUTTON_ASSET_PATH, "pause");
 
         //character position and size
         player = new Player(new Vector2f((float) Config.SCREEN_WIDTH / 2, (float) Config.SCREEN_HEIGHT / 2),
@@ -70,6 +75,8 @@ public class GameState extends State
         itemsTick();
         zombiesTick();
         playerTick();
+        pauseTick();
+        pauseButton.pausedImage();
     }
 
     @Override
@@ -90,6 +97,19 @@ public class GameState extends State
             zombies.get(i).draw(g);
         }
         player.draw(g);
+        pauseButton.draw(g);
+    }
+
+    private void pauseTick()
+    {
+        int x = game.getMouseManager().getMouseX();
+        int y = game.getMouseManager().getMouseY();
+        if(pauseButton.isInside(x, y)){
+            pauseButton.pausedImage();
+            if(game.getMouseManager().getMouseButtonState(MouseEvent.BUTTON1)){
+                pauseButton.pausedImage();
+            }
+        }
     }
 
     private void cratesTick()
@@ -113,7 +133,8 @@ public class GameState extends State
         int randInt = rand.nextInt(chance);
         if(randInt % chance == 0)
         {
-            items.add(new Item(new Vector2f(rand.nextInt(Config.SCREEN_WIDTH) , rand.nextInt(Config.SCREEN_HEIGHT)), new Vector2f(Config.ITEMS_ASSET_WIDTH, Config.ITEMS_ASSET_HEIGHT), Item.Type.values()[rand.nextInt(Item.Type.values().length)]));
+            items.add(new Item(new Vector2f(rand.nextInt(Config.SCREEN_WIDTH) , rand.nextInt(Config.SCREEN_HEIGHT)),
+                    new Vector2f(Config.ITEMS_ASSET_WIDTH / 1.5f * settings.zoom, Config.ITEMS_ASSET_HEIGHT / 1.5f * settings.zoom), Item.Type.values()[rand.nextInt(Item.Type.values().length)]));
         }
         for(int i = 0; i < items.size(); i++)
         {

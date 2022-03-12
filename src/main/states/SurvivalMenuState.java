@@ -60,7 +60,7 @@ public class SurvivalMenuState extends State{
                 //Animate button
                 startButton.clickedImage();
                 survivalIsClicked = true;
-                
+
             }
         }
         else{

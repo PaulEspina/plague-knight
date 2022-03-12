@@ -84,7 +84,7 @@ public class Button{
                 return true;
             }
             return false;
-        }
+    }
 
     public void draw(Graphics g){
         g.drawImage(currentImage, (int) getPos().getX(), (int) getPos().getY(), (int) getSize().getX(), (int) getSize().getY(), null);

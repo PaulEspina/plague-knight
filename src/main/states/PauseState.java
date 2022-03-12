@@ -3,6 +3,7 @@ package main.states;
 import main.Config;
 import main.Game;
 import main.button.Button;
+import main.button.Pause;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -12,16 +13,15 @@ public class PauseState extends State{
     private String path;
     private Button resumeButton;
     private Button mainMenuButton;
-    private Button pauseButton;
+
 
     public PauseState(Game game){
         this.game = game;
         path = Config.MENU_BUTTON_ASSET_PATH;
-//        Coordinate in Frame
 
+//        Coordinate in Frame
         resumeButton = new Button(game, new Point(420, 370), new Point(180, 100), 616, "resume");
         mainMenuButton = new Button(game, new Point(180, 370), new Point(180, 100), 528, "menu");
-
 //        pauseButton = new Button(new Point(360, 200), new Point(50,50));
 
 //        Coordinate in Photos
@@ -64,7 +64,7 @@ public class PauseState extends State{
 
     @Override
     public void render(Graphics g) {
-        g.drawString("PAUSE", 370, 100);
+
         resumeButton.draw(g);
         mainMenuButton.draw(g);
     }
