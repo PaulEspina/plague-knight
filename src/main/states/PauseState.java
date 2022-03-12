@@ -19,14 +19,14 @@ public class PauseState extends State{
         path = Config.MENU_BUTTON_ASSET_PATH;
 //        Coordinate in Frame
 
-        resumeButton = new Button(game, new Point(420, 370), new Point(180, 100), "resume");
-        mainMenuButton = new Button(game, new Point(180, 370), new Point(180, 100), "menu");
+        resumeButton = new Button(game, new Point(420, 370), new Point(180, 100), 616, "resume");
+        mainMenuButton = new Button(game, new Point(180, 370), new Point(180, 100), 528, "menu");
 
 //        pauseButton = new Button(new Point(360, 200), new Point(50,50));
 
 //        Coordinate in Photos
-        resumeButton.loadTexture(new Point(0, 88), new Point(173, 87), path);
-        mainMenuButton.loadTexture(new Point(522, 88), new Point(173, 87), path);
+//        resumeButton.loadTexture(new Point(0, 88), new Point(173, 87), path);
+//        mainMenuButton.loadTexture(new Point(522, 88), new Point(173, 87), path);
 
 //        pauseButton.loadTexture(new Point(1044, 88), new Point(130, 135), game.getMENUBUTTONPATH());
 

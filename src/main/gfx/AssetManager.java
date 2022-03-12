@@ -11,6 +11,11 @@ public class AssetManager
     private BufferedImage zombie;
     private BufferedImage crate;
     private BufferedImage item;
+    private BufferedImage menuButtonImage;
+    private BufferedImage defaultBGImage;
+    private BufferedImage dottedBGImage;
+    private BufferedImage survivalBrokenBGImage;
+    private BufferedImage storyBrokenBGImage;
 
     private static AssetManager instance = null;
 
@@ -35,6 +40,11 @@ public class AssetManager
             zombie = ImageLoader.loadImage(Config.ZOMBIE_ASSET_PATH);
             crate = ImageLoader.loadImage(Config.CRATE_ASSET_PATH);
             item = ImageLoader.loadImage(Config.ITEMS_ASSET_PATH);
+            menuButtonImage = ImageLoader.loadImage(Config.MENU_BUTTON_ASSET_PATH);
+            defaultBGImage = ImageLoader.loadImage(Config.MENU_BACKGROUND_ASSET_PATH);
+            dottedBGImage = ImageLoader.loadImage(Config.DOTTED_BACKGROUND_ASSET_PATH);
+            survivalBrokenBGImage = ImageLoader.loadImage(Config.BROKEN_SURVIVAL_BACKGROUND_ASSET_PATH);
+            storyBrokenBGImage = ImageLoader.loadImage(Config.BROKEN_STORY_BACKGROUND_ASSET_PATH);
         }
         catch(IllegalArgumentException e)
         {
@@ -44,7 +54,11 @@ public class AssetManager
         return true;
     }
 
-    public BufferedImage getPlayer(){ return player; }
+    public BufferedImage getPlayer()
+    {
+        return player;
+    }
+
     public BufferedImage getZombie()
     {
         return zombie;
@@ -59,4 +73,25 @@ public class AssetManager
     {
         return item;
     }
+
+    public BufferedImage getMenuButtonImage() {
+        return menuButtonImage;
+    }
+
+    public BufferedImage getDefaultBGImage() {
+        return defaultBGImage;
+    }
+
+    public BufferedImage getDottedBGImage() {
+        return dottedBGImage;
+    }
+
+    public BufferedImage getSurvivalBrokenBGImage() {
+        return survivalBrokenBGImage;
+    }
+
+    public BufferedImage getStoryBrokenBGImage() {
+        return storyBrokenBGImage;
+    }
+
 }

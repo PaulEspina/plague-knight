@@ -3,6 +3,8 @@ package main.states;
 import main.Config;
 import main.Game;
 import main.button.Button;
+import main.button.Screen;
+import main.gfx.AssetManager;
 import main.gfx.ImageLoader;
 
 import java.awt.*;
@@ -13,106 +15,89 @@ import java.util.Random;
 public class MenuState extends State
 {
     private Game game;
-//    private SurvivalMenuState survivalMenuState;
-//    Get the path from config.java
-    private String buttonPath;
-    private String backgroundPath;
-    private String dottedPath;
-    private String brokenSurvivalPath;
-    private String brokenStoryPath;
-
-    private BufferedImage backgroundImage;
-    private BufferedImage brokenSurvivalImage;
-    private BufferedImage brokenStoryImage;
-
 //     Create Buttons
     private Button storyButton;
     private Button survivalButton;
     private Button exitButton;
-    private Button disableStartButton;
-    private Button disableCancelButton;
+    private Button startButton;
+    private Button cancelButton;
 
 //    For Blinking Lights
-    private Button defaultBG;
-    private Button dottedBG;
-    private Button brokenScreenBG;
+    private Screen defaultBG;
+    private Screen dottedBG;
+
     // TODO Auto-generated method stub
 
 
     public MenuState(Game game)
     {
         this.game = game;
-        buttonPath = Config.MENU_BUTTON_ASSET_PATH;
-        backgroundPath = Config.MENU_BACKGROUND_ASSET_PATH;
-        dottedPath = Config.DOTTED_BACKGROUND_ASSET_PATH;
-        brokenSurvivalPath = Config.BROKEN_SURVIVAL_BACKGROUND_ASSET_PATH;
-        brokenStoryPath = Config.BROKEN_SOTRY_BACKGROUND_ASSET_PATH;
-
-        backgroundImage = ImageLoader.loadImage(backgroundPath);
-        brokenSurvivalImage = ImageLoader.loadImage(brokenSurvivalPath);
-        brokenStoryImage = ImageLoader.loadImage(brokenStoryPath);
-
 //        Coordinate in Frame
-        survivalButton = new Button(game, new Point(364, 465), new Point(85, 50), "survival");
-        storyButton = new Button(game, new Point(480, 465), new Point(85, 50), "story");
-        exitButton = new Button(game, new Point(606, 465), new Point(85, 50), "exit");
-        disableStartButton = new Button(game, new Point(435, 385), new Point(85, 50), "start");
-        disableCancelButton = new Button(game, new Point(548, 385), new Point(85, 50), "cancel");
-        dottedBG = new Button(game, new Point(169, 69), new Point(463, 222), "dot");
-        defaultBG = new Button(game, new Point(169, 69), new Point(463, 222), "default");
+        survivalButton = new Button(game, new Point(364, 465), new Point(85, 50), 0, "survival");
+        storyButton = new Button(game, new Point(480, 465), new Point(85, 50), 88, "story");
+        exitButton = new Button(game, new Point(606, 465), new Point(85, 50), 264, "exit");
+        startButton = new Button(game, new Point(435, 385), new Point(85, 50), 176, "start");
+        cancelButton = new Button(game, new Point(548, 385), new Point(85, 50), 352, "cancel");
 
-
-//        Coordinate in Photos
-        survivalButton.loadTexture(new Point(0, 0), new Point(173, 87), buttonPath);
-        storyButton.loadTexture(new Point(522, 0), new Point(173, 87), buttonPath);
-        exitButton.loadTexture(new Point(1044, 0), new Point(173, 87), buttonPath);
-        disableStartButton.loadTexture(new Point(522, 264), new Point(173, 87), buttonPath);
-        disableCancelButton.loadTexture(new Point(348, 264), new Point(173, 87), buttonPath);
-
-        dottedBG.loadScreen(new Point(151, 55), new Point(419, 178), dottedPath);
-        defaultBG.loadScreen(new Point(151, 55), new Point(419, 178), backgroundPath);
-
+        dottedBG = new Screen(game, new Point(169, 69), new Point(463, 222), "dot");
+        defaultBG = new Screen(game, new Point(169, 69), new Point(463, 222), "default");
 
     }
-    private double maxFrame1 = 20;
-    private double deltaCounter1 = 0;
-//    private boolean flag = false;
+    private double flickerAnimation = 0;
+    private double brokenSurvivalAnimation = 0;
+    private double brokenStoryAnimation = 0;
     private Random rand = new Random();
     private int random;
 
-    private double maxFrame2 = 100;
-    private double deltaCounter2 = 0;
+    //    Mouse Click
+    private boolean survivalIsPressed = false;
+    private boolean storyIsPressed = false;
+
+//    For broken screen delay
     private boolean survivalIsClicked = false;
     private boolean storyIsClicked = false;
 
-    private double maxFrame3 = 1000;
-    private double deltaCounter3 = 0;
-    private boolean storyNext = false;
     private boolean survivalNext = false;
+    private boolean storyNext = false;
+
+
 
 
     @Override
     public void tick() {
         int x = game.getMouseManager().getMouseX();
         int y = game.getMouseManager().getMouseY();
-//        int random = rand.nextInt(100);
 
-        dottedBG.unhoveredImage();
-        defaultBG.unhoveredImage();
+        dottedBG.getCurrentScreen();
+        defaultBG.getCurrentScreen();
 
 
-//        deltaCounter1 += game.getDeltaPlease();
-        if(deltaCounter1 >= maxFrame1){
+        flickerAnimation++;
+        if(flickerAnimation % Config.FLICKER_ANIMATION_DELAY == 0){
             random = rand.nextInt(100);
-//            flag = true;
-            deltaCounter1 = 0;
+            flickerAnimation = 0;
         }
-//        else{
-//            flag = false;
-//        }
 
-        disableStartButton.unhoveredImage();
-        disableCancelButton.unhoveredImage();
+//        BROKEN SCREEN ANIMATION
+        if(survivalIsPressed){
+            brokenSurvivalAnimation++;
+            if(brokenSurvivalAnimation % Config.BROKEN_SURVIVAL_ANIMATION_DELAY == 0){
+                survivalNext = true;
+                brokenSurvivalAnimation = Config.BROKEN_SURVIVAL_ANIMATION_DELAY;
+            }
+        }
+
+        if(storyIsPressed){
+            brokenStoryAnimation++;
+            if(brokenStoryAnimation % Config.BROKEN_STORY_ANIMATION_DELAY == 0){
+                storyNext = true;
+                brokenStoryAnimation = Config.BROKEN_STORY_ANIMATION_DELAY;
+            }
+        }
+
+
+        startButton.disabledImage();
+        cancelButton.disabledImage();
 
         if(survivalButton.isInside(x, y)){
             survivalButton.hoveredImage();
@@ -122,7 +107,7 @@ public class MenuState extends State
                 //Animate button
                 survivalButton.clickedImage();
                 survivalIsClicked = true;
-
+                survivalIsPressed = true;
             }
         }
         else{
@@ -136,6 +121,7 @@ public class MenuState extends State
                 //Animate button
                 storyButton.clickedImage();
                 storyIsClicked = true;
+                storyIsPressed = true;
             }
         }
         else{
@@ -158,12 +144,12 @@ public class MenuState extends State
     @Override
     public void render(Graphics g)
     {
-        g.drawImage(backgroundImage, 0, 0, Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT, null);
+        g.drawImage(AssetManager.getInstance().getDefaultBGImage(), 0, 0, Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT, null);
         survivalButton.draw(g);
         storyButton.draw(g);
         exitButton.draw(g);
-        disableStartButton.draw(g);
-        disableCancelButton.draw(g);
+        startButton.draw(g);
+        cancelButton.draw(g);
 
 //      Animation in main menu
         if(random % 2 == 0){
@@ -174,57 +160,24 @@ public class MenuState extends State
         }
 
 
-////        Broken survival BG
-//        if(survivalIsClicked){
-//            deltaCounter2 += game.getDeltaPlease();
-//            if(deltaCounter2 > maxFrame2){
-//                g.drawImage(brokenSurvivalImage, 0, 0, Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT, null);
-//                survivalNext = true;
-//                deltaCounter2 = maxFrame2;
-//            }
-//        }
-//
-////        Broken story BG
-//        if(storyIsClicked){
-//            deltaCounter2 += game.getDeltaPlease();
-//            if(deltaCounter2 > maxFrame2){
-//                g.drawImage(brokenStoryImage, 0, 0, Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT, null);
-//                storyNext = true;
-//                deltaCounter2 = maxFrame2;
-//            }
-//        }
-//
-////        Next state
-//        if(survivalNext){
-//            deltaCounter3 += game.getDeltaPlease();
-//            if(deltaCounter3 > maxFrame3){
-//                setState(new SurvivalMenuState(game));
-//                deltaCounter3 = maxFrame3;
-//            }
-//        }
-//        if(storyNext){
-//            deltaCounter3 += game.getDeltaPlease();
-//            if(deltaCounter3 > maxFrame3){
-//                setState(new StoryMenuState(game));
-//                deltaCounter3 = maxFrame3;
-//            }
-//        }
+//        Broken survival BG
+        if(survivalIsClicked){
+            g.drawImage(AssetManager.getInstance().getSurvivalBrokenBGImage(), 0, 0, Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT, null);
+        }
+
+//        Broken story BG
+        if(storyIsClicked){
+            g.drawImage(AssetManager.getInstance().getStoryBrokenBGImage(), 0, 0, Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT, null);
+        }
+
+
+//        Next state
+        if(survivalNext){
+            setState(new SurvivalMenuState(game));
+        }
+
+        if(storyNext){
+            setState(new StoryMenuState(game));
+        }
     }
-
-
-
-//    public void delay(Graphics g, double delta){
-//
-//        deltaCounter += delta;
-//        if(deltaCounter >= maxFrame){
-//            blink(g);
-//        }
-//
-//    }
-
-
-//    public void blink(Graphics g){
-//        g.drawImage(brokenImage, 0, 0, Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT, null);
-//    }
-
 }
