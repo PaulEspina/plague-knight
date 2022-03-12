@@ -146,8 +146,11 @@ public class Player extends Character implements Drawable{
     @Override
     public void draw(Graphics g)
     {
-        g.drawImage(images[animationIndex], (int) pos.getX() , (int) pos.getY(), null);
-        //g.drawRect((int) pos.getX(), (int) pos.getY(), (int) size.getX(), (int) size.getY());
+        g.drawImage(images[animationIndex], (int) pos.getX() - (int) size.getX() / 2,
+                                            (int) pos.getY() - (int) size.getY() / 2,
+                                            (int) size.getX(),
+                                            (int) size.getY(),
+                                            null);
     }
 
 
