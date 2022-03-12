@@ -6,9 +6,10 @@ import main.entity.Crate;
 import main.entity.Item;
 import main.Vector2f;
 import main.entity.enemy.Zombie;
+import main.entity.map.Map;
 import main.input.KeyManager;
 import main.input.MouseManager;
-import main.entity.Player;
+import main.entity.player.Player;
 import java.awt.event.MouseEvent;
 
 import java.awt.*;
@@ -26,6 +27,7 @@ public class GameState extends State
     double animationCounter = 0;
 
     private Player player;
+    private Map map;
 
     private Vector<Zombie> zombies;
     private final MouseManager mouseManager;
@@ -53,6 +55,9 @@ public class GameState extends State
             zombies.add(new Zombie(new Vector2f(rand.nextInt(Config.SCREEN_WIDTH), rand.nextInt(Config.SCREEN_HEIGHT)),
                                    new Vector2f(Config.ZOMBIE_ASSET_WIDTH * settings.zoom, Config.ZOMBIE_ASSET_HEIGHT * settings.zoom)));
         }
+
+        player = new Player(new Vector2f((float) Config.SCREEN_WIDTH / 2, (float) Config.SCREEN_HEIGHT / 2),
+                new Vector2f(Config.PLAYER_SPRITE_WIDTH, Config.PLAYER_SPRITE_HEIGHT));
 
         crates = new Vector<>();
         crates.add(new Crate(new Vector2f(300, 100), new Vector2f((float) Config.CRATE_ASSET_WIDTH / 2, (float) Config.CRATE_ASSET_HEIGHT / 2)));
@@ -153,38 +158,52 @@ public class GameState extends State
         // Key Down
         if(keyManager.isKeyDown(KeyEvent.VK_W))
         {
-            player.setVelY(-10);
+            player.setVelY(-3);
+            player.north(true);
         }
         if(keyManager.isKeyDown(KeyEvent.VK_S))
         {
-            player.setVelY(10);
+            player.setVelY(3);
+            player.south(true);
         }
         if(keyManager.isKeyDown(KeyEvent.VK_A))
         {
-            player.setVelX(-10);
+            player.setVelX(-3);
+            player.west(true);
         }
         if(keyManager.isKeyDown(KeyEvent.VK_D))
         {
-            player.setVelX(10);
+            player.setVelX(3);
+            player.east(true);
         }
 
         // Key Up
         if(keyManager.isKeyUp(KeyEvent.VK_W))
         {
             player.setVelY(0);
+            player.north(false);
         }
         if(keyManager.isKeyUp(KeyEvent.VK_S))
         {
             player.setVelY(0);
+            player.south(false);
         }
         if(keyManager.isKeyUp(KeyEvent.VK_A))
         {
             player.setVelX(0);
+            player.west(false);
         }
         if(keyManager.isKeyUp(KeyEvent.VK_D))
         {
             player.setVelX(0);
+            player.east(false);
         }
+
+        if(animationCounter % player.getAnimationSpeed() == 0)
+        {
+            player.animate();
+        }
+
         player.update();
     }
 }

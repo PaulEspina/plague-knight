@@ -16,7 +16,7 @@ public class Config {
     public static final int ZOMBIE_ASSET_WIDTH = 36;
     public static final int ZOMBIE_ASSET_HEIGHT = 48;
 
-    public static final String PLAYER_SPRITE_PATH = "/assets/sprites/player/playermovements.png";
+    public static final String PLAYER_SPRITE_PATH = "/assets/sprites/player/playermovements_2.png";
     public static final int PLAYER_SPRITE_WIDTH = 36;
     public static final int PLAYER_SPRITE_HEIGHT = 48;
 
@@ -34,4 +34,9 @@ public class Config {
     public static final int ITEMS_ASSET_WIDTH = 48;
     public static final int ITEMS_ASSET_HEIGHT = 48;
     public static final int TOTAL_ITEMS = 5;
+
+    public static final String VILLAGE_MAP_PATH = "/assets/sprites/world/crate/villagemap.png";
+    public static final int VILLAGE_MAP_WIDTH = 1392;
+    public static final int VILLAGE_MAP_HEIGHT = 1584;
+
 }
