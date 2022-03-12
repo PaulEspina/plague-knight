@@ -22,6 +22,7 @@ public class GameState extends State
     private final Game game;
     private final KeyManager keyManager;
     private GameSetting settings;
+    Random rand;
     double animationCounter = 0;
 
     private Player player;
@@ -38,19 +39,19 @@ public class GameState extends State
         this.game = game;
         keyManager = game.getKeyManager();
         mouseManager = game.getMouseManager();
+        rand = new Random();
 
         settings = new GameSetting();
 
         //character position and size
         player = new Player(new Vector2f((float) Config.SCREEN_WIDTH / 2, (float) Config.SCREEN_HEIGHT / 2),
-                            new Vector2f(Config.PLAYER_SPRITE_WIDTH, Config.PLAYER_SPRITE_HEIGHT));
+                            new Vector2f(Config.PLAYER_SPRITE_WIDTH * settings.zoom, Config.PLAYER_SPRITE_HEIGHT * settings.zoom));
 
-        Random rand = new Random();
         zombies = new Vector<>();
         for(int i = 0; i < settings.zombiePerSpawn; i++)
         {
             zombies.add(new Zombie(new Vector2f(rand.nextInt(Config.SCREEN_WIDTH), rand.nextInt(Config.SCREEN_HEIGHT)),
-                                   new Vector2f(Config.ZOMBIE_ASSET_WIDTH, Config.ZOMBIE_ASSET_HEIGHT)));
+                                   new Vector2f(Config.ZOMBIE_ASSET_WIDTH * settings.zoom, Config.ZOMBIE_ASSET_HEIGHT * settings.zoom)));
         }
 
         crates = new Vector<>();
@@ -110,6 +111,29 @@ public class GameState extends State
 
     private void zombiesTick()
     {
+        if(animationCounter % settings.zombieSpawnTimer == 0)
+        {
+            for(int i = 0; i < settings.zombiePerSpawn; i++)
+            {
+                int xSign = rand.nextBoolean() ? 1 : -1;
+                Integer x = null;
+                while(x == null || (x >= 0 && x <= Config.SCREEN_WIDTH))
+                {
+                    x = rand.nextInt(Config.SCREEN_WIDTH + 100) * xSign;
+                }
+                int ySign = rand.nextBoolean() ? 1 : -1;
+                Integer y = null;
+                while(y == null || (y >= 0 && y <= Config.SCREEN_HEIGHT))
+                {
+                    y = rand.nextInt(Config.SCREEN_WIDTH + 100) * ySign;
+                }
+
+                zombies.add(new Zombie(new Vector2f(x, y),
+                                       new Vector2f(Config.ZOMBIE_ASSET_WIDTH * settings.zoom, Config.ZOMBIE_ASSET_HEIGHT * settings.zoom)));
+            }
+        }
+        System.out.println(animationCounter);
+
         for(int i = 0; i < zombies.size(); i++)
         {
             zombies.get(i).follow(player.getPos());
