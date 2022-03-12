@@ -22,7 +22,7 @@ public class Button{
     private BufferedImage currentScreen;
 
     private BufferedImage menuButtonImage;
-    private BufferedImage[] buttons;
+    private BufferedImage[] buttons = new BufferedImage[4];
     private BufferedImage currentImage;
 
     public Button(Game game, Point pos, Point size, int buttonAsset, String buttonName){
@@ -31,12 +31,10 @@ public class Button{
         this.size = size;
         this.buttonName = buttonName;
 
-        buttons = new BufferedImage[4];
         menuButtonImage = AssetManager.getInstance().getMenuButtonImage();
-        buttons[0] = menuButtonImage.getSubimage(0, buttonAsset, Config.BUTTON_ASSET_WIDTH, Config.BUTTON_ASSET_HEIGHT);
-        buttons[1] = menuButtonImage.getSubimage(Config.BUTTON_ASSET_WIDTH, buttonAsset, Config.BUTTON_ASSET_WIDTH, Config.BUTTON_ASSET_HEIGHT);
-        buttons[2] = menuButtonImage.getSubimage(Config.BUTTON_ASSET_WIDTH * 2, buttonAsset, Config.BUTTON_ASSET_WIDTH, Config.BUTTON_ASSET_HEIGHT);
-        buttons[3] = menuButtonImage.getSubimage(Config.BUTTON_ASSET_WIDTH * 3, buttonAsset, Config.BUTTON_ASSET_WIDTH, Config.BUTTON_ASSET_HEIGHT);
+        for(int i = 0; i < 4; i++){
+            buttons[i] = menuButtonImage.getSubimage(i * Config.BUTTON_ASSET_WIDTH, buttonAsset, Config.BUTTON_ASSET_WIDTH, Config.BUTTON_ASSET_HEIGHT);
+        }
     }
 
     public String getButtonName(){

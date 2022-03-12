@@ -39,9 +39,8 @@ public class MenuState extends State
         startButton = new Button(game, new Point(435, 385), new Point(85, 50), 176, "start");
         cancelButton = new Button(game, new Point(548, 385), new Point(85, 50), 352, "cancel");
 
-        dottedBG = new Screen(game, new Point(169, 69), new Point(463, 222), "dot");
-        defaultBG = new Screen(game, new Point(169, 69), new Point(463, 222), "default");
-
+        dottedBG = new Screen(game, new Point(169, 69), new Point(463, 222), Config.DOTTED_BACKGROUND_ASSET_PATH, "dot");
+        defaultBG = new Screen(game, new Point(169, 69), new Point(463, 222), Config.MENU_BACKGROUND_ASSET_PATH, "default");
     }
     private double flickerAnimation = 0;
     private double brokenSurvivalAnimation = 0;
@@ -54,9 +53,6 @@ public class MenuState extends State
     private boolean storyIsPressed = false;
 
 //    For broken screen delay
-    private boolean survivalIsClicked = false;
-    private boolean storyIsClicked = false;
-
     private boolean survivalNext = false;
     private boolean storyNext = false;
 
@@ -70,15 +66,16 @@ public class MenuState extends State
 
         dottedBG.getCurrentScreen();
         defaultBG.getCurrentScreen();
-
+        startButton.disabledImage();
+        cancelButton.disabledImage();
 
         flickerAnimation++;
         if(flickerAnimation % Config.FLICKER_ANIMATION_DELAY == 0){
-            random = rand.nextInt(100);
+            random = rand.nextInt(2);
             flickerAnimation = 0;
         }
 
-//        BROKEN SCREEN ANIMATION
+//      NEXT STATE
         if(survivalIsPressed){
             brokenSurvivalAnimation++;
             if(brokenSurvivalAnimation % Config.BROKEN_SURVIVAL_ANIMATION_DELAY == 0){
@@ -95,10 +92,6 @@ public class MenuState extends State
             }
         }
 
-
-        startButton.disabledImage();
-        cancelButton.disabledImage();
-
         if(survivalButton.isInside(x, y)){
             survivalButton.hoveredImage();
             //If button clicked
@@ -106,7 +99,6 @@ public class MenuState extends State
 
                 //Animate button
                 survivalButton.clickedImage();
-                survivalIsClicked = true;
                 survivalIsPressed = true;
             }
         }
@@ -120,7 +112,6 @@ public class MenuState extends State
             if(game.getMouseManager().getMouseButtonState(MouseEvent.BUTTON1)) {
                 //Animate button
                 storyButton.clickedImage();
-                storyIsClicked = true;
                 storyIsPressed = true;
             }
         }
@@ -158,18 +149,6 @@ public class MenuState extends State
         else{
             defaultBG.draw(g);
         }
-
-
-//        Broken survival BG
-        if(survivalIsClicked){
-            g.drawImage(AssetManager.getInstance().getSurvivalBrokenBGImage(), 0, 0, Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT, null);
-        }
-
-//        Broken story BG
-        if(storyIsClicked){
-            g.drawImage(AssetManager.getInstance().getStoryBrokenBGImage(), 0, 0, Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT, null);
-        }
-
 
 //        Next state
         if(survivalNext){
