@@ -44,9 +44,6 @@ public class GameState extends State
         settings = new GameSetting();
 
         //character position and size
-        player = new Player(new Vector2f((float) Config.SCREEN_WIDTH / 2, (float) Config.SCREEN_HEIGHT / 2),
-                new Vector2f(Config.PLAYER_SPRITE_WIDTH, Config.PLAYER_SPRITE_HEIGHT));
-
         map = new Map (new Vector2f((float) 10, (float) 10),
                        new Vector2f(Config.SCREEN_WIDTH - 20, Config.SCREEN_HEIGHT - 20));
 
@@ -58,6 +55,9 @@ public class GameState extends State
                     new Vector2f(Config.ZOMBIE_ASSET_WIDTH, Config.ZOMBIE_ASSET_HEIGHT)));
         }
 
+        player = new Player(new Vector2f((float) Config.SCREEN_WIDTH / 2, (float) Config.SCREEN_HEIGHT / 2),
+                new Vector2f(Config.PLAYER_SPRITE_WIDTH, Config.PLAYER_SPRITE_HEIGHT));
+
         crates = new Vector<>();
         crates.add(new Crate(new Vector2f(300, 100), new Vector2f((float) Config.CRATE_ASSET_WIDTH / 2, (float) Config.CRATE_ASSET_HEIGHT / 2)));
 
@@ -68,15 +68,16 @@ public class GameState extends State
     public void tick()
     {
         animationCounter++;
+        playerTick();
         cratesTick();
         itemsTick();
         zombiesTick();
-        playerTick();
     }
 
     @Override
     public void render(Graphics g)
     {
+        player.draw(g);
         for(int i = 0; i < crates.size(); i++)
         {
             crates.get(i).draw(g);
@@ -91,7 +92,6 @@ public class GameState extends State
         {
             zombies.get(i).draw(g);
         }
-        player.draw(g);
         map.draw(g);
     }
 
@@ -129,42 +129,25 @@ public class GameState extends State
 
     private void playerTick()
     {
-
         if(keyManager.isKeyDown(KeyEvent.VK_W))
         {
-            player.setVelY(-10);
+            player.setVelY(-3);
             player.north(true);
-            if(animationCounter % player.getAnimationSpeed() == 0)
-            {
-                player.animate();
-            }
         }
         if(keyManager.isKeyDown(KeyEvent.VK_S))
         {
-            player.setVelY(10);
+            player.setVelY(3);
             player.south(true);
-            if(animationCounter % player.getAnimationSpeed() == 0)
-            {
-                player.animate();
-            }
         }
         if(keyManager.isKeyDown(KeyEvent.VK_A))
         {
-            player.setVelX(-10);
+            player.setVelX(-3);
             player.west(true);
-            if(animationCounter % player.getAnimationSpeed() == 0)
-            {
-                player.animate();
-            }
         }
         if(keyManager.isKeyDown(KeyEvent.VK_D))
         {
-            player.setVelX(10);
+            player.setVelX(3);
             player.east(true);
-            if(animationCounter % player.getAnimationSpeed() == 0)
-            {
-                player.animate();
-            }
         }
 
         // Key Up
@@ -188,6 +171,12 @@ public class GameState extends State
             player.setVelX(0);
             player.east(false);
         }
+
+        if(animationCounter % player.getAnimationSpeed() == 0)
+        {
+            player.animate();
+        }
+
         player.update();
     }
 }

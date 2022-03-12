@@ -7,6 +7,7 @@ import java.awt.image.BufferedImage;
 
 public class AssetManager
 {
+    private BufferedImage player;
     private BufferedImage zombie;
     private BufferedImage crate;
     private BufferedImage item;
@@ -30,6 +31,7 @@ public class AssetManager
     {
         try
         {
+            player = ImageLoader.loadImage(Config.PLAYER_SPRITE_PATH);
             zombie = ImageLoader.loadImage(Config.ZOMBIE_ASSET_PATH);
             crate = ImageLoader.loadImage(Config.CRATE_ASSET_PATH);
 //            item = ImageLoader.loadImage(Config.ITEMS_ASSET_PATH);
@@ -42,6 +44,7 @@ public class AssetManager
         return true;
     }
 
+    public BufferedImage getPlayer(){ return player; }
     public BufferedImage getZombie()
     {
         return zombie;

@@ -3,6 +3,7 @@ package main.entity.player;
 import main.Config;
 import main.Drawable;
 import main.Vector2f;
+import main.gfx.AssetManager;
 import main.gfx.ImageLoader;
 import main.input.KeyManager;
 
@@ -21,40 +22,31 @@ public class Player extends Character implements Drawable{
 
     public Player()
     {
-        type = "normal";
-        direction = "south";
         sprite = null;
         images = new BufferedImage[3];
         animationIndex = 0;
-        animationSpeed = 5;
+        animationSpeed = 20;
     }
 
     public Player(Vector2f pos, Vector2f size)
     {
-        this(pos, size, "normal", 1);
+        this(pos, size, "normal");
         images = new BufferedImage[3];
     }
 
-    public Player(Vector2f pos, Vector2f size, String type, float movementSpeed)
+    public Player(Vector2f pos, Vector2f size, String type)
     {
         this();
         this.pos = pos;
         this.size = size;
-        this.type = type;
-        this.movementSpeed = (int)movementSpeed;
-        vel = new Vector2f(0 * movementSpeed, 0 * movementSpeed);
-        sprite = ImageLoader.loadImage(Config.PLAYER_SPRITE_PATH);
-        sprite = sprite.getSubimage(0, (int) size.getY() * 0, (int) size.getX() * 12, (int) size.getY());
-        images[0] = sprite.getSubimage((int) (size.getX() * 2),
+        this.type = type;;
+        vel = new Vector2f(0, 0);
+        sprite = AssetManager.getInstance().getPlayer();
+        sprite = sprite.getSubimage(0, Config.PLAYER_SPRITE_HEIGHT * 0, Config.PLAYER_SPRITE_WIDTH * 12, (int) size.getY());
+        images[0] = sprite.getSubimage(0,
                 0,
-                (int) size.getX(),
-                (int) size.getY());
-    }
-
-    public void accelerate(double speed)
-    {
-//        velX *= speed;
-//        velY *= speed;
+                Config.PLAYER_SPRITE_WIDTH,
+                Config.PLAYER_SPRITE_HEIGHT);
     }
 
     public int clamp(int var, int min, int max)
@@ -80,58 +72,65 @@ public class Player extends Character implements Drawable{
 
     public void charMovement()
     {
-        //default face
-        images[0] = sprite.getSubimage(0, 0, (int) size.getX(), (int) size.getY());
         if(north)
         {
-            images[0] = sprite.getSubimage((int) size.getX() * 9,
+            images[0] = sprite.getSubimage(Config.PLAYER_SPRITE_WIDTH * 9,
                     0,
-                    (int) size.getX(),
-                    (int) size.getY());
-            images[1] = sprite.getSubimage((int) size.getX() * 10,
+                    Config.PLAYER_SPRITE_WIDTH,
+                    Config.PLAYER_SPRITE_HEIGHT);
+            images[1] = sprite.getSubimage(Config.PLAYER_SPRITE_WIDTH * 10,
                     0,
-                    (int) size.getX(),
-                    (int) size.getY());
-            images[2] = sprite.getSubimage((int) (size.getX() * 11),
+                    Config.PLAYER_SPRITE_WIDTH,
+                    Config.PLAYER_SPRITE_HEIGHT);
+            images[2] = sprite.getSubimage(Config.PLAYER_SPRITE_WIDTH * 11,
                     0,
-                    (int) size.getX(),
-                    (int) size.getY());
+                    Config.PLAYER_SPRITE_WIDTH,
+                    Config.PLAYER_SPRITE_HEIGHT);
         }
         if(south)
         {
-            images[0] = sprite.getSubimage(0, 0, (int) size.getX(), (int) size.getY());
-            images[1] = sprite.getSubimage((int) size.getX(),
+            images[0] = sprite.getSubimage(0,
                     0,
-                    (int) size.getX(),
-                    (int) size.getY());
-            images[2] = sprite.getSubimage((int) (size.getX() * 2),
+                    Config.PLAYER_SPRITE_WIDTH,
+                    Config.PLAYER_SPRITE_HEIGHT);
+            images[1] = sprite.getSubimage(Config.PLAYER_SPRITE_WIDTH,
                     0,
-                    (int) size.getX(),
-                    (int) size.getY());
+                    Config.PLAYER_SPRITE_WIDTH,
+                    Config.PLAYER_SPRITE_HEIGHT);
+            images[2] = sprite.getSubimage(Config.PLAYER_SPRITE_WIDTH * 2,
+                    0,
+                    Config.PLAYER_SPRITE_WIDTH,
+                    Config.PLAYER_SPRITE_HEIGHT);
         }
         if(east)
         {
-            images[0] = sprite.getSubimage((int) size.getX() * 6, 0, (int) size.getX(), (int) size.getY());
-            images[1] = sprite.getSubimage((int) size.getX() * 7,
+            images[0] = sprite.getSubimage(Config.PLAYER_SPRITE_WIDTH * 6,
                     0,
-                    (int) size.getX(),
-                    (int) size.getY());
-            images[2] = sprite.getSubimage((int) (size.getX() * 8),
+                    Config.PLAYER_SPRITE_WIDTH,
+                    Config.PLAYER_SPRITE_HEIGHT);
+            images[1] = sprite.getSubimage(Config.PLAYER_SPRITE_WIDTH * 7,
                     0,
-                    (int) size.getX(),
-                    (int) size.getY());
+                    Config.PLAYER_SPRITE_WIDTH,
+                    Config.PLAYER_SPRITE_HEIGHT);
+            images[2] = sprite.getSubimage(Config.PLAYER_SPRITE_WIDTH * 8,
+                    0,
+                    Config.PLAYER_SPRITE_WIDTH,
+                    Config.PLAYER_SPRITE_HEIGHT);
         }
         if(west)
         {
-            images[0] = sprite.getSubimage((int) size.getX() * 3, 0, (int) size.getX(), (int) size.getY());
-            images[1] = sprite.getSubimage((int) size.getX() * 4,
+            images[0] = sprite.getSubimage(Config.PLAYER_SPRITE_WIDTH * 3,
                     0,
-                    (int) size.getX(),
-                    (int) size.getY());
-            images[2] = sprite.getSubimage((int) (size.getX() * 5),
+                    Config.PLAYER_SPRITE_WIDTH,
+                    Config.PLAYER_SPRITE_HEIGHT);
+            images[1] = sprite.getSubimage(Config.PLAYER_SPRITE_WIDTH * 4,
                     0,
-                    (int) size.getX(),
-                    (int) size.getY());
+                    Config.PLAYER_SPRITE_WIDTH,
+                    Config.PLAYER_SPRITE_HEIGHT);
+            images[2] = sprite.getSubimage(Config.PLAYER_SPRITE_WIDTH * 5,
+                    0,
+                    Config.PLAYER_SPRITE_WIDTH,
+                    Config.PLAYER_SPRITE_HEIGHT);
         }
     }
 
@@ -147,8 +146,8 @@ public class Player extends Character implements Drawable{
     @Override
     public void draw(Graphics g)
     {
-        g.drawRect((int) pos.getX(), (int) pos.getY(), (int) size.getX(), (int) size.getY());
-        g.drawImage(images[animationIndex], (int) pos.getX(), (int) pos.getY(), null);
+        g.drawImage(images[animationIndex], (int) pos.getX() , (int) pos.getY(), null);
+        //g.drawRect((int) pos.getX(), (int) pos.getY(), (int) size.getX(), (int) size.getY());
     }
 
 
