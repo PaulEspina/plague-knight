@@ -2,6 +2,7 @@ package main.button;
 
 import main.Config;
 import main.Game;
+import main.gfx.AssetManager;
 import main.gfx.ImageLoader;
 
 import java.awt.*;
@@ -16,22 +17,26 @@ public class Button{
     private Point imagePos;
     private Point imageSize;
     private String buttonName;
-    private BufferedImage picture;
+
+    private BufferedImage screen;
+    private BufferedImage currentScreen;
+
     private BufferedImage menuButtonImage;
-    private BufferedImage unhoveredImage;
-    private BufferedImage hoveredImage;
-    private BufferedImage clickedImage;
+    private BufferedImage[] buttons;
     private BufferedImage currentImage;
 
+    public Button(Game game, Point pos, Point size, int buttonAsset, String buttonName){
+        this.game = game;
+        this.pos = pos;
+        this.size = size;
+        this.buttonName = buttonName;
 
-    public BufferedImage getUnhoveredImage() {
-        return unhoveredImage;
-    }
-    public BufferedImage getHoveredImage() {
-        return hoveredImage;
-    }
-    public BufferedImage getClickedImage() {
-        return clickedImage;
+        buttons = new BufferedImage[4];
+        menuButtonImage = AssetManager.getInstance().getMenuButtonImage();
+        buttons[0] = menuButtonImage.getSubimage(0, buttonAsset, Config.BUTTON_ASSET_WIDTH, Config.BUTTON_ASSET_HEIGHT);
+        buttons[1] = menuButtonImage.getSubimage(Config.BUTTON_ASSET_WIDTH, buttonAsset, Config.BUTTON_ASSET_WIDTH, Config.BUTTON_ASSET_HEIGHT);
+        buttons[2] = menuButtonImage.getSubimage(Config.BUTTON_ASSET_WIDTH * 2, buttonAsset, Config.BUTTON_ASSET_WIDTH, Config.BUTTON_ASSET_HEIGHT);
+        buttons[3] = menuButtonImage.getSubimage(Config.BUTTON_ASSET_WIDTH * 3, buttonAsset, Config.BUTTON_ASSET_WIDTH, Config.BUTTON_ASSET_HEIGHT);
     }
 
     public String getButtonName(){
@@ -58,58 +63,20 @@ public class Button{
         this.size = size;
     }
 
-    public Button(Game game, Point pos, Point size, String buttonName){
-        this.game = game;
-        this.pos = pos;
-        this.size = size;
-        this.buttonName = buttonName;
-
-
-    }
-
-    //    This function is used to load menu buttons and cut the sprite sheet
-    public void loadTexture(Point imagePos, Point imageSize, String path){
-
-//        "/assets/menu/menubuttons/menubuttons.png"
-
-//        Get Sprite sheet
-        picture = ImageLoader.loadImage(path);
-
-//        Slice sprite through coordinates
-        unhoveredImage = picture.getSubimage((int) imagePos.getX(), (int) imagePos.getY(), (int) imageSize.getX(), (int) imageSize.getY());
-
-        hoveredImage = picture.getSubimage((int) imagePos.getX() + (1 * (int) (imageSize.getX())), (int) imagePos.getY(), (int) imageSize.getX(), (int) imageSize.getY());
-
-        clickedImage = picture.getSubimage((int) imagePos.getX() + (2 * (int) (imageSize.getX())), (int) imagePos.getY(), (int) imageSize.getX(), (int) imageSize.getY());
-    }
-
-//    Used for the screen in main menu
-    public void loadScreen(Point imagePos, Point imageSize, String path){
-
-//        "/assets/menu/menubuttons/menubuttons.png"
-
-//        Get Sprite sheet
-        picture = ImageLoader.loadImage(path);
-
-//        Slice sprite through coordinates
-        unhoveredImage = picture.getSubimage((int) imagePos.getX(), (int) imagePos.getY(), (int) imageSize.getX(), (int) imageSize.getY());
-
-    }
-
-    public void hoveredImage(){
-        currentImage = hoveredImage;
-    }
     public void unhoveredImage(){
-        currentImage = unhoveredImage;
-    }
-    public void clickedImage(){
-        currentImage = clickedImage;
+    currentImage =  buttons[0];
+}
+    public void hoveredImage(){
+        currentImage =  buttons[1];
     }
 
-    public void exitGameNotification(){
-        System.out.println("Quitting.....");
-        exit(0);
+    public void clickedImage(){
+        currentImage =  buttons[2];
     }
+    public void disabledImage() {
+        currentImage = buttons[3];
+    }
+
 
     public boolean isInside(float x, float y) {
 //        x <= image.width + image.x && x >= image.x

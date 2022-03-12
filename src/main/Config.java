@@ -7,7 +7,10 @@ public class Config {
     public static final String TITLE = "Plague Knight";
 
 
-    public static final String MENU_BUTTON_ASSET_PATH = "/assets/menu/menubuttons/menubuttonsv4.png";
+    public static final String MENU_BUTTON_ASSET_PATH = "/assets/menu/menubuttons/menubuttonsv5.png";
+    public static final int BUTTON_ASSET_WIDTH = 174;
+    public static final int BUTTON_ASSET_HEIGHT = 88;
+
     public static final String MENU_BACKGROUND_ASSET_PATH = "/assets/menu/menubackground/menubackgroundv2.png";
     public static final String DOTTED_BACKGROUND_ASSET_PATH = "/assets/menu/menubackground/menubackgroundv4.png";
     public static final String BROKEN_SURVIVAL_BACKGROUND_ASSET_PATH = "/assets/menu/menubackground/menubackgroundv7.png";

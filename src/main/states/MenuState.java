@@ -3,6 +3,7 @@ package main.states;
 import main.Config;
 import main.Game;
 import main.button.Button;
+import main.button.Screen;
 import main.gfx.AssetManager;
 import main.gfx.ImageLoader;
 
@@ -14,22 +15,16 @@ import java.util.Random;
 public class MenuState extends State
 {
     private Game game;
-//    private SurvivalMenuState survivalMenuState;
-//    Get the path from config.java
-    private String buttonPath;
-    private String backgroundPath;
-    private String dottedPath;
-
 //     Create Buttons
     private Button storyButton;
     private Button survivalButton;
     private Button exitButton;
-    private Button disableStartButton;
-    private Button disableCancelButton;
+    private Button startButton;
+    private Button cancelButton;
 
 //    For Blinking Lights
-    private Button defaultBG;
-    private Button dottedBG;
+    private Screen defaultBG;
+    private Screen dottedBG;
 
     // TODO Auto-generated method stub
 
@@ -37,30 +32,15 @@ public class MenuState extends State
     public MenuState(Game game)
     {
         this.game = game;
-        buttonPath = Config.MENU_BUTTON_ASSET_PATH;
-        backgroundPath = Config.MENU_BACKGROUND_ASSET_PATH;
-        dottedPath = Config.DOTTED_BACKGROUND_ASSET_PATH;
-
-
 //        Coordinate in Frame
-        survivalButton = new Button(game, new Point(364, 465), new Point(85, 50), "survival");
-        storyButton = new Button(game, new Point(480, 465), new Point(85, 50), "story");
-        exitButton = new Button(game, new Point(606, 465), new Point(85, 50), "exit");
-        disableStartButton = new Button(game, new Point(435, 385), new Point(85, 50), "start");
-        disableCancelButton = new Button(game, new Point(548, 385), new Point(85, 50), "cancel");
-        dottedBG = new Button(game, new Point(169, 69), new Point(463, 222), "dot");
-        defaultBG = new Button(game, new Point(169, 69), new Point(463, 222), "default");
+        survivalButton = new Button(game, new Point(364, 465), new Point(85, 50), 0, "survival");
+        storyButton = new Button(game, new Point(480, 465), new Point(85, 50), 88, "story");
+        exitButton = new Button(game, new Point(606, 465), new Point(85, 50), 264, "exit");
+        startButton = new Button(game, new Point(435, 385), new Point(85, 50), 176, "start");
+        cancelButton = new Button(game, new Point(548, 385), new Point(85, 50), 352, "cancel");
 
-
-//        Coordinate in Photos
-        survivalButton.loadTexture(new Point(0, 0), new Point(173, 87), buttonPath);
-        storyButton.loadTexture(new Point(522, 0), new Point(173, 87), buttonPath);
-        exitButton.loadTexture(new Point(1044, 0), new Point(173, 87), buttonPath);
-        disableStartButton.loadTexture(new Point(522, 264), new Point(173, 87), buttonPath);
-        disableCancelButton.loadTexture(new Point(348, 264), new Point(173, 87), buttonPath);
-
-        dottedBG.loadScreen(new Point(151, 55), new Point(419, 178), dottedPath);
-        defaultBG.loadScreen(new Point(151, 55), new Point(419, 178), backgroundPath);
+        dottedBG = new Screen(game, new Point(169, 69), new Point(463, 222), "dot");
+        defaultBG = new Screen(game, new Point(169, 69), new Point(463, 222), "default");
 
     }
     private double flickerAnimation = 0;
@@ -88,8 +68,8 @@ public class MenuState extends State
         int x = game.getMouseManager().getMouseX();
         int y = game.getMouseManager().getMouseY();
 
-        dottedBG.unhoveredImage();
-        defaultBG.unhoveredImage();
+        dottedBG.getCurrentScreen();
+        defaultBG.getCurrentScreen();
 
 
         flickerAnimation++;
@@ -116,8 +96,8 @@ public class MenuState extends State
         }
 
 
-        disableStartButton.unhoveredImage();
-        disableCancelButton.unhoveredImage();
+        startButton.disabledImage();
+        cancelButton.disabledImage();
 
         if(survivalButton.isInside(x, y)){
             survivalButton.hoveredImage();
@@ -168,8 +148,8 @@ public class MenuState extends State
         survivalButton.draw(g);
         storyButton.draw(g);
         exitButton.draw(g);
-        disableStartButton.draw(g);
-        disableCancelButton.draw(g);
+        startButton.draw(g);
+        cancelButton.draw(g);
 
 //      Animation in main menu
         if(random % 2 == 0){
@@ -200,21 +180,4 @@ public class MenuState extends State
             setState(new StoryMenuState(game));
         }
     }
-
-
-
-//    public void delay(Graphics g, double delta){
-//
-//        deltaCounter += delta;
-//        if(deltaCounter >= maxFrame){
-//            blink(g);
-//        }
-//
-//    }
-
-
-//    public void blink(Graphics g){
-//        g.drawImage(brokenImage, 0, 0, Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT, null);
-//    }
-
 }
