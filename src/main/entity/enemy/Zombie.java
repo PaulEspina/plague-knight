@@ -127,9 +127,24 @@ public class Zombie extends Enemy
         switch(direction)
         {
             case "north":
+//<<<<<<< Updated upstream
                 images[0] = sprite.getSubimage((int) size.getX() * 9, 0, (int) size.getX(), (int) size.getY());
                 images[1] = sprite.getSubimage((int) size.getX() * 10, 0, (int) size.getX(), (int) size.getY());
                 images[2] = sprite.getSubimage((int) size.getX() * 11, 0, (int) size.getX(), (int) size.getY());
+//=======
+                images[0] = sprite.getSubimage((int) size.getX() * 9,
+                                               0,
+                                               (int) size.getX(),
+                                               (int) size.getY());
+                images[1] = sprite.getSubimage((int) size.getX() * 10,
+                                               0,
+                                               (int) size.getX(),
+                                               (int) size.getY());
+                images[2] = sprite.getSubimage((int) (size.getX() * 11),
+                                               0,
+                                               (int) size.getX(),
+                                               (int) size.getY());
+//>>>>>>> Stashed changes
                 break;
             case "south":
                 images[0] = sprite.getSubimage(0, 0, (int) size.getX(), (int) size.getY());
@@ -157,10 +172,15 @@ public class Zombie extends Enemy
     @Override
     public void draw(Graphics g)
     {
+//<<<<<<< Updated upstream
         g.drawImage(images[animationIndex], (int) pos.getX() - (int) size.getX() / 2,
                                             (int) pos.getY() - (int) size.getY() / 2,
                                                (int) size.getX(),
                                                (int) size.getY(),
                                       null);
+//=======
+        //g.drawRect((int) pos.getX(), (int) pos.getY(), (int) size.getX(), (int) size.getY());
+        g.drawImage(images[animationIndex], (int) pos.getX(), (int) pos.getY(), null);
+//>>>>>>> Stashed changes
     }
 }

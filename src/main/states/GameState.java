@@ -6,9 +6,10 @@ import main.entity.Crate;
 import main.entity.Item;
 import main.Vector2f;
 import main.entity.enemy.Zombie;
+import main.entity.map.Map;
 import main.input.KeyManager;
 import main.input.MouseManager;
-import main.entity.Player;
+import main.entity.player.Player;
 import java.awt.event.MouseEvent;
 
 import java.awt.*;
@@ -25,6 +26,7 @@ public class GameState extends State
     double animationCounter = 0;
 
     private Player player;
+    private Map map;
 
     private Vector<Zombie> zombies;
     private final MouseManager mouseManager;
@@ -43,14 +45,17 @@ public class GameState extends State
 
         //character position and size
         player = new Player(new Vector2f((float) Config.SCREEN_WIDTH / 2, (float) Config.SCREEN_HEIGHT / 2),
-                            new Vector2f(Config.PLAYER_SPRITE_WIDTH, Config.PLAYER_SPRITE_HEIGHT));
+                new Vector2f(Config.PLAYER_SPRITE_WIDTH, Config.PLAYER_SPRITE_HEIGHT));
+
+        map = new Map (new Vector2f((float) 10, (float) 10),
+                       new Vector2f(Config.SCREEN_WIDTH - 20, Config.SCREEN_HEIGHT - 20));
 
         Random rand = new Random();
         zombies = new Vector<>();
         for(int i = 0; i < settings.zombiePerSpawn; i++)
         {
             zombies.add(new Zombie(new Vector2f(rand.nextInt(Config.SCREEN_WIDTH), rand.nextInt(Config.SCREEN_HEIGHT)),
-                                   new Vector2f(Config.ZOMBIE_ASSET_WIDTH, Config.ZOMBIE_ASSET_HEIGHT)));
+                    new Vector2f(Config.ZOMBIE_ASSET_WIDTH, Config.ZOMBIE_ASSET_HEIGHT)));
         }
 
         crates = new Vector<>();
@@ -87,6 +92,7 @@ public class GameState extends State
             zombies.get(i).draw(g);
         }
         player.draw(g);
+        map.draw(g);
     }
 
     private void cratesTick()
@@ -123,40 +129,64 @@ public class GameState extends State
 
     private void playerTick()
     {
-        // Key Down
+
         if(keyManager.isKeyDown(KeyEvent.VK_W))
         {
             player.setVelY(-10);
+            player.north(true);
+            if(animationCounter % player.getAnimationSpeed() == 0)
+            {
+                player.animate();
+            }
         }
         if(keyManager.isKeyDown(KeyEvent.VK_S))
         {
             player.setVelY(10);
+            player.south(true);
+            if(animationCounter % player.getAnimationSpeed() == 0)
+            {
+                player.animate();
+            }
         }
         if(keyManager.isKeyDown(KeyEvent.VK_A))
         {
             player.setVelX(-10);
+            player.west(true);
+            if(animationCounter % player.getAnimationSpeed() == 0)
+            {
+                player.animate();
+            }
         }
         if(keyManager.isKeyDown(KeyEvent.VK_D))
         {
             player.setVelX(10);
+            player.east(true);
+            if(animationCounter % player.getAnimationSpeed() == 0)
+            {
+                player.animate();
+            }
         }
 
         // Key Up
         if(keyManager.isKeyUp(KeyEvent.VK_W))
         {
             player.setVelY(0);
+            player.north(false);
         }
         if(keyManager.isKeyUp(KeyEvent.VK_S))
         {
             player.setVelY(0);
+            player.south(false);
         }
         if(keyManager.isKeyUp(KeyEvent.VK_A))
         {
             player.setVelX(0);
+            player.west(false);
         }
         if(keyManager.isKeyUp(KeyEvent.VK_D))
         {
             player.setVelX(0);
+            player.east(false);
         }
         player.update();
     }

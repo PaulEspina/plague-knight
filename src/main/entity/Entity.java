@@ -14,6 +14,7 @@ public abstract class Entity implements Drawable
     protected BufferedImage texture;
     protected int animationSpeed;
     protected int movementSpeed;
+    protected boolean north, south, east, west;
 
     float time;
     float maxTime = 5;
@@ -85,4 +86,43 @@ public abstract class Entity implements Drawable
 //        this.update(delta);
 //    }
 
+    public void north(boolean north)
+    {
+        this.north = north;
+    }
+
+    public boolean north()
+    {
+        return north;
+    }
+
+    public void south(boolean south)
+    {
+        this.south = south;
+    }
+
+    public boolean south()
+    {
+        return south;
+    }
+
+    public void east(boolean east)
+    {
+        this.east = east;
+    }
+
+    public boolean east()
+    {
+        return east;
+    }
+
+    public void west(boolean west)
+    {
+        this.west = west;
+    }
+
+    public boolean west()
+    {
+        return west;
+    }
 }
