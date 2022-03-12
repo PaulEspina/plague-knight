@@ -39,9 +39,8 @@ public class MenuState extends State
         startButton = new Button(game, new Point(435, 385), new Point(85, 50), 176, "start");
         cancelButton = new Button(game, new Point(548, 385), new Point(85, 50), 352, "cancel");
 
-        dottedBG = new Screen(game, new Point(169, 69), new Point(463, 222), "dot");
-        defaultBG = new Screen(game, new Point(169, 69), new Point(463, 222), "default");
-
+        dottedBG = new Screen(game, new Point(169, 69), new Point(463, 222), Config.DOTTED_BACKGROUND_ASSET_PATH, "dot");
+        defaultBG = new Screen(game, new Point(169, 69), new Point(463, 222), Config.MENU_BACKGROUND_ASSET_PATH, "default");
     }
     private double flickerAnimation = 0;
     private double brokenSurvivalAnimation = 0;
@@ -71,10 +70,9 @@ public class MenuState extends State
         dottedBG.getCurrentScreen();
         defaultBG.getCurrentScreen();
 
-
         flickerAnimation++;
         if(flickerAnimation % Config.FLICKER_ANIMATION_DELAY == 0){
-            random = rand.nextInt(100);
+            random = rand.nextInt(2);
             flickerAnimation = 0;
         }
 
@@ -106,7 +104,7 @@ public class MenuState extends State
 
                 //Animate button
                 survivalButton.clickedImage();
-                survivalIsClicked = true;
+
                 survivalIsPressed = true;
             }
         }
@@ -159,11 +157,6 @@ public class MenuState extends State
             defaultBG.draw(g);
         }
 
-
-//        Broken survival BG
-        if(survivalIsClicked){
-            g.drawImage(AssetManager.getInstance().getSurvivalBrokenBGImage(), 0, 0, Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT, null);
-        }
 
 //        Broken story BG
         if(storyIsClicked){

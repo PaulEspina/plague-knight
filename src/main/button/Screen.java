@@ -17,21 +17,25 @@ public class Screen {
     private String screenName;
     private BufferedImage screen;
     private BufferedImage currentScreen;
-    public Screen(Game game, Point pos, Point size, String screenName){
+    public Screen(Game game, Point pos, Point size, String path,String screenName){
         this.game = game;
         this.pos = pos;
         this.size = size;
         this.screenName = screenName;
+
+        screen = ImageLoader.loadImage(path);
+        currentScreen = screen.getSubimage(Config.MENU_SCREEN_X, Config.MENU_SCREEN_Y,
+                Config.MENU_SCREEN_WIDTH, Config.MENU_SCREEN_HEIGHT);
+
     }
     public void loadScreen(Point imagePos, Point imageSize, String path){
 
 //        "/assets/menu/menubuttons/menubuttons.png"
 
 //        Get Sprite sheet
-        screen = ImageLoader.loadImage(path);
+
 
 //        Slice sprite through coordinates
-        currentScreen = screen.getSubimage((int) imagePos.getX(), (int) imagePos.getY(), (int) imageSize.getX(), (int) imageSize.getY());
     }
 
     public Point getPos() {

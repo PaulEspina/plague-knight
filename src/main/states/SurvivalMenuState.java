@@ -33,22 +33,24 @@ public class SurvivalMenuState extends State{
 
     }
 
-    private double cancelDelay = 0;
+    private double startDelay = 0;
     private Boolean cancelClicked = false;
     private Boolean startClicked = false;
+    private Boolean survivalIsClicked = false;
 
     @Override
     public void tick() {
         int x = game.getMouseManager().getMouseX();
         int y = game.getMouseManager().getMouseY();
 
-        survivalButton.disabledImage();
+        survivalButton.clickedImage();
         storyButton.disabledImage();
         exitButton.disabledImage();
 
-        cancelDelay++;
-        if(cancelDelay % Config.CANCEL_ANIMATION_DELAY == 0){
-            cancelDelay = Config.CANCEL_ANIMATION_DELAY;
+        startDelay++;
+        if(startDelay % Config.CANCEL_ANIMATION_DELAY == 0){
+            startClicked = true;
+            startDelay = Config.CANCEL_ANIMATION_DELAY;
         }
 
         if(startButton.isInside(x, y)){
@@ -57,8 +59,7 @@ public class SurvivalMenuState extends State{
             if(game.getMouseManager().getMouseButtonState(MouseEvent.BUTTON1)) {
                 //Animate button
                 startButton.clickedImage();
-
-                startClicked = true;
+                survivalIsClicked = true;
             }
         }
         else{
@@ -92,9 +93,16 @@ public class SurvivalMenuState extends State{
             setState(new MenuState(game));
         }
 
-        if(startClicked){
-            setState(new GameState(game));
+
+
+        //        Broken survival BG
+        if(survivalIsClicked){
+            g.drawImage(AssetManager.getInstance().getSurvivalBrokenBGImage(), 0, 0, Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT, null);
+            if(startClicked){
+                setState(new GameState(game));
+            }
         }
+
     }
 
 }
