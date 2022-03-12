@@ -32,9 +32,10 @@ public class StoryMenuState extends State{
 
     }
 
-    private double cancelDelay = 0;
+    private double startDelay = 0;
     private Boolean cancelClicked = false;
     private Boolean startClicked = false;
+    private Boolean storyIsClicked = false;
 
     @Override
     public void tick() {
@@ -45,9 +46,10 @@ public class StoryMenuState extends State{
         storyButton.clickedImage();
         exitButton.disabledImage();
 
-        cancelDelay++;
-        if(cancelDelay % Config.CANCEL_ANIMATION_DELAY == 0){
-            cancelDelay = Config.CANCEL_ANIMATION_DELAY;
+        startDelay++;
+        if(startDelay % Config.START_STORY_ANIMATION_DELAY == 0){
+            startClicked = true;
+            startDelay = Config.START_STORY_ANIMATION_DELAY;
         }
 
         if(startButton.isInside(x, y)){
@@ -56,6 +58,7 @@ public class StoryMenuState extends State{
             if(game.getMouseManager().getMouseButtonState(MouseEvent.BUTTON1)) {
                 //Animate button
                 startButton.clickedImage();
+                storyIsClicked = true;
             }
         }
         else{
@@ -88,8 +91,11 @@ public class StoryMenuState extends State{
         if(cancelClicked){
             setState(new MenuState(game));
         }
-        if(startClicked){
-            setState(new GameState(game));
+        if(storyIsClicked){
+            g.drawImage(AssetManager.getInstance().getStoryBrokenBGImage(), 0, 0, Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT, null);
+            if(startClicked){
+                setState(new MenuState(game));
+            }
         }
     }
 }

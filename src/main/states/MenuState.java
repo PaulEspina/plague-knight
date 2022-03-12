@@ -53,9 +53,6 @@ public class MenuState extends State
     private boolean storyIsPressed = false;
 
 //    For broken screen delay
-    private boolean survivalIsClicked = false;
-    private boolean storyIsClicked = false;
-
     private boolean survivalNext = false;
     private boolean storyNext = false;
 
@@ -69,6 +66,8 @@ public class MenuState extends State
 
         dottedBG.getCurrentScreen();
         defaultBG.getCurrentScreen();
+        startButton.disabledImage();
+        cancelButton.disabledImage();
 
         flickerAnimation++;
         if(flickerAnimation % Config.FLICKER_ANIMATION_DELAY == 0){
@@ -76,7 +75,7 @@ public class MenuState extends State
             flickerAnimation = 0;
         }
 
-//        BROKEN SCREEN ANIMATION
+//      NEXT STATE
         if(survivalIsPressed){
             brokenSurvivalAnimation++;
             if(brokenSurvivalAnimation % Config.BROKEN_SURVIVAL_ANIMATION_DELAY == 0){
@@ -93,10 +92,6 @@ public class MenuState extends State
             }
         }
 
-
-        startButton.disabledImage();
-        cancelButton.disabledImage();
-
         if(survivalButton.isInside(x, y)){
             survivalButton.hoveredImage();
             //If button clicked
@@ -104,7 +99,6 @@ public class MenuState extends State
 
                 //Animate button
                 survivalButton.clickedImage();
-
                 survivalIsPressed = true;
             }
         }
@@ -118,7 +112,6 @@ public class MenuState extends State
             if(game.getMouseManager().getMouseButtonState(MouseEvent.BUTTON1)) {
                 //Animate button
                 storyButton.clickedImage();
-                storyIsClicked = true;
                 storyIsPressed = true;
             }
         }
@@ -156,13 +149,6 @@ public class MenuState extends State
         else{
             defaultBG.draw(g);
         }
-
-
-//        Broken story BG
-        if(storyIsClicked){
-            g.drawImage(AssetManager.getInstance().getStoryBrokenBGImage(), 0, 0, Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT, null);
-        }
-
 
 //        Next state
         if(survivalNext){

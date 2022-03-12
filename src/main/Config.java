@@ -14,8 +14,8 @@ public class Config {
     public static final String MENU_BACKGROUND_ASSET_PATH = "/assets/menu/menubackground/menubackgroundv2.png";
     public static final String DOTTED_BACKGROUND_ASSET_PATH = "/assets/menu/menubackground/menubackgroundv4.png";
 
-    public static final String BROKEN_SURVIVAL_BACKGROUND_ASSET_PATH = "/assets/menu/menubackground/menubackgroundv7.png";
-    public static final String BROKEN_STORY_BACKGROUND_ASSET_PATH = "/assets/menu/menubackground/menubackgroundv8.png";
+    public static final String BROKEN_SURVIVAL_BACKGROUND_ASSET_PATH = "/assets/menu/menubackground/menubackgroundv9.png";
+    public static final String BROKEN_STORY_BACKGROUND_ASSET_PATH = "/assets/menu/menubackground/menubackgroundv11.png";
     public static final int MENU_SCREEN_X = 151;
     public static final int MENU_SCREEN_Y = 55;
     public static final int MENU_SCREEN_WIDTH = 419;
@@ -25,7 +25,8 @@ public class Config {
     public static final double BROKEN_SURVIVAL_ANIMATION_DELAY = 10;
     public static final double BROKEN_STORY_ANIMATION_DELAY = 10;
 
-    public static final double CANCEL_ANIMATION_DELAY = 100;
+    public static final double START_SURVIVAL_ANIMATION_DELAY = 70;
+    public static final double START_STORY_ANIMATION_DELAY = 90;
 //    public static final double
 
     public static final String ZOMBIE_ASSET_PATH = "/assets/sprites/zombies/zombiesmainv1.png";

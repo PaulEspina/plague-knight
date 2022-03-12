@@ -48,9 +48,9 @@ public class SurvivalMenuState extends State{
         exitButton.disabledImage();
 
         startDelay++;
-        if(startDelay % Config.CANCEL_ANIMATION_DELAY == 0){
+        if(startDelay % Config.START_SURVIVAL_ANIMATION_DELAY == 0){
             startClicked = true;
-            startDelay = Config.CANCEL_ANIMATION_DELAY;
+            startDelay = Config.START_SURVIVAL_ANIMATION_DELAY;
         }
 
         if(startButton.isInside(x, y)){
@@ -60,6 +60,7 @@ public class SurvivalMenuState extends State{
                 //Animate button
                 startButton.clickedImage();
                 survivalIsClicked = true;
+                
             }
         }
         else{
@@ -71,7 +72,6 @@ public class SurvivalMenuState extends State{
             if(game.getMouseManager().getMouseButtonState(MouseEvent.BUTTON1)) {
                 //Animate button
                 cancelButton.clickedImage();
-
                 cancelClicked = true;
             }
         }
@@ -92,8 +92,6 @@ public class SurvivalMenuState extends State{
         if(cancelClicked){
             setState(new MenuState(game));
         }
-
-
 
         //        Broken survival BG
         if(survivalIsClicked){
