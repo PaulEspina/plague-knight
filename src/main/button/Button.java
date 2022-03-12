@@ -17,6 +17,7 @@ public class Button{
     private Point imageSize;
     private String buttonName;
     private BufferedImage picture;
+    private BufferedImage menuButtonImage;
     private BufferedImage unhoveredImage;
     private BufferedImage hoveredImage;
     private BufferedImage clickedImage;
@@ -62,6 +63,8 @@ public class Button{
         this.pos = pos;
         this.size = size;
         this.buttonName = buttonName;
+
+
     }
 
     //    This function is used to load menu buttons and cut the sprite sheet

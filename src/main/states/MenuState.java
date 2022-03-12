@@ -69,11 +69,18 @@ public class MenuState extends State
     private Random rand = new Random();
     private int random;
 
+    //    Mouse Click
+    private boolean survivalIsPressed = false;
+    private boolean storyIsPressed = false;
+
+//    For broken screen delay
     private boolean survivalIsClicked = false;
     private boolean storyIsClicked = false;
 
-    private boolean storyNext = false;
     private boolean survivalNext = false;
+    private boolean storyNext = false;
+
+
 
 
     @Override
@@ -92,17 +99,22 @@ public class MenuState extends State
         }
 
 //        BROKEN SCREEN ANIMATION
-        brokenSurvivalAnimation++;
-        if(brokenSurvivalAnimation % Config.BROKEN_SURVIVAL_ANIMATION_DELAY == 0){
-            survivalNext = true;
-            brokenSurvivalAnimation = Config.BROKEN_SURVIVAL_ANIMATION_DELAY;
+        if(survivalIsPressed){
+            brokenSurvivalAnimation++;
+            if(brokenSurvivalAnimation % Config.BROKEN_SURVIVAL_ANIMATION_DELAY == 0){
+                survivalNext = true;
+                brokenSurvivalAnimation = Config.BROKEN_SURVIVAL_ANIMATION_DELAY;
+            }
         }
 
-        brokenStoryAnimation++;
-        if(brokenStoryAnimation % Config.BROKEN_STORY_ANIMATION_DELAY == 0){
-            storyNext = true;
-            brokenStoryAnimation = Config.BROKEN_STORY_ANIMATION_DELAY;
+        if(storyIsPressed){
+            brokenStoryAnimation++;
+            if(brokenStoryAnimation % Config.BROKEN_STORY_ANIMATION_DELAY == 0){
+                storyNext = true;
+                brokenStoryAnimation = Config.BROKEN_STORY_ANIMATION_DELAY;
+            }
         }
+
 
         disableStartButton.unhoveredImage();
         disableCancelButton.unhoveredImage();
@@ -115,7 +127,7 @@ public class MenuState extends State
                 //Animate button
                 survivalButton.clickedImage();
                 survivalIsClicked = true;
-
+                survivalIsPressed = true;
             }
         }
         else{
@@ -129,6 +141,7 @@ public class MenuState extends State
                 //Animate button
                 storyButton.clickedImage();
                 storyIsClicked = true;
+                storyIsPressed = true;
             }
         }
         else{
