@@ -12,19 +12,27 @@ import java.awt.image.BufferedImage;
 public class Item extends Entity{
 
     public enum Type {
-        HEART,
-        APPLE,
-        BOOTS,
-        ATTACK_BOOST,
-        DEFENSE_BOOST
+        HEART(0),
+        APPLE(1),
+        BOOTS(2),
+        ATTACK_BOOST(3),
+        DEFENSE_BOOST(4);
+
+        private final int value;
+
+        Type(int value) {
+            this.value = value;
+        }
+
+        public int getValue() {
+            return value;
+        }
     }
 
     private Vector2f pos;
     private Vector2f size;
-    private Vector2f imagePos;
     private BufferedImage asset;
-    private BufferedImage image;
-    private BufferedImage[] items;
+    private BufferedImage[] images;
     private Type type;
     private int randomize;
 
@@ -33,7 +41,7 @@ public class Item extends Entity{
     public Item(){
         pos = new Vector2f(0, 0);
         size = new Vector2f(0, 0);
-        items = new BufferedImage[5];
+        images = new BufferedImage[5];
         shouldShow = true;
     }
 
@@ -41,34 +49,12 @@ public class Item extends Entity{
         this();
         this.type = type;
 
-        this.imagePos = imagePos;
-        // TODO get images (waiting for jyron)
-        asset = ImageLoader.loadImage(Config.ITEMS_ASSET_PATH);
-        image = AssetManager.getInstance().getItem();
-        image = asset.getSubimage(0, 0,Config.ITEMS_ASSET_WIDTH, Config.ITEMS_ASSET_HEIGHT);
-
-        items[0] = asset.getSubimage(0,
-                                     0,
-                                    Config.ITEMS_ASSET_WIDTH,
-                                    Config.ITEMS_ASSET_HEIGHT);
-        items[1] = asset.getSubimage(Config.ITEMS_ASSET_WIDTH * 11,
-                                     0,
-                                    Config.ITEMS_ASSET_WIDTH,
-                                    Config.ITEMS_ASSET_HEIGHT);
-        items[2] = asset.getSubimage(Config.ITEMS_ASSET_WIDTH * 12,
-                                     0,
-                                    Config.ITEMS_ASSET_WIDTH,
-                                    Config.ITEMS_ASSET_HEIGHT);
-        items[3] = asset.getSubimage(Config.ITEMS_ASSET_WIDTH* 13,
-                                     0,
-                                    Config.ITEMS_ASSET_WIDTH,
-                                    Config.ITEMS_ASSET_HEIGHT);
-        items[4] = asset.getSubimage(Config.ITEMS_ASSET_WIDTH * 14,
-                                     0,
-                                    Config.ITEMS_ASSET_WIDTH,
-                                    Config.ITEMS_ASSET_HEIGHT);
-
-
+        asset = AssetManager.getInstance().getItem();
+        images[Type.ATTACK_BOOST.getValue()] = asset.getSubimage(Config.ITEMS_ASSET_WIDTH * 11, 0, Config.ITEMS_ASSET_WIDTH, Config.ITEMS_ASSET_HEIGHT);
+        images[Type.DEFENSE_BOOST.getValue()] = asset.getSubimage(Config.ITEMS_ASSET_WIDTH * 12, 0, Config.ITEMS_ASSET_WIDTH, Config.ITEMS_ASSET_HEIGHT);
+        images[Type.BOOTS.getValue()] = asset.getSubimage(Config.ITEMS_ASSET_WIDTH * 13, 0, Config.ITEMS_ASSET_WIDTH, Config.ITEMS_ASSET_HEIGHT);
+        images[Type.HEART.getValue()] = asset.getSubimage(Config.ITEMS_ASSET_WIDTH * 14, 0, Config.ITEMS_ASSET_WIDTH, Config.ITEMS_ASSET_HEIGHT);
+        images[Type.APPLE.getValue()] = asset.getSubimage(Config.ITEMS_ASSET_WIDTH * 15, 0, Config.ITEMS_ASSET_WIDTH, Config.ITEMS_ASSET_HEIGHT);
     }
 
     public Item(Vector2f pos, Vector2f size, Type type){
@@ -96,9 +82,7 @@ public class Item extends Entity{
     {
         if(shouldShow)
         {
-            g.drawRect((int) pos.getX() - (int) size.getX() / 2, (int) pos.getY() - (int) size.getY() / 2, (int) size.getX(), (int) size.getY());
-//            g.drawImage(image, (int) pos.getX(), (int) pos.getY(), (int) size.getX(), (int) size.getY(), null);
-//            g.drawImage(items[randomize], (int) pos.getX(), (int) pos.getY(), (int) size.getX(), (int) size.getY(), null);
+            g.drawImage(images[type.getValue()],(int) pos.getX() - (int) size.getX() / 2, (int) pos.getY() - (int) size.getY() / 2, (int) size.getX(), (int) size.getY(), null);
         }
     }
 }

@@ -30,7 +30,6 @@ public class Config {
     public static final int CRATE_ASSET_HEIGHT = 67;
     public static final int CRATE_ANIMATION_DELAY = 20;
 
-    public static final String ITEMS_ASSET_PATH = "/assets/items/itemsv1.png";
     public static final String ITEMS_ASSET_PATH = "/assets/items/drops/itemdropsv2.png";
     public static final int ITEMS_ASSET_WIDTH = 48;
     public static final int ITEMS_ASSET_HEIGHT = 48;

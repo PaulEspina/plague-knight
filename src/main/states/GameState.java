@@ -95,7 +95,10 @@ public class GameState extends State
         for(int i = 0; i < crates.size(); i++)
         {
             if(keyManager.isKeyDown(KeyEvent.VK_SPACE)){ // temp.. for testing only
-                items.add(crates.get(i).destroy());
+                if(!crates.get(i).isDestroyed())
+                {
+                    items.add(crates.get(i).destroy());
+                }
             }
             crates.get(i).update();
         }
