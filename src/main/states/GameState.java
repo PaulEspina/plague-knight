@@ -56,9 +56,6 @@ public class GameState extends State
                                    new Vector2f(Config.ZOMBIE_ASSET_WIDTH * settings.zoom, Config.ZOMBIE_ASSET_HEIGHT * settings.zoom)));
         }
 
-        player = new Player(new Vector2f((float) Config.SCREEN_WIDTH / 2, (float) Config.SCREEN_HEIGHT / 2),
-                new Vector2f(Config.PLAYER_SPRITE_WIDTH, Config.PLAYER_SPRITE_HEIGHT));
-
         crates = new Vector<>();
         crates.add(new Crate(new Vector2f(300, 100), new Vector2f((float) Config.CRATE_ASSET_WIDTH / 2, (float) Config.CRATE_ASSET_HEIGHT / 2)));
 
@@ -140,7 +137,6 @@ public class GameState extends State
                                        new Vector2f(Config.ZOMBIE_ASSET_WIDTH * settings.zoom, Config.ZOMBIE_ASSET_HEIGHT * settings.zoom)));
             }
         }
-        System.out.println(animationCounter);
 
         for(int i = 0; i < zombies.size(); i++)
         {
@@ -158,45 +154,33 @@ public class GameState extends State
         // Key Down
         if(keyManager.isKeyDown(KeyEvent.VK_W))
         {
-            player.setVelY(-3);
-            player.north(true);
+            player.setVelY(-1.2f);
+            player.setDirection("north");
         }
         if(keyManager.isKeyDown(KeyEvent.VK_S))
         {
-            player.setVelY(3);
-            player.south(true);
+            player.setVelY(1.2f);
+            player.setDirection("south");
         }
         if(keyManager.isKeyDown(KeyEvent.VK_A))
         {
-            player.setVelX(-3);
-            player.west(true);
+            player.setVelX(-1.2f);
+            player.setDirection("west");
         }
         if(keyManager.isKeyDown(KeyEvent.VK_D))
         {
-            player.setVelX(3);
-            player.east(true);
+            player.setVelX(1.2f);
+            player.setDirection("east");
         }
 
         // Key Up
-        if(keyManager.isKeyUp(KeyEvent.VK_W))
+        if(!keyManager.isKeyDown(KeyEvent.VK_W) && !keyManager.isKeyDown(KeyEvent.VK_S))
         {
             player.setVelY(0);
-            player.north(false);
         }
-        if(keyManager.isKeyUp(KeyEvent.VK_S))
-        {
-            player.setVelY(0);
-            player.south(false);
-        }
-        if(keyManager.isKeyUp(KeyEvent.VK_A))
+        if(!keyManager.isKeyDown(KeyEvent.VK_A) && !keyManager.isKeyDown(KeyEvent.VK_D))
         {
             player.setVelX(0);
-            player.west(false);
-        }
-        if(keyManager.isKeyUp(KeyEvent.VK_D))
-        {
-            player.setVelX(0);
-            player.east(false);
         }
 
         if(animationCounter % player.getAnimationSpeed() == 0)

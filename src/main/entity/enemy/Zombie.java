@@ -13,7 +13,8 @@ public class Zombie extends Enemy
     private String type;
     private String direction;
     private BufferedImage sprite;
-    private BufferedImage[] images;
+    private final BufferedImage[] images;
+    private final BufferedImage[] currentImages;
     private int animationIndex;
 
     public Zombie()
@@ -21,7 +22,8 @@ public class Zombie extends Enemy
         type = "normal";
         direction = "south";
         sprite = null;
-        images = new BufferedImage[3];
+        images = new BufferedImage[12];
+        currentImages = new BufferedImage[3];
         animationIndex = 0;
         animationSpeed = 20;
         movementSpeed = 1;
@@ -30,7 +32,6 @@ public class Zombie extends Enemy
     public Zombie(Vector2f pos, Vector2f size)
     {
         this(pos, size, "normal");
-        images = new BufferedImage[3];
     }
 
     public Zombie(Vector2f pos, Vector2f size, String type)
@@ -42,9 +43,13 @@ public class Zombie extends Enemy
         int randNum = (int) (Math.random() * 100) % 3;
         sprite = AssetManager.getInstance().getZombie();
         sprite = sprite.getSubimage(0, Config.ZOMBIE_ASSET_HEIGHT * randNum, Config.ZOMBIE_ASSET_WIDTH * 12, Config.ZOMBIE_ASSET_HEIGHT);
-        images[0] = sprite.getSubimage(0, 0, Config.ZOMBIE_ASSET_WIDTH, Config.ZOMBIE_ASSET_HEIGHT);
-        images[1] = sprite.getSubimage(Config.ZOMBIE_ASSET_WIDTH, 0, Config.ZOMBIE_ASSET_WIDTH, Config.ZOMBIE_ASSET_HEIGHT);
-        images[2] = sprite.getSubimage(Config.ZOMBIE_ASSET_WIDTH  * 2, 0, Config.ZOMBIE_ASSET_WIDTH, Config.ZOMBIE_ASSET_HEIGHT);
+        for(int i = 0; i < 12; i++)
+        {
+            images[i] = sprite.getSubimage(Config.ZOMBIE_ASSET_WIDTH * i, 0, Config.ZOMBIE_ASSET_WIDTH, Config.ZOMBIE_ASSET_HEIGHT);
+        }
+        currentImages[0] = images[0];
+        currentImages[1] = images[1];
+        currentImages[2] = images[2];
     }
 
     @Override
@@ -57,6 +62,16 @@ public class Zombie extends Enemy
     public void update()
     {
         checkRotation();
+    }
+
+    @Override
+    public void draw(Graphics g)
+    {
+        g.drawImage(currentImages[animationIndex], (int) pos.getX() - (int) size.getX() / 2,
+                    (int) pos.getY() - (int) size.getY() / 2,
+                    (int) size.getX(),
+                    (int) size.getY(),
+                    null);
     }
 
     public void follow(Vector2f target)
@@ -116,24 +131,24 @@ public class Zombie extends Enemy
         switch(direction)
         {
             case "north":
-                images[0] = sprite.getSubimage(Config.ZOMBIE_ASSET_WIDTH * 9, 0, Config.ZOMBIE_ASSET_WIDTH, Config.ZOMBIE_ASSET_HEIGHT);
-                images[1] = sprite.getSubimage(Config.ZOMBIE_ASSET_WIDTH * 10, 0, Config.ZOMBIE_ASSET_WIDTH, Config.ZOMBIE_ASSET_HEIGHT);
-                images[2] = sprite.getSubimage(Config.ZOMBIE_ASSET_WIDTH * 11, 0, Config.ZOMBIE_ASSET_WIDTH, Config.ZOMBIE_ASSET_HEIGHT);
+                currentImages[0] = images[9];
+                currentImages[1] = images[10];
+                currentImages[2] = images[11];
                 break;
             case "south":
-                images[0] = sprite.getSubimage(0, 0, Config.ZOMBIE_ASSET_WIDTH, Config.ZOMBIE_ASSET_HEIGHT);
-                images[1] = sprite.getSubimage(Config.ZOMBIE_ASSET_WIDTH, 0, Config.ZOMBIE_ASSET_WIDTH, Config.ZOMBIE_ASSET_HEIGHT);
-                images[2] = sprite.getSubimage(Config.ZOMBIE_ASSET_WIDTH * 2, 0, Config.ZOMBIE_ASSET_WIDTH, Config.ZOMBIE_ASSET_HEIGHT);
+                currentImages[0] = images[0];
+                currentImages[1] = images[1];
+                currentImages[2] = images[2];
                 break;
             case "west":
-                images[0] = sprite.getSubimage(Config.ZOMBIE_ASSET_WIDTH * 3, 0, Config.ZOMBIE_ASSET_WIDTH, Config.ZOMBIE_ASSET_HEIGHT);
-                images[1] = sprite.getSubimage(Config.ZOMBIE_ASSET_WIDTH * 4, 0, Config.ZOMBIE_ASSET_WIDTH, Config.ZOMBIE_ASSET_HEIGHT);
-                images[2] = sprite.getSubimage(Config.ZOMBIE_ASSET_WIDTH * 5, 0, Config.ZOMBIE_ASSET_WIDTH, Config.ZOMBIE_ASSET_HEIGHT);
+                currentImages[0] = images[3];
+                currentImages[1] = images[4];
+                currentImages[2] = images[5];
                 break;
             case "east":
-                images[0] = sprite.getSubimage(Config.ZOMBIE_ASSET_WIDTH * 6, 0, Config.ZOMBIE_ASSET_WIDTH, Config.ZOMBIE_ASSET_HEIGHT);
-                images[1] = sprite.getSubimage(Config.ZOMBIE_ASSET_WIDTH * 7, 0, Config.ZOMBIE_ASSET_WIDTH, Config.ZOMBIE_ASSET_HEIGHT);
-                images[2] = sprite.getSubimage(Config.ZOMBIE_ASSET_WIDTH * 8, 0, Config.ZOMBIE_ASSET_WIDTH, Config.ZOMBIE_ASSET_HEIGHT);
+                currentImages[0] = images[6];
+                currentImages[1] = images[7];
+                currentImages[2] = images[8];
                 break;
         }
     }
@@ -141,15 +156,5 @@ public class Zombie extends Enemy
     public void animate()
     {
         animationIndex = (animationIndex + 1) % 3;
-    }
-
-    @Override
-    public void draw(Graphics g)
-    {
-        g.drawImage(images[animationIndex], (int) pos.getX() - (int) size.getX() / 2,
-                                            (int) pos.getY() - (int) size.getY() / 2,
-                                            (int) size.getX(),
-                                            (int) size.getY(),
-                                            null);
     }
 }

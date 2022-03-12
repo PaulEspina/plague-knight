@@ -4,7 +4,6 @@ import main.Config;
 import main.Drawable;
 import main.Vector2f;
 import main.gfx.AssetManager;
-import main.gfx.ImageLoader;
 import main.input.KeyManager;
 
 import java.awt.*;
@@ -14,39 +13,55 @@ public class Player extends Character implements Drawable{
 
     private KeyManager keyManager;
     private Vector2f vel;
-    private String type;
     private String direction;
     private BufferedImage sprite;
     private BufferedImage[] images;
+    private BufferedImage[] currentImages;
     private int animationIndex;
 
     public Player()
     {
         sprite = null;
-        images = new BufferedImage[3];
+        images = new BufferedImage[12];
+        currentImages = new BufferedImage[3];
         animationIndex = 0;
         animationSpeed = 20;
+        direction = "north";
     }
 
     public Player(Vector2f pos, Vector2f size)
     {
-        this(pos, size, "normal");
-        images = new BufferedImage[3];
-    }
-
-    public Player(Vector2f pos, Vector2f size, String type)
-    {
         this();
         this.pos = pos;
         this.size = size;
-        this.type = type;;
         vel = new Vector2f(0, 0);
         sprite = AssetManager.getInstance().getPlayer();
-        sprite = sprite.getSubimage(0, Config.PLAYER_SPRITE_HEIGHT * 0, Config.PLAYER_SPRITE_WIDTH * 12, (int) size.getY());
-        images[0] = sprite.getSubimage(0,
-                0,
-                Config.PLAYER_SPRITE_WIDTH,
-                Config.PLAYER_SPRITE_HEIGHT);
+        for(int i = 0; i < 12; i++)
+        {
+            images[i] = sprite.getSubimage(Config.PLAYER_SPRITE_WIDTH * i, 0, Config.PLAYER_SPRITE_WIDTH, Config.PLAYER_SPRITE_HEIGHT);
+        }
+        currentImages[0] = images[0];
+        currentImages[1] = images[1];
+        currentImages[2] = images[2];
+    }
+
+    @Override
+    public void update()
+    {
+        pos.add(vel);
+//        pos.setX(clamp((int)pos.getX(), 10, Config.SCREEN_WIDTH - 46));
+//        pos.setY(clamp((int)pos.getY(), 10, Config.SCREEN_HEIGHT - 58));
+        checkRotation();
+    }
+
+    @Override
+    public void draw(Graphics g)
+    {
+        g.drawImage(currentImages[animationIndex], (int) pos.getX() - (int) size.getX() / 2,
+                    (int) pos.getY() - (int) size.getY() / 2,
+                    (int) size.getX(),
+                    (int) size.getY(),
+                    null);
     }
 
     public int clamp(int var, int min, int max)
@@ -70,99 +85,43 @@ public class Player extends Character implements Drawable{
 
     }
 
-    public void charMovement()
+    public void checkRotation()
     {
-        if(north)
+        switch(direction)
         {
-            images[0] = sprite.getSubimage(Config.PLAYER_SPRITE_WIDTH * 9,
-                    0,
-                    Config.PLAYER_SPRITE_WIDTH,
-                    Config.PLAYER_SPRITE_HEIGHT);
-            images[1] = sprite.getSubimage(Config.PLAYER_SPRITE_WIDTH * 10,
-                    0,
-                    Config.PLAYER_SPRITE_WIDTH,
-                    Config.PLAYER_SPRITE_HEIGHT);
-            images[2] = sprite.getSubimage(Config.PLAYER_SPRITE_WIDTH * 11,
-                    0,
-                    Config.PLAYER_SPRITE_WIDTH,
-                    Config.PLAYER_SPRITE_HEIGHT);
-        }
-        if(south)
-        {
-            images[0] = sprite.getSubimage(0,
-                    0,
-                    Config.PLAYER_SPRITE_WIDTH,
-                    Config.PLAYER_SPRITE_HEIGHT);
-            images[1] = sprite.getSubimage(Config.PLAYER_SPRITE_WIDTH,
-                    0,
-                    Config.PLAYER_SPRITE_WIDTH,
-                    Config.PLAYER_SPRITE_HEIGHT);
-            images[2] = sprite.getSubimage(Config.PLAYER_SPRITE_WIDTH * 2,
-                    0,
-                    Config.PLAYER_SPRITE_WIDTH,
-                    Config.PLAYER_SPRITE_HEIGHT);
-        }
-        if(east)
-        {
-            images[0] = sprite.getSubimage(Config.PLAYER_SPRITE_WIDTH * 6,
-                    0,
-                    Config.PLAYER_SPRITE_WIDTH,
-                    Config.PLAYER_SPRITE_HEIGHT);
-            images[1] = sprite.getSubimage(Config.PLAYER_SPRITE_WIDTH * 7,
-                    0,
-                    Config.PLAYER_SPRITE_WIDTH,
-                    Config.PLAYER_SPRITE_HEIGHT);
-            images[2] = sprite.getSubimage(Config.PLAYER_SPRITE_WIDTH * 8,
-                    0,
-                    Config.PLAYER_SPRITE_WIDTH,
-                    Config.PLAYER_SPRITE_HEIGHT);
-        }
-        if(west)
-        {
-            images[0] = sprite.getSubimage(Config.PLAYER_SPRITE_WIDTH * 3,
-                    0,
-                    Config.PLAYER_SPRITE_WIDTH,
-                    Config.PLAYER_SPRITE_HEIGHT);
-            images[1] = sprite.getSubimage(Config.PLAYER_SPRITE_WIDTH * 4,
-                    0,
-                    Config.PLAYER_SPRITE_WIDTH,
-                    Config.PLAYER_SPRITE_HEIGHT);
-            images[2] = sprite.getSubimage(Config.PLAYER_SPRITE_WIDTH * 5,
-                    0,
-                    Config.PLAYER_SPRITE_WIDTH,
-                    Config.PLAYER_SPRITE_HEIGHT);
+            case "north":
+                currentImages[0] = images[9];
+                currentImages[1] = images[10];
+                currentImages[2] = images[11];
+                break;
+            case "south":
+                currentImages[0] = images[0];
+                currentImages[1] = images[1];
+                currentImages[2] = images[2];
+                break;
+            case "west":
+                currentImages[0] = images[3];
+                currentImages[1] = images[4];
+                currentImages[2] = images[5];
+                break;
+            case "east":
+                currentImages[0] = images[6];
+                currentImages[1] = images[7];
+                currentImages[2] = images[8];
+                break;
         }
     }
-
-    @Override
-    public void update()
-    {
-        pos.add(vel);
-        pos.setX(clamp((int)pos.getX(), 10, Config.SCREEN_WIDTH - 46));
-        pos.setY(clamp((int)pos.getY(), 10, Config.SCREEN_HEIGHT - 58));
-        charMovement();
-    }
-
-    @Override
-    public void draw(Graphics g)
-    {
-        g.drawImage(images[animationIndex], (int) pos.getX() - (int) size.getX() / 2,
-                                            (int) pos.getY() - (int) size.getY() / 2,
-                                            (int) size.getX(),
-                                            (int) size.getY(),
-                                            null);
-    }
-
-
 
     public void setVelX(float velX)
     {
         vel.setX(velX);
     }
+
     public void setVelY(float velY)
     {
         vel.setY(velY);
     }
+
     public float getVelX()
     {
         return vel.getX();
@@ -183,43 +142,13 @@ public class Player extends Character implements Drawable{
         this.vel = vel;
     }
 
-    public void north(boolean north)
+    public String getDirection()
     {
-        this.north = north;
-    }
-    public boolean north()
-    {
-        return north;
+        return direction;
     }
 
-    public void south(boolean south)
+    public void setDirection(String direction)
     {
-        this.south = south;
+        this.direction = direction;
     }
-
-    public boolean south()
-    {
-        return south;
-    }
-
-    public void east(boolean east)
-    {
-        this.east = east;
-    }
-
-    public boolean east()
-    {
-        return east;
-    }
-
-    public void west(boolean west)
-    {
-        this.west = west;
-    }
-
-    public boolean west()
-    {
-        return west;
-    }
-
 }
