@@ -33,8 +33,6 @@ public class Button{
         return clickedImage;
     }
 
-
-
     public String getButtonName(){
         return buttonName;
     }

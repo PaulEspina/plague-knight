@@ -3,6 +3,7 @@ package main.states;
 import main.Config;
 import main.Game;
 import main.button.Button;
+import main.gfx.AssetManager;
 import main.gfx.ImageLoader;
 
 import java.awt.*;
@@ -15,7 +16,6 @@ public class SurvivalMenuState extends State{
     private Game game;
     private String buttonPath;
     private String backgroundPath;
-    private BufferedImage backgroundImage;
     private Button startButton;
     private Button cancelButton;
     private Button survivalButton;
@@ -27,7 +27,6 @@ public class SurvivalMenuState extends State{
         this.game = game;
         buttonPath = Config.MENU_BUTTON_ASSET_PATH;
         backgroundPath = Config.MENU_BACKGROUND_ASSET_PATH;
-        backgroundImage = ImageLoader.loadImage(backgroundPath);
 
 //        Coordinate in Frame
         startButton = new Button(game, new Point(435, 385), new Point(85, 50), "start");
@@ -46,8 +45,7 @@ public class SurvivalMenuState extends State{
 
     }
 
-    private double maxFrame2 = 100;
-    private double deltaCounter2 = 0;
+    private double cancelDelay = 0;
     private Boolean cancelClicked = false;
 
     @Override
@@ -58,6 +56,11 @@ public class SurvivalMenuState extends State{
         survivalButton.unhoveredImage();
         disableStoryButton.unhoveredImage();
         disableExitButton.unhoveredImage();
+
+        cancelDelay++;
+        if(cancelDelay % Config.CANCEL_ANIMATION_DELAY == 0){
+            cancelDelay = Config.CANCEL_ANIMATION_DELAY;
+        }
 
         if(startButton.isInside(x, y)){
             startButton.hoveredImage();
@@ -87,20 +90,16 @@ public class SurvivalMenuState extends State{
 
     @Override
     public void render(Graphics g) {
-        g.drawImage(backgroundImage, 0, 0, Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT, null);
+        g.drawImage(AssetManager.getInstance().getDefaultBGImage(), 0, 0, Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT, null);
         startButton.draw(g);
         cancelButton.draw(g);
         disableStoryButton.draw(g);
         survivalButton.draw(g);
         disableExitButton.draw(g);
 
-//        if(cancelClicked){
-//            deltaCounter2 += game.getDeltaPlease();
-//            if(deltaCounter2 > maxFrame2){
-//                setState(new MenuState(game));
-//                deltaCounter2 = maxFrame2;
-//            }
-//        }
+        if(cancelClicked){
+            setState(new MenuState(game));
+        }
     }
 
 }

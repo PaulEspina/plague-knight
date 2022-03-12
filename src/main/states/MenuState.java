@@ -3,6 +3,7 @@ package main.states;
 import main.Config;
 import main.Game;
 import main.button.Button;
+import main.gfx.AssetManager;
 import main.gfx.ImageLoader;
 
 import java.awt.*;
@@ -18,12 +19,6 @@ public class MenuState extends State
     private String buttonPath;
     private String backgroundPath;
     private String dottedPath;
-    private String brokenSurvivalPath;
-    private String brokenStoryPath;
-
-    private BufferedImage backgroundImage;
-    private BufferedImage brokenSurvivalImage;
-    private BufferedImage brokenStoryImage;
 
 //     Create Buttons
     private Button storyButton;
@@ -35,7 +30,7 @@ public class MenuState extends State
 //    For Blinking Lights
     private Button defaultBG;
     private Button dottedBG;
-    private Button brokenScreenBG;
+
     // TODO Auto-generated method stub
 
 
@@ -45,12 +40,7 @@ public class MenuState extends State
         buttonPath = Config.MENU_BUTTON_ASSET_PATH;
         backgroundPath = Config.MENU_BACKGROUND_ASSET_PATH;
         dottedPath = Config.DOTTED_BACKGROUND_ASSET_PATH;
-        brokenSurvivalPath = Config.BROKEN_SURVIVAL_BACKGROUND_ASSET_PATH;
-        brokenStoryPath = Config.BROKEN_SOTRY_BACKGROUND_ASSET_PATH;
 
-        backgroundImage = ImageLoader.loadImage(backgroundPath);
-        brokenSurvivalImage = ImageLoader.loadImage(brokenSurvivalPath);
-        brokenStoryImage = ImageLoader.loadImage(brokenStoryPath);
 
 //        Coordinate in Frame
         survivalButton = new Button(game, new Point(364, 465), new Point(85, 50), "survival");
@@ -72,21 +62,16 @@ public class MenuState extends State
         dottedBG.loadScreen(new Point(151, 55), new Point(419, 178), dottedPath);
         defaultBG.loadScreen(new Point(151, 55), new Point(419, 178), backgroundPath);
 
-
     }
-    private double maxFrame1 = 20;
-    private double deltaCounter1 = 0;
-//    private boolean flag = false;
+    private double flickerAnimation = 0;
+    private double brokenSurvivalAnimation = 0;
+    private double brokenStoryAnimation = 0;
     private Random rand = new Random();
     private int random;
 
-    private double maxFrame2 = 100;
-    private double deltaCounter2 = 0;
     private boolean survivalIsClicked = false;
     private boolean storyIsClicked = false;
 
-    private double maxFrame3 = 1000;
-    private double deltaCounter3 = 0;
     private boolean storyNext = false;
     private boolean survivalNext = false;
 
@@ -95,21 +80,29 @@ public class MenuState extends State
     public void tick() {
         int x = game.getMouseManager().getMouseX();
         int y = game.getMouseManager().getMouseY();
-//        int random = rand.nextInt(100);
 
         dottedBG.unhoveredImage();
         defaultBG.unhoveredImage();
 
 
-//        deltaCounter1 += game.getDeltaPlease();
-        if(deltaCounter1 >= maxFrame1){
+        flickerAnimation++;
+        if(flickerAnimation % Config.FLICKER_ANIMATION_DELAY == 0){
             random = rand.nextInt(100);
-//            flag = true;
-            deltaCounter1 = 0;
+            flickerAnimation = 0;
         }
-//        else{
-//            flag = false;
-//        }
+
+//        BROKEN SCREEN ANIMATION
+        brokenSurvivalAnimation++;
+        if(brokenSurvivalAnimation % Config.BROKEN_SURVIVAL_ANIMATION_DELAY == 0){
+            survivalNext = true;
+            brokenSurvivalAnimation = Config.BROKEN_SURVIVAL_ANIMATION_DELAY;
+        }
+
+        brokenStoryAnimation++;
+        if(brokenStoryAnimation % Config.BROKEN_STORY_ANIMATION_DELAY == 0){
+            storyNext = true;
+            brokenStoryAnimation = Config.BROKEN_STORY_ANIMATION_DELAY;
+        }
 
         disableStartButton.unhoveredImage();
         disableCancelButton.unhoveredImage();
@@ -158,7 +151,7 @@ public class MenuState extends State
     @Override
     public void render(Graphics g)
     {
-        g.drawImage(backgroundImage, 0, 0, Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT, null);
+        g.drawImage(AssetManager.getInstance().getDefaultBGImage(), 0, 0, Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT, null);
         survivalButton.draw(g);
         storyButton.draw(g);
         exitButton.draw(g);
@@ -174,41 +167,25 @@ public class MenuState extends State
         }
 
 
-////        Broken survival BG
-//        if(survivalIsClicked){
-//            deltaCounter2 += game.getDeltaPlease();
-//            if(deltaCounter2 > maxFrame2){
-//                g.drawImage(brokenSurvivalImage, 0, 0, Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT, null);
-//                survivalNext = true;
-//                deltaCounter2 = maxFrame2;
-//            }
-//        }
-//
-////        Broken story BG
-//        if(storyIsClicked){
-//            deltaCounter2 += game.getDeltaPlease();
-//            if(deltaCounter2 > maxFrame2){
-//                g.drawImage(brokenStoryImage, 0, 0, Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT, null);
-//                storyNext = true;
-//                deltaCounter2 = maxFrame2;
-//            }
-//        }
-//
-////        Next state
-//        if(survivalNext){
-//            deltaCounter3 += game.getDeltaPlease();
-//            if(deltaCounter3 > maxFrame3){
-//                setState(new SurvivalMenuState(game));
-//                deltaCounter3 = maxFrame3;
-//            }
-//        }
-//        if(storyNext){
-//            deltaCounter3 += game.getDeltaPlease();
-//            if(deltaCounter3 > maxFrame3){
-//                setState(new StoryMenuState(game));
-//                deltaCounter3 = maxFrame3;
-//            }
-//        }
+//        Broken survival BG
+        if(survivalIsClicked){
+            g.drawImage(AssetManager.getInstance().getSurvivalBrokenBGImage(), 0, 0, Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT, null);
+        }
+
+//        Broken story BG
+        if(storyIsClicked){
+            g.drawImage(AssetManager.getInstance().getStoryBrokenBGImage(), 0, 0, Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT, null);
+        }
+
+
+//        Next state
+        if(survivalNext){
+            setState(new SurvivalMenuState(game));
+        }
+
+        if(storyNext){
+            setState(new StoryMenuState(game));
+        }
     }
 
 

@@ -11,7 +11,14 @@ public class Config {
     public static final String MENU_BACKGROUND_ASSET_PATH = "/assets/menu/menubackground/menubackgroundv2.png";
     public static final String DOTTED_BACKGROUND_ASSET_PATH = "/assets/menu/menubackground/menubackgroundv4.png";
     public static final String BROKEN_SURVIVAL_BACKGROUND_ASSET_PATH = "/assets/menu/menubackground/menubackgroundv7.png";
-    public static final String BROKEN_SOTRY_BACKGROUND_ASSET_PATH = "/assets/menu/menubackground/menubackgroundv8.png";
+    public static final String BROKEN_STORY_BACKGROUND_ASSET_PATH = "/assets/menu/menubackground/menubackgroundv8.png";
+
+    public static final double FLICKER_ANIMATION_DELAY = 50;
+    public static final double BROKEN_SURVIVAL_ANIMATION_DELAY = 100;
+    public static final double BROKEN_STORY_ANIMATION_DELAY = 100;
+
+    public static final double CANCEL_ANIMATION_DELAY = 100;
+//    public static final double
 
     public static final String ZOMBIE_ASSET_PATH = "/assets/sprites/zombies/zombiesmainv1.png";
     public static final int ZOMBIE_ASSET_WIDTH = 36;
