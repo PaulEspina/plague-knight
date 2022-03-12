@@ -57,7 +57,7 @@ public class GameState extends State
         }
 
         crates = new Vector<>();
-        crates.add(new Crate(new Vector2f(300, 100), new Vector2f((float) Config.CRATE_ASSET_WIDTH / 2, (float) Config.CRATE_ASSET_HEIGHT / 2)));
+//        crates.add(new Crate(new Vector2f(300, 100), new Vector2f((float) Config.CRATE_ASSET_WIDTH / 2 * settings.zoom, (float) Config.CRATE_ASSET_HEIGHT / 2 * settings.zoom)));
 
         items = new Vector<>();
     }
@@ -108,10 +108,18 @@ public class GameState extends State
 
     private void itemsTick()
     {
+        Random rand = new Random();
+        int chance = 1000;
+        int randInt = rand.nextInt(chance);
+        if(randInt % chance == 0)
+        {
+            items.add(new Item(new Vector2f(rand.nextInt(Config.SCREEN_WIDTH) , rand.nextInt(Config.SCREEN_HEIGHT)), new Vector2f(Config.ITEMS_ASSET_WIDTH, Config.ITEMS_ASSET_HEIGHT), Item.Type.values()[rand.nextInt(Item.Type.values().length)]));
+        }
         for(int i = 0; i < items.size(); i++)
         {
             items.get(i).update();
         }
+
     }
 
     private void zombiesTick()
