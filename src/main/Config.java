@@ -21,6 +21,9 @@ public class Config {
     public static final String CRATE_ASSET_PATH = "/assets/sprites/world/crate/cratev1.png";
     public static final int CRATE_ANIMATION_DELAY = 20;
 
-    public static final String ITEMS_ASSET_PATH = "/assets/items/items.png";
+    public static final String ITEMS_ASSET_PATH = "/assets/items/drops/itemdropsv2.png";
+    public static final int ITEMS_ASSET_WIDTH = 48;
+    public static final int ITEMS_ASSET_HEIGHT = 48;
     public static final int TOTAL_ITEMS = 5;
+
 }

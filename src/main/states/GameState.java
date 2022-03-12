@@ -31,6 +31,10 @@ public class GameState extends State {
                             new Vector2f(Config.ZOMBIE_ASSET_WIDTH, Config.ZOMBIE_ASSET_HEIGHT));
 
         crate = new Crate(new Vector2f(300, 100), new Vector2f(78, 67));
+
+        item = new Item(new Vector2f(300, 300),
+                new Vector2f(Config.ITEMS_ASSET_WIDTH, Config.ITEMS_ASSET_HEIGHT), Item.Type.HEART);
+
     }
 
     double animationCounter = 0;
@@ -52,9 +56,12 @@ public class GameState extends State {
             //crate.animate();
         }
 
+
         if(crate.isInside(mouse.getX(),mouse.getY())){
             if (game.getMouseManager().getMouseButtonState(MouseEvent.BUTTON1)) {
                 item = crate.destroy();
+                item.randomize();
+                item.show();
             }
         }
 
