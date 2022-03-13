@@ -16,6 +16,7 @@ public class AssetManager
     private BufferedImage dottedBGImage;
     private BufferedImage survivalBrokenBGImage;
     private BufferedImage storyBrokenBGImage;
+    private BufferedImage pausedImage;
 
     private static AssetManager instance = null;
 
@@ -45,6 +46,7 @@ public class AssetManager
             dottedBGImage = ImageLoader.loadImage(Config.DOTTED_BACKGROUND_ASSET_PATH);
             survivalBrokenBGImage = ImageLoader.loadImage(Config.BROKEN_SURVIVAL_BACKGROUND_ASSET_PATH);
             storyBrokenBGImage = ImageLoader.loadImage(Config.BROKEN_STORY_BACKGROUND_ASSET_PATH);
+            pausedImage = ImageLoader.loadImage(Config.PAUSED_TEXT_ASSET_PATH);
         }
         catch(IllegalArgumentException e)
         {
@@ -92,6 +94,10 @@ public class AssetManager
 
     public BufferedImage getStoryBrokenBGImage() {
         return storyBrokenBGImage;
+    }
+
+    public BufferedImage getPausedImage(){
+        return pausedImage;
     }
 
 }

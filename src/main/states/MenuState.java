@@ -57,8 +57,6 @@ public class MenuState extends State
     private boolean storyNext = false;
 
 
-
-
     @Override
     public void tick() {
         int x = game.getMouseManager().getMouseX();

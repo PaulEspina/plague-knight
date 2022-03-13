@@ -2,6 +2,8 @@ package main.states;
 
 import main.Config;
 import main.Game;
+import main.button.Button;
+import main.button.ImageText;
 import main.button.Pause;
 import main.entity.Crate;
 import main.entity.Item;
@@ -39,6 +41,11 @@ public class GameState extends State
 
     private Pause pauseButton;
 
+    private Button resumeButton;
+    private Button mainMenuButton;
+    private ImageText pauseText;
+
+
     public GameState(Game game)
     {
         this.game = game;
@@ -48,7 +55,7 @@ public class GameState extends State
 
         settings = new GameSetting();
 
-        pauseButton = new Pause(game, new Point(5, 5), new Point(50, 50), Config.MENU_BUTTON_ASSET_PATH, "pause");
+        pauseButton = new Pause(game, new Point(5, 5), new Point(50, 50), "pause");
 
         //character position and size
         player = new Player(new Vector2f((float) Config.SCREEN_WIDTH / 2, (float) Config.SCREEN_HEIGHT / 2),
@@ -65,18 +72,32 @@ public class GameState extends State
 //        crates.add(new Crate(new Vector2f(300, 100), new Vector2f((float) Config.CRATE_ASSET_WIDTH / 2 * settings.zoom, (float) Config.CRATE_ASSET_HEIGHT / 2 * settings.zoom)));
 
         items = new Vector<>();
-    }
 
+        //Coordinate in Frame
+        resumeButton = new Button(game, new Point(450, 370), new Point(90, 55), 528, "resume");
+        mainMenuButton = new Button(game, new Point(210, 370), new Point(90, 55), 440, "menu");
+        pauseText = new ImageText(game, new Point(Config.SCREEN_WIDTH / 2 - Config.PAUSE_ASSET_WIDTH, 20), new Point(250, 100), "pause");
+
+    }
+    private boolean isPause = false;
+    private boolean returnMenu = false;
     @Override
     public void tick()
     {
         animationCounter++;
-        cratesTick();
-        itemsTick();
-        zombiesTick();
-        playerTick();
-        pauseTick();
-        pauseButton.pausedImage();
+        pauseImageTick();
+        if(returnMenu){
+            setState(new MenuState(game));
+        }
+        if(isPause){
+            pauseStateTick();
+        }
+        else{
+            cratesTick();
+            itemsTick();
+            zombiesTick();
+            playerTick();
+        }
     }
 
     @Override
@@ -98,17 +119,56 @@ public class GameState extends State
         }
         player.draw(g);
         pauseButton.draw(g);
+        if(isPause){
+            resumeButton.draw(g);
+            mainMenuButton.draw(g);
+            pauseText.draw(g);
+        }
     }
-
-    private void pauseTick()
+    private void pauseImageTick()
     {
         int x = game.getMouseManager().getMouseX();
         int y = game.getMouseManager().getMouseY();
         if(pauseButton.isInside(x, y)){
-            pauseButton.pausedImage();
+            pauseButton.hoverImage();
             if(game.getMouseManager().getMouseButtonState(MouseEvent.BUTTON1)){
-                pauseButton.pausedImage();
+                pauseButton.resumeImage();
+                isPause = true;
             }
+        }
+        else{
+            pauseButton.pausedImage();
+        }
+    }
+
+    private void pauseStateTick(){
+        int x = game.getMouseManager().getMouseX();
+        int y = game.getMouseManager().getMouseY();
+        pauseText.showPausedImage();
+        if(resumeButton.isInside(x, y)){
+            resumeButton.hoveredImage();
+            //If button clicked
+            if(game.getMouseManager().getMouseButtonState(MouseEvent.BUTTON1)) {
+                //Animate button
+                resumeButton.clickedImage();
+                isPause = false;
+            }
+        }
+        else{
+            resumeButton.unhoveredImage();
+        }
+
+        if(mainMenuButton.isInside(x, y)){
+            mainMenuButton.hoveredImage();
+            //If button clicked
+            if(game.getMouseManager().getMouseButtonState(MouseEvent.BUTTON1)) {
+                //Animate button
+                mainMenuButton.clickedImage();
+                returnMenu = true;
+            }
+        }
+        else{
+            mainMenuButton.unhoveredImage();
         }
     }
 

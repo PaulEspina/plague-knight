@@ -2,6 +2,7 @@ package main.button;
 
 import main.Config;
 import main.Game;
+import main.gfx.AssetManager;
 import main.gfx.ImageLoader;
 
 import java.awt.*;
@@ -15,13 +16,13 @@ public class Pause {
     private BufferedImage icon;
     private BufferedImage currentIcon;
     private BufferedImage[] pauseIcon = new BufferedImage[3];
-    public Pause(Game game, Point pos, Point size, String path, String pauseName){
+    public Pause(Game game, Point pos, Point size, String pauseName){
         this.game = game;
         this.pos = pos;
         this.size = size;
         this.pauseName = pauseName;
 
-        icon = ImageLoader.loadImage(path);
+        icon = AssetManager.getInstance().getMenuButtonImage();
         for(int i = 0; i < 3; i++){
             pauseIcon[i] = icon.getSubimage(i * Config.PAUSE_ASSET_WIDTH, 617, Config.PAUSE_ASSET_WIDTH, Config.PAUSE_ASSET_HEIGHT);
         }

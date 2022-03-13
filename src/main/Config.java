@@ -10,6 +10,7 @@ public class Config {
     public static final String MENU_BUTTON_ASSET_PATH = "/assets/menu/menubuttons/menubuttonsv6.png";
     public static final int BUTTON_ASSET_WIDTH = 174;
     public static final int BUTTON_ASSET_HEIGHT = 88;
+//    Pause Icon
     public static final int PAUSE_ASSET_WIDTH = 133;
     public static final int PAUSE_ASSET_HEIGHT = 133;
 
@@ -22,6 +23,11 @@ public class Config {
     public static final int MENU_SCREEN_Y = 55;
     public static final int MENU_SCREEN_WIDTH = 419;
     public static final int MENU_SCREEN_HEIGHT = 178;
+
+//    Pause Text
+    public static final String PAUSED_TEXT_ASSET_PATH = "/assets/menu/floaters/paused/pausedv1.png";
+    public static final int PAUSED_TEXT_WIDTH = 393;
+    public static final int PAUSED_TEXT_HEIGHT = 133;
 
     public static final double FLICKER_ANIMATION_DELAY = 50;
     public static final double BROKEN_SURVIVAL_ANIMATION_DELAY = 10;
