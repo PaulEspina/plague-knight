@@ -64,7 +64,6 @@ public class Item extends Entity{
 
     public Item(Player player, Vector2f pos, Vector2f size, Type type){
         this(type);
-        this.player = player;
         this.pos = pos;
         this.size = size;
     }
@@ -84,7 +83,8 @@ public class Item extends Entity{
     @Override
     public void update()
     {
-
+//        If may naapakan
+//        pickUp();
     }
 
     @Override

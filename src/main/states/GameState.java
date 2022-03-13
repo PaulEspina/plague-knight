@@ -203,9 +203,10 @@ public class GameState extends State
         int randInt = rand.nextInt(chance);
         if(randInt % chance == 0)
         {
-            items.add(new Item(new Vector2f(rand.nextInt(Config.SCREEN_WIDTH) , rand.nextInt(Config.SCREEN_HEIGHT)),
+            items.add(new Item(player, new Vector2f(rand.nextInt(Config.SCREEN_WIDTH) , rand.nextInt(Config.SCREEN_HEIGHT)),
                     new Vector2f(Config.ITEMS_ASSET_WIDTH / 1.5f * settings.zoom, Config.ITEMS_ASSET_HEIGHT / 1.5f * settings.zoom),
                     Item.Type.values()[rand.nextInt(Item.Type.values().length)]));
+            System.out.println(items);
         }
         for(int i = 0; i < items.size(); i++)
         {
