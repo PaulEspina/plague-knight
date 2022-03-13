@@ -3,6 +3,7 @@ package main.entity;
 
 import main.Config;
 import main.Vector2f;
+import main.entity.player.Player;
 import main.gfx.AssetManager;
 import main.gfx.ImageLoader;
 
@@ -38,6 +39,10 @@ public class Item extends Entity{
 
     private Boolean shouldShow;
 
+//pickup items beta
+    private Player player;
+    private String name;
+
     public Item(){
         pos = new Vector2f(0, 0);
         size = new Vector2f(0, 0);
@@ -47,8 +52,8 @@ public class Item extends Entity{
 
     public Item(Type type){
         this();
-        this.type = type;
 
+        this.type = type;
         asset = AssetManager.getInstance().getItem();
         images[Type.ATTACK_BOOST.getValue()] = asset.getSubimage(Config.ITEMS_ASSET_WIDTH * 11, 0, Config.ITEMS_ASSET_WIDTH, Config.ITEMS_ASSET_HEIGHT);
         images[Type.DEFENSE_BOOST.getValue()] = asset.getSubimage(Config.ITEMS_ASSET_WIDTH * 12, 0, Config.ITEMS_ASSET_WIDTH, Config.ITEMS_ASSET_HEIGHT);
@@ -57,8 +62,9 @@ public class Item extends Entity{
         images[Type.APPLE.getValue()] = asset.getSubimage(Config.ITEMS_ASSET_WIDTH * 15, 0, Config.ITEMS_ASSET_WIDTH, Config.ITEMS_ASSET_HEIGHT);
     }
 
-    public Item(Vector2f pos, Vector2f size, Type type){
+    public Item(Player player, Vector2f pos, Vector2f size, Type type){
         this(type);
+        this.player = player;
         this.pos = pos;
         this.size = size;
     }
@@ -71,6 +77,10 @@ public class Item extends Entity{
         shouldShow = false;
     }
 
+    public void pickUp(){
+        System.out.println("Picked up " + name);
+        player.addItem(this);
+    }
     @Override
     public void update()
     {

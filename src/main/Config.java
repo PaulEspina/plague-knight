@@ -35,7 +35,8 @@ public class Config {
 
     public static final double START_SURVIVAL_ANIMATION_DELAY = 70;
     public static final double START_STORY_ANIMATION_DELAY = 90;
-//    public static final double
+
+    public static final String HUD_ASSET_PATH = "/assets/menu/floaters/gamehud/hudv1.psd";
 
     public static final String ZOMBIE_ASSET_PATH = "/assets/sprites/zombies/zombiesmainv1.png";
     public static final int ZOMBIE_ASSET_WIDTH = 36;

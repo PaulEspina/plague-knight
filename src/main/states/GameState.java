@@ -129,6 +129,15 @@ public class GameState extends State
     {
         int x = game.getMouseManager().getMouseX();
         int y = game.getMouseManager().getMouseY();
+
+        if(game.getKeyManager().isKeyDown(KeyEvent.VK_ESCAPE)){
+            pauseButton.resumeImage();
+            if(isPause)
+                isPause = false;
+            else
+                isPause = true;
+        }
+
         if(pauseButton.isInside(x, y)){
             pauseButton.hoverImage();
             if(game.getMouseManager().getMouseButtonState(MouseEvent.BUTTON1)){
@@ -145,6 +154,7 @@ public class GameState extends State
         int x = game.getMouseManager().getMouseX();
         int y = game.getMouseManager().getMouseY();
         pauseText.showPausedImage();
+
         if(resumeButton.isInside(x, y)){
             resumeButton.hoveredImage();
             //If button clicked
@@ -194,7 +204,8 @@ public class GameState extends State
         if(randInt % chance == 0)
         {
             items.add(new Item(new Vector2f(rand.nextInt(Config.SCREEN_WIDTH) , rand.nextInt(Config.SCREEN_HEIGHT)),
-                    new Vector2f(Config.ITEMS_ASSET_WIDTH / 1.5f * settings.zoom, Config.ITEMS_ASSET_HEIGHT / 1.5f * settings.zoom), Item.Type.values()[rand.nextInt(Item.Type.values().length)]));
+                    new Vector2f(Config.ITEMS_ASSET_WIDTH / 1.5f * settings.zoom, Config.ITEMS_ASSET_HEIGHT / 1.5f * settings.zoom),
+                    Item.Type.values()[rand.nextInt(Item.Type.values().length)]));
         }
         for(int i = 0; i < items.size(); i++)
         {

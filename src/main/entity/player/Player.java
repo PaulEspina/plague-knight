@@ -3,6 +3,7 @@ package main.entity.player;
 import main.Config;
 import main.Drawable;
 import main.Vector2f;
+import main.entity.Item;
 import main.gfx.AssetManager;
 import main.input.KeyManager;
 
@@ -83,6 +84,10 @@ public class Player extends Character implements Drawable{
     public void attack(int damage)
     {
 
+    }
+
+    public void addItem(Item item){
+        System.out.println("Picked up!!");
     }
 
     public void checkRotation()
