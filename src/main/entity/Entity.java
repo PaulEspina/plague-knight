@@ -13,7 +13,7 @@ public abstract class Entity implements Drawable
     protected Vector2f size;
     protected BufferedImage texture;
     protected int animationSpeed;
-    protected int movementSpeed;
+    protected float movementSpeed;
 
     float time;
     float maxTime = 5;
@@ -70,7 +70,7 @@ public abstract class Entity implements Drawable
         this.animationSpeed = animationSpeed;
     }
 
-    public int getMovementSpeed() {
+    public float getMovementSpeed() {
         return movementSpeed;
     }
 

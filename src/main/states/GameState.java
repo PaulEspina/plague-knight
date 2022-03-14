@@ -5,6 +5,8 @@ import main.Game;
 import main.entity.Crate;
 import main.entity.Item;
 import main.Vector2f;
+import main.entity.enemy.FastZombie;
+import main.entity.enemy.SlowZombie;
 import main.entity.enemy.Zombie;
 import main.entity.map.Map;
 import main.input.KeyManager;
@@ -30,6 +32,8 @@ public class GameState extends State
     private Map map;
 
     private Vector<Zombie> zombies;
+    private Vector<FastZombie> fastZombie;
+    private Vector<SlowZombie> slowZombie;
     private final MouseManager mouseManager;
 
     private Vector<Crate> crates;
@@ -56,6 +60,9 @@ public class GameState extends State
                                    new Vector2f(Config.ZOMBIE_ASSET_WIDTH * settings.zoom, Config.ZOMBIE_ASSET_HEIGHT * settings.zoom)));
         }
 
+        fastZombie = new Vector<>();
+        slowZombie = new Vector<>();
+
         crates = new Vector<>();
 //        crates.add(new Crate(new Vector2f(300, 100), new Vector2f((float) Config.CRATE_ASSET_WIDTH / 2 * settings.zoom, (float) Config.CRATE_ASSET_HEIGHT / 2 * settings.zoom)));
 
@@ -66,9 +73,9 @@ public class GameState extends State
     public void tick()
     {
         animationCounter++;
+        zombiesTick();
         cratesTick();
         itemsTick();
-        zombiesTick();
         playerTick();
     }
 
@@ -88,6 +95,14 @@ public class GameState extends State
         for(int i = 0; i < zombies.size(); i++)
         {
             zombies.get(i).draw(g);
+        }
+        for(int i = 0; i < fastZombie.size(); i++)
+        {
+            fastZombie.get(i).draw(g);
+        }
+        for(int i = 0; i < slowZombie.size(); i++)
+        {
+            slowZombie.get(i).draw(g);
         }
         player.draw(g);
     }
@@ -124,16 +139,20 @@ public class GameState extends State
 
     private void zombiesTick()
     {
+        //add zombie to the vector
         if(animationCounter % settings.zombieSpawnTimer == 0)
         {
+            //randomize the spawn location of the zombie
             for(int i = 0; i < settings.zombiePerSpawn; i++)
             {
+                //generates random x-axis location
                 int xSign = rand.nextBoolean() ? 1 : -1;
                 Integer x = null;
                 while(x == null || (x >= 0 && x <= Config.SCREEN_WIDTH))
                 {
                     x = rand.nextInt(Config.SCREEN_WIDTH + 100) * xSign;
                 }
+                //generates random y-axis location
                 int ySign = rand.nextBoolean() ? 1 : -1;
                 Integer y = null;
                 while(y == null || (y >= 0 && y <= Config.SCREEN_HEIGHT))
@@ -141,8 +160,23 @@ public class GameState extends State
                     y = rand.nextInt(Config.SCREEN_WIDTH + 100) * ySign;
                 }
 
-                zombies.add(new Zombie(new Vector2f(x, y),
-                                       new Vector2f(Config.ZOMBIE_ASSET_WIDTH * settings.zoom, Config.ZOMBIE_ASSET_HEIGHT * settings.zoom)));
+                int randNum = rand.nextInt(100);
+                if(randNum % 5 == 0)
+                {
+                    fastZombie.add(new FastZombie(new Vector2f(x, y),
+                            new Vector2f(Config.ZOMBIE_ASSET_WIDTH * settings.zoom, Config.ZOMBIE_ASSET_HEIGHT * settings.zoom)));
+                }
+                else if(randNum % 7 == 0)
+                {
+                    slowZombie.add(new SlowZombie(new Vector2f(x, y),
+                            new Vector2f(Config.ZOMBIE_ASSET_WIDTH * settings.zoom, Config.ZOMBIE_ASSET_HEIGHT * settings.zoom)));
+                }
+                else
+                {
+                    zombies.add(new Zombie(new Vector2f(x, y),
+                            new Vector2f(Config.ZOMBIE_ASSET_WIDTH * settings.zoom, Config.ZOMBIE_ASSET_HEIGHT * settings.zoom)));
+                }
+
             }
         }
 
@@ -154,6 +188,25 @@ public class GameState extends State
                 zombies.get(i).animate();
             }
             zombies.get(i).update();
+        }
+
+        for(int i = 0; i < fastZombie.size(); i++)
+        {
+            fastZombie.get(i).follow(player.getPos());
+            if(animationCounter % fastZombie.get(i).getAnimationSpeed() == 0)
+            {
+                fastZombie.get(i).animate();
+            }
+            fastZombie.get(i).update();
+        }
+        for(int i = 0; i < slowZombie.size(); i++)
+        {
+            slowZombie.get(i).follow(player.getPos());
+            if(animationCounter % slowZombie.get(i).getAnimationSpeed() == 0)
+            {
+                slowZombie.get(i).animate();
+            }
+            slowZombie.get(i).update();
         }
     }
 

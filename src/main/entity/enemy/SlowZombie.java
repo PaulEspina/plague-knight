@@ -8,7 +8,7 @@ import main.gfx.ImageLoader;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class Zombie extends Enemy
+public class SlowZombie extends Enemy
 {
     private String type;
     private String direction;
@@ -17,7 +17,7 @@ public class Zombie extends Enemy
     private final BufferedImage[] currentImages;
     private int animationIndex;
 
-    public Zombie()
+    public SlowZombie()
     {
         type = "normal";
         direction = "south";
@@ -26,22 +26,22 @@ public class Zombie extends Enemy
         currentImages = new BufferedImage[3];
         animationIndex = 0;
         animationSpeed = 20;
-        movementSpeed = 0.9f;
+        movementSpeed = 0.7f;
     }
 
-    public Zombie(Vector2f pos, Vector2f size)
+    public SlowZombie(Vector2f pos, Vector2f size)
     {
         this(pos, size, "normal");
     }
 
-    public Zombie(Vector2f pos, Vector2f size, String type)
+    public SlowZombie(Vector2f pos, Vector2f size, String type)
     {
         this();
         this.pos = pos;
         this.size = size;
         this.type = type;
         sprite = AssetManager.getInstance().getZombie();
-        sprite = sprite.getSubimage(0, Config.ZOMBIE_ASSET_HEIGHT * 0, Config.ZOMBIE_ASSET_WIDTH * 12, Config.ZOMBIE_ASSET_HEIGHT);
+        sprite = sprite.getSubimage(0, Config.ZOMBIE_ASSET_HEIGHT * 2, Config.ZOMBIE_ASSET_WIDTH * 12, Config.ZOMBIE_ASSET_HEIGHT);
         for(int i = 0; i < 12; i++)
         {
             images[i] = sprite.getSubimage(Config.ZOMBIE_ASSET_WIDTH * i, 0, Config.ZOMBIE_ASSET_WIDTH, Config.ZOMBIE_ASSET_HEIGHT);
@@ -67,10 +67,10 @@ public class Zombie extends Enemy
     public void draw(Graphics g)
     {
         g.drawImage(currentImages[animationIndex], (int) pos.getX() - (int) size.getX() / 2,
-                    (int) pos.getY() - (int) size.getY() / 2,
-                    (int) size.getX(),
-                    (int) size.getY(),
-                    null);
+                (int) pos.getY() - (int) size.getY() / 2,
+                (int) size.getX(),
+                (int) size.getY(),
+                null);
     }
 
     public void follow(Vector2f target)
@@ -86,7 +86,7 @@ public class Zombie extends Enemy
             float y = (float) Math.sin(theta);
 
             float newDistance = (float) Math.sqrt(Math.pow(Math.abs(target.getX() - (pos.getX() + x)), 2) +
-                                                  Math.pow(Math.abs(target.getY() - (pos.getY() + y)), 2));
+                    Math.pow(Math.abs(target.getY() - (pos.getY() + y)), 2));
             if(newDistance >= movementSpeed) // clamp
             {
                 pos.add(x * (float) movementSpeed, y * (float) movementSpeed);
