@@ -1,14 +1,11 @@
-package main.button;
+package main.crop;
 
 import main.Config;
 import main.Game;
 import main.gfx.AssetManager;
-import main.gfx.ImageLoader;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-
-import static java.lang.System.exit;
 
 public class Button{
     private Game game;
@@ -84,7 +81,7 @@ public class Button{
                 return true;
             }
             return false;
-        }
+    }
 
     public void draw(Graphics g){
         g.drawImage(currentImage, (int) getPos().getX(), (int) getPos().getY(), (int) getSize().getX(), (int) getSize().getY(), null);

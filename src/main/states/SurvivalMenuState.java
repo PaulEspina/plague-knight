@@ -2,13 +2,11 @@ package main.states;
 
 import main.Config;
 import main.Game;
-import main.button.Button;
+import main.crop.Button;
 import main.gfx.AssetManager;
-import main.gfx.ImageLoader;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
 
 
 public class SurvivalMenuState extends State{
@@ -60,7 +58,7 @@ public class SurvivalMenuState extends State{
                 //Animate button
                 startButton.clickedImage();
                 survivalIsClicked = true;
-                
+
             }
         }
         else{

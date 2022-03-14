@@ -7,9 +7,12 @@ public class Config {
     public static final String TITLE = "Plague Knight";
 
 
-    public static final String MENU_BUTTON_ASSET_PATH = "/assets/menu/menubuttons/menubuttonsv5.png";
+    public static final String MENU_BUTTON_ASSET_PATH = "/assets/menu/menubuttons/menubuttonsv6.png";
     public static final int BUTTON_ASSET_WIDTH = 174;
     public static final int BUTTON_ASSET_HEIGHT = 88;
+//    Pause Icon
+    public static final int PAUSE_ASSET_WIDTH = 133;
+    public static final int PAUSE_ASSET_HEIGHT = 133;
 
     public static final String MENU_BACKGROUND_ASSET_PATH = "/assets/menu/menubackground/menubackgroundv2.png";
     public static final String DOTTED_BACKGROUND_ASSET_PATH = "/assets/menu/menubackground/menubackgroundv4.png";
@@ -21,13 +24,19 @@ public class Config {
     public static final int MENU_SCREEN_WIDTH = 419;
     public static final int MENU_SCREEN_HEIGHT = 178;
 
+//    Pause Text
+    public static final String PAUSED_TEXT_ASSET_PATH = "/assets/menu/floaters/paused/pausedv1.png";
+    public static final int PAUSED_TEXT_WIDTH = 393;
+    public static final int PAUSED_TEXT_HEIGHT = 133;
+
     public static final double FLICKER_ANIMATION_DELAY = 50;
     public static final double BROKEN_SURVIVAL_ANIMATION_DELAY = 10;
     public static final double BROKEN_STORY_ANIMATION_DELAY = 10;
 
     public static final double START_SURVIVAL_ANIMATION_DELAY = 70;
     public static final double START_STORY_ANIMATION_DELAY = 90;
-//    public static final double
+
+    public static final String HUD_ASSET_PATH = "/assets/menu/floaters/gamehud/hudv1.psd";
 
     public static final String ZOMBIE_ASSET_PATH = "/assets/sprites/zombies/zombiesmainv1.png";
     public static final int ZOMBIE_ASSET_WIDTH = 36;
@@ -47,7 +56,7 @@ public class Config {
     public static final int CRATE_ASSET_HEIGHT = 67;
     public static final int CRATE_ANIMATION_DELAY = 20;
 
-    public static final String ITEMS_ASSET_PATH = "/assets/items/drops/itemdropsv2.png";
+    public static final String ITEMS_ASSET_PATH = "/assets/items/drops/itemdropsv3.png";
     public static final int ITEMS_ASSET_WIDTH = 48;
     public static final int ITEMS_ASSET_HEIGHT = 48;
     public static final int TOTAL_ITEMS = 5;

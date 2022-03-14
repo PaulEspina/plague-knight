@@ -2,8 +2,11 @@ package main.states;
 
 import main.Config;
 import main.Game;
+import main.crop.Button;
+import main.crop.ImageText;
+import main.crop.Pause;
 import main.entity.Crate;
-import main.entity.Item;
+import main.entity.Item.Item;
 import main.Vector2f;
 import main.entity.enemy.Zombie;
 import main.entity.map.Map;
@@ -14,7 +17,6 @@ import java.awt.event.MouseEvent;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.security.Key;
 import java.util.Random;
 import java.util.Vector;
 
@@ -36,6 +38,13 @@ public class GameState extends State
 
     private Vector<Item> items;
 
+    private Pause pauseButton;
+
+    private Button resumeButton;
+    private Button mainMenuButton;
+    private ImageText pauseText;
+
+
     public GameState(Game game)
     {
         this.game = game;
@@ -44,6 +53,8 @@ public class GameState extends State
         rand = new Random();
 
         settings = new GameSetting();
+
+        pauseButton = new Pause(game, new Point(5, 5), new Point(50, 50), "pause");
 
         //character position and size
         player = new Player(new Vector2f((float) Config.SCREEN_WIDTH / 2, (float) Config.SCREEN_HEIGHT / 2),
@@ -60,16 +71,32 @@ public class GameState extends State
 //        crates.add(new Crate(new Vector2f(300, 100), new Vector2f((float) Config.CRATE_ASSET_WIDTH / 2 * settings.zoom, (float) Config.CRATE_ASSET_HEIGHT / 2 * settings.zoom)));
 
         items = new Vector<>();
-    }
 
+        //Coordinate in Frame
+        resumeButton = new Button(game, new Point(450, 370), new Point(90, 55), 528, "resume");
+        mainMenuButton = new Button(game, new Point(210, 370), new Point(90, 55), 440, "menu");
+        pauseText = new ImageText(game, new Point(Config.SCREEN_WIDTH / 2 - Config.PAUSE_ASSET_WIDTH, 20), new Point(250, 100), "pause");
+
+    }
+    private boolean isPause = false;
+    private boolean returnMenu = false;
     @Override
     public void tick()
     {
         animationCounter++;
-        cratesTick();
-        itemsTick();
-        zombiesTick();
-        playerTick();
+        pauseImageTick();
+        if(returnMenu){
+            setState(new MenuState(game));
+        }
+        if(isPause){
+            pauseStateTick();
+        }
+        else{
+            cratesTick();
+            itemsTick();
+            zombiesTick();
+            playerTick();
+        }
     }
 
     @Override
@@ -89,7 +116,70 @@ public class GameState extends State
         {
             zombies.get(i).draw(g);
         }
+
         player.draw(g);
+        pauseButton.draw(g);
+        if(isPause){
+            resumeButton.draw(g);
+            mainMenuButton.draw(g);
+            pauseText.draw(g);
+        }
+    }
+    private void pauseImageTick()
+    {
+        int x = game.getMouseManager().getMouseX();
+        int y = game.getMouseManager().getMouseY();
+
+        if(game.getKeyManager().isKeyDown(KeyEvent.VK_ESCAPE)){
+            pauseButton.resumeImage();
+            if(isPause)
+                isPause = false;
+            else
+                isPause = true;
+        }
+
+        if(pauseButton.isInside(x, y)){
+            pauseButton.hoverImage();
+            if(game.getMouseManager().getMouseButtonState(MouseEvent.BUTTON1)){
+                pauseButton.resumeImage();
+                isPause = true;
+            }
+        }
+        else{
+            pauseButton.pausedImage();
+        }
+    }
+
+    private void pauseStateTick(){
+        int x = game.getMouseManager().getMouseX();
+        int y = game.getMouseManager().getMouseY();
+        pauseText.showPausedImage();
+
+        if(resumeButton.isInside(x, y)){
+            resumeButton.hoveredImage();
+            //If button clicked
+            if(game.getMouseManager().getMouseButtonState(MouseEvent.BUTTON1)) {
+                //Animate button
+                resumeButton.clickedImage();
+                isPause = false;
+            }
+        }
+        else{
+            resumeButton.unhoveredImage();
+        }
+
+        if(mainMenuButton.isInside(x, y)){
+            mainMenuButton.hoveredImage();
+            //If button clicked
+            if(game.getMouseManager().getMouseButtonState(MouseEvent.BUTTON1)) {
+                //Animate button
+                mainMenuButton.clickedImage();
+                returnMenu = true;
+            }
+        }
+        else{
+            mainMenuButton.unhoveredImage();
+        }
     }
 
     private void cratesTick()
@@ -113,10 +203,17 @@ public class GameState extends State
         int randInt = rand.nextInt(chance);
         if(randInt % chance == 0)
         {
-            items.add(new Item(new Vector2f(rand.nextInt(Config.SCREEN_WIDTH) , rand.nextInt(Config.SCREEN_HEIGHT)), new Vector2f(Config.ITEMS_ASSET_WIDTH, Config.ITEMS_ASSET_HEIGHT), Item.Type.values()[rand.nextInt(Item.Type.values().length)]));
+            items.add(new Item(new Vector2f(rand.nextInt(Config.SCREEN_WIDTH) , rand.nextInt(Config.SCREEN_HEIGHT)),
+                               new Vector2f(Config.ITEMS_ASSET_WIDTH / 1.5f * settings.zoom, Config.ITEMS_ASSET_HEIGHT / 1.5f * settings.zoom),
+                    Item.Type.values()[rand.nextInt(Item.Type.values().length)]));
         }
         for(int i = 0; i < items.size(); i++)
         {
+            if(items.get(i).checkBounds(player))
+            {
+                player.pickup(items.get(i).getType());
+                items.get(i).hide();
+            }
             items.get(i).update();
         }
 
