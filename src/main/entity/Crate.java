@@ -2,9 +2,9 @@ package main.entity;
 
 import main.Config;
 import main.Vector2f;
+import main.entity.Item.Item;
 import main.entity.player.Player;
 import main.gfx.AssetManager;
-import main.gfx.ImageLoader;
 
 import java.awt.*;
 

@@ -1,15 +1,16 @@
 package main.entity;
 
-import main.crop.Weapon;
+import main.crop.WeaponSlot;
+import main.entity.Item.Item;
 
 public class Inventory {
 
-    private Weapon[] weapons;
+    private WeaponSlot[] weapons;
     private Item[] items;
     private int firstFree;
 
     public Inventory(){
-        weapons = new Weapon[6];
+        weapons = new WeaponSlot[6];
 
 
     }

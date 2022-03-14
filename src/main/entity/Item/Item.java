@@ -1,16 +1,16 @@
-package main.entity;
+package main.entity.Item;
 
 
 import main.Config;
 import main.Vector2f;
+import main.entity.Entity;
 import main.entity.player.Player;
 import main.gfx.AssetManager;
-import main.gfx.ImageLoader;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class Item extends Entity{
+public class Item extends Entity {
 
     public enum Type {
         HEART(0),
@@ -64,6 +64,10 @@ public class Item extends Entity{
         this.size = size;
     }
 
+    public Type getType() {
+        return type;
+    }
+
     public void show(){
         shouldShow = true;
     }
@@ -73,22 +77,28 @@ public class Item extends Entity{
     }
 
     public boolean checkBounds(Player player){
-//            System.out.println("item x = " + (int) pos.getX());
-//            System.out.println("item y = " + (int) pos.getY());
-//            System.out.println("Player x = " + (int) player.getPos().getX());
-//            System.out.println("Player Y = " + (int) player.getPos().getY());
-//            Need dynamic array for items to check location of the item since item's pos will change every new spawn
-        if(((int) player.getPos().getX() == (int) pos.getX()) &&
-                ((int) player.getPos().getY() == (int) pos.getY())){
-            return true;
+        int playerPosX = (int) player.getPos().getX();  //30
+        int playerPosY = (int) player.getPos().getY();  //30
+        int playerSizeX = (int) player.getSize().getX();    //30
+        int playerSizeY = (int) player.getSize().getY();    //20
+        int itemPosX = (int) pos.getX();    //50
+        int itemPosY = (int) pos.getY();    //50
+        int itemSizeX = (int) size.getX();  //30
+        int itemSizeY = (int) size.getY();  //30
+//            System.out.println("item x = " + ((int) pos.getX() - (int) size.getX() / 2));
+//            System.out.println("item y = " + ((int) pos.getY() + (int) size.getY() / 2));
+//            System.out.println("Player x = " + ((int) player.getPos().getX() - (int) player.getSize().getX() / 2));
+//            System.out.println("Player Y = " + ((int) player.getPos().getY() + (int) player.getSize().getY() / 2));
+
+        if (shouldShow) {
+            if(((playerPosX + playerSizeX / 2) - 15 >= (itemPosX - itemSizeX / 2)) &&   //Right
+                    ((playerPosX - playerSizeX / 2) - 15 <= (itemPosX + itemSizeX / 2)) &&  //Left
+                    ((playerPosY + playerSizeY / 2) - 15 >= (itemPosY - itemSizeY / 2)) &&  //Down
+                    ((playerPosY) <= (itemPosY + itemSizeY / 2))){  //Up
+                return true;
+            }
         }
         return false;
-//        if((player.getPos().getX() - player.getSize().getX() / 2) >= (pos.getX() - size.getX() / 2))
-//        {
-//            System.out.println("collide");
-//            return true;
-//        }
-//        return false;
     }
 
     @Override

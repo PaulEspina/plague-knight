@@ -6,9 +6,8 @@ import main.gfx.AssetManager;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.nio.Buffer;
 
-public class Weapon {
+public class WeaponSlot {
     private Game game;
     private Point pos;
     private Point size;
@@ -19,7 +18,7 @@ public class Weapon {
     private BufferedImage[] weapons;
     private BufferedImage currentWeapon;
 
-    public Weapon(Game game, Point pos, Point size, String weaponName){
+    public WeaponSlot(Game game, Point pos, Point size, String weaponName){
         this.game = game;
         this.pos = pos;
         this.size = size;

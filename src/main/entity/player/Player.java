@@ -3,7 +3,7 @@ package main.entity.player;
 import main.Config;
 import main.Drawable;
 import main.Vector2f;
-import main.entity.Item;
+import main.entity.Item.Item.Type;
 import main.gfx.AssetManager;
 import main.input.KeyManager;
 
@@ -16,8 +16,8 @@ public class Player extends Character implements Drawable{
     private Vector2f vel;
     private String direction;
     private BufferedImage sprite;
-    private BufferedImage[] images;
-    private BufferedImage[] currentImages;
+    private final BufferedImage[] images;
+    private final BufferedImage[] currentImages;
     private int animationIndex;
 
     public Player()
@@ -86,8 +86,24 @@ public class Player extends Character implements Drawable{
 
     }
 
-    public void pickup(Item item){
-        System.out.println("Picked up!!" + item);
+    public void pickup(Type type){
+        switch (type){
+            case HEART:
+
+            break;
+            case APPLE:
+
+            break;
+            case BOOTS:
+
+            break;
+            case ATTACK_BOOST:
+
+            break;
+            case DEFENSE_BOOST:
+
+            break;
+        }
     }
 
     public void checkRotation()
@@ -116,6 +132,7 @@ public class Player extends Character implements Drawable{
                 break;
         }
     }
+
 
     public void setVelX(float velX)
     {

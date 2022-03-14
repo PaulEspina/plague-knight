@@ -6,7 +6,7 @@ import main.crop.Button;
 import main.crop.ImageText;
 import main.crop.Pause;
 import main.entity.Crate;
-import main.entity.Item;
+import main.entity.Item.Item;
 import main.Vector2f;
 import main.entity.enemy.Zombie;
 import main.entity.map.Map;
@@ -211,7 +211,7 @@ public class GameState extends State
         {
             if(items.get(i).checkBounds(player))
             {
-                player.pickup(items.get(i));
+                player.pickup(items.get(i).getType());
                 items.get(i).hide();
             }
             items.get(i).update();
