@@ -90,10 +90,14 @@ public class Item extends Entity {
 //            System.out.println("Player x = " + ((int) player.getPos().getX() - (int) player.getSize().getX() / 2));
 //            System.out.println("Player Y = " + ((int) player.getPos().getY() + (int) player.getSize().getY() / 2));
 
+//        (((playerPosX + playerSizeX / 2) - 15 >= (itemPosX - itemSizeX / 2)) &&   //Right
+//                ((playerPosX - playerSizeX / 2) + 15 <= (itemPosX + itemSizeX / 2)) &&  //Left
+//                ((playerPosY + playerSizeY / 2) - 15 >= (itemPosY - itemSizeY / 2)) &&  //Down
+//                ((playerPosY) <= (itemPosY + itemSizeY / 2))){  //Up
         if (shouldShow) {
-            if(((playerPosX + playerSizeX / 2) - 15 >= (itemPosX - itemSizeX / 2)) &&   //Right
-                    ((playerPosX - playerSizeX / 2) - 15 <= (itemPosX + itemSizeX / 2)) &&  //Left
-                    ((playerPosY + playerSizeY / 2) - 15 >= (itemPosY - itemSizeY / 2)) &&  //Down
+            if(((playerPosX) >= (itemPosX - itemSizeX / 2)) &&   //Right
+                    ((playerPosX) <= (itemPosX + itemSizeX / 2)) &&  //Left
+                    ((playerPosY + playerSizeY / 2) >= (itemPosY - itemSizeY / 2)) &&  //Down
                     ((playerPosY) <= (itemPosY + itemSizeY / 2))){  //Up
                 return true;
             }

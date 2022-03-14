@@ -34,7 +34,9 @@ public class WeaponSlot {
         g.drawImage(currentWeapon, (int) getPos().getX(), (int) getPos().getY(), (int) getSize().getX(), (int) getSize().getY(), null);
     }
 
-
+    public void knife(){
+        currentWeapon = weapons[0];
+    }
     public Point getPos() {
         return pos;
     }

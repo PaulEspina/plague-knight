@@ -6,7 +6,7 @@ import main.Vector2f;
 import main.entity.Item.Item.Type;
 import main.gfx.AssetManager;
 import main.input.KeyManager;
-
+import java.util.Date;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
@@ -89,13 +89,31 @@ public class Player extends Character implements Drawable{
     public void pickup(Type type){
         switch (type){
             case HEART:
-
+                if(checkMaxHeart()){
+                    hearts += 1;
+                    currentHearts += 1;
+                }
+                System.out.println("HEARTS : " + hearts);
+                System.out.println("CURRENT : " + currentHearts);
             break;
             case APPLE:
-
+                if(checkCurrentHearts())
+                    currentHearts += 1;
+                System.out.println("CURRENT : " + currentHearts);
             break;
             case BOOTS:
-
+//                boolean active = true;
+//                long activeTime = new Date().getTime();
+//                long endTime = activeTime + 5000;
+//
+//                update();
+//                while(active && activeTime < endTime)
+//                {
+//
+//                }
+//                System.out.println("BEFORE : " + movementSpeed);
+//                setMovementSpeed(getMovementSpeed() + 100);
+//                System.out.println("AFTER : " + movementSpeed);
             break;
             case ATTACK_BOOST:
 
