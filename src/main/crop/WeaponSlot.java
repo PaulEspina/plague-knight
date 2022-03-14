@@ -2,6 +2,8 @@ package main.crop;
 
 import main.Config;
 import main.Game;
+import main.entity.Item.Knife;
+import main.entity.Item.Weapons;
 import main.gfx.AssetManager;
 
 import java.awt.*;
@@ -16,7 +18,7 @@ public class WeaponSlot {
 
     private BufferedImage weaponImage;
     private BufferedImage[] weapons;
-    private BufferedImage currentWeapon;
+    private int currentWeapon;
 
     public WeaponSlot(Game game, Point pos, Point size, String weaponName){
         this.game = game;
@@ -31,12 +33,9 @@ public class WeaponSlot {
     }
 
     public void draw(Graphics g){
-        g.drawImage(currentWeapon, (int) getPos().getX(), (int) getPos().getY(), (int) getSize().getX(), (int) getSize().getY(), null);
+        g.drawImage(weapons[currentWeapon], (int) getPos().getX(), (int) getPos().getY(), (int) getSize().getX(), (int) getSize().getY(), null);
     }
 
-    public void knife(){
-        currentWeapon = weapons[0];
-    }
     public Point getPos() {
         return pos;
     }
@@ -47,5 +46,20 @@ public class WeaponSlot {
 
     public String getWeaponName() {
         return weaponName;
+    }
+
+    public void setWeapon(Type type)
+    {
+        switch(weapon.getType())
+        {
+            case Weapons.Type.KNIFE:
+                currentWeapon = 0;
+                break;
+        }
+    }
+
+    public int getCurrentWeapon()
+    {
+        return currentWeapon;
     }
 }
