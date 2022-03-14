@@ -2,8 +2,7 @@ package main.crop;
 
 import main.Config;
 import main.Game;
-import main.entity.Item.Knife;
-import main.entity.Item.Weapons;
+import main.entity.Item.Weapon.weaponType;
 import main.gfx.AssetManager;
 
 import java.awt.*;
@@ -48,13 +47,28 @@ public class WeaponSlot {
         return weaponName;
     }
 
-    public void setWeapon(Type type)
+    public void setWeapon(weaponType type)
     {
-        switch(weapon.getType())
+        switch(type)
         {
-            case Weapons.Type.KNIFE:
+            case KNIFE:
                 currentWeapon = 0;
-                break;
+            break;
+            case AXE:
+                currentWeapon = 1;
+            break;
+            case BOW:
+                currentWeapon = 2;
+            break;
+            case SPEAR:
+                currentWeapon = 3;
+            break;
+            case SWORD:
+                currentWeapon = 4;
+            break;
+            case CROSSBOW:
+                currentWeapon = 5;
+            break;
         }
     }
 
