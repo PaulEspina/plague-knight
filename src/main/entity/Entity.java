@@ -4,7 +4,6 @@ import main.Drawable;
 import main.Vector2f;
 import main.gfx.ImageLoader;
 
-import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public abstract class Entity implements Drawable
@@ -13,7 +12,7 @@ public abstract class Entity implements Drawable
     protected Vector2f size;
     protected BufferedImage texture;
     protected int animationSpeed;
-    protected int movementSpeed;
+    protected float movementSpeed;
 
     float time;
     float maxTime = 5;
@@ -70,11 +69,11 @@ public abstract class Entity implements Drawable
         this.animationSpeed = animationSpeed;
     }
 
-    public int getMovementSpeed() {
+    public float getMovementSpeed() {
         return movementSpeed;
     }
 
-    public void setMovementSpeed(int movementSpeed) {
+    public void setMovementSpeed(float movementSpeed) {
         if (movementSpeed < 0) {
             movementSpeed = 0;
         }

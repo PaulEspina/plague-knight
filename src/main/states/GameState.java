@@ -148,6 +148,10 @@ public class GameState extends State
 
         for(int i = 0; i < zombies.size(); i++)
         {
+            if(player.inRange(zombies.get(i)))
+            {
+                player.attack(zombies.get(i));
+            }
             zombies.get(i).follow(player.getPos());
             if(animationCounter % zombies.get(i).getAnimationSpeed() == 0)
             {

@@ -1,8 +1,10 @@
 package main.entity.player;
 
+import main.Attackable;
 import main.Config;
 import main.Drawable;
 import main.Vector2f;
+import main.entity.enemy.Zombie;
 import main.gfx.AssetManager;
 import main.input.KeyManager;
 
@@ -80,9 +82,37 @@ public class Player extends Character implements Drawable{
     }
 
     @Override
-    public void attack(int damage)
+    public void attack(Attackable attackable)
     {
+        if(attackable instanceof Zombie)
+        {
+            attackable.damage(10); // temporary... change when weapon system is online ./.
+        }
+    }
 
+    @Override
+    public void damage(int damage)
+    {
+        if(hearts > 0)
+        {
+            hearts -= damage;
+        }
+    }
+
+    public boolean inRange(Zombie zombie)
+    {
+        switch(direction)
+        {
+            case "north":
+                break;
+            case "south":
+                break;
+            case "east":
+                break;
+            case "west":
+                break;
+        }
+        return false;
     }
 
     public void checkRotation()

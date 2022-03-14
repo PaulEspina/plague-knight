@@ -1,9 +1,10 @@
 package main.entity.enemy;
 
+import main.Attackable;
 import main.Config;
 import main.Vector2f;
+import main.entity.player.Player;
 import main.gfx.AssetManager;
-import main.gfx.ImageLoader;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -50,12 +51,40 @@ public class Zombie extends Enemy
         currentImages[0] = images[0];
         currentImages[1] = images[1];
         currentImages[2] = images[2];
+
+        switch(type)
+        {
+            case "normal":
+                healthPoints = 30;
+                movementSpeed = 1.0f;
+                break;
+            case "fast":
+                healthPoints = 20;
+                movementSpeed = 1.5f;
+                break;
+            case "slow":
+                healthPoints = 40;
+                movementSpeed = 0.5f;
+                break;
+        }
     }
 
     @Override
-    public void attack(int damage)
+    public void attack(Attackable attackable)
     {
+        if(attackable instanceof Player)
+        {
+            attackable.damage(1); // temporary magic number for testing
+        }
+    }
 
+    @Override
+    public void damage(int damage)
+    {
+        if(healthPoints > 0)
+        {
+            healthPoints -= damage;
+        }
     }
 
     @Override
