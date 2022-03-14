@@ -110,9 +110,12 @@ public class Player extends Character implements Drawable{
             case "south":
                 break;
             case "east":
-                if(getPos().getX() zombie.g)
+                if(getPos().getX() == zombie.getPos().getX())
+                    return true;
                 break;
             case "west":
+                if(getPos().getX() == zombie.getPos().getX())
+                    return true;
                 break;
         }
         return false;

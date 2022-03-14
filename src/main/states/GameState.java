@@ -297,6 +297,14 @@ public class GameState extends State
             player.animate();
         }
 
+        if(game.getMouseManager().getMouseButtonState(MouseEvent.BUTTON1)){
+            System.out.println("Attack!");
+            for(int i = 0; i < zombies.size(); i++) {
+                if(player.inRange(zombies.get(i)))
+                    player.attack(zombies.get(i));
+            }
+        }
+
         player.update();
     }
 }
