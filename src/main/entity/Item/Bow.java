@@ -10,9 +10,9 @@ public class Bow extends Weapon {
     {
         type = BOW;
         damage = 10;
-        animationSpeed = 3;
+        animationSpeed = 2;
         cooldownSpeed = 2;
-        range = 2;
+        range = 5;
         knockback = 5;
     }
 }

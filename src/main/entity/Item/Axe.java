@@ -13,7 +13,7 @@ public class Axe extends Weapon {
         animationSpeed = 3;
         cooldownSpeed = 2;
         range = 2;
-        knockback = 5;
+        knockback = 1;
     }
 }
 

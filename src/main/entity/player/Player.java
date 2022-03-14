@@ -4,6 +4,7 @@ import main.Attackable;
 import main.Config;
 import main.Drawable;
 import main.Vector2f;
+import main.entity.Item.Weapon;
 import main.entity.enemy.Zombie;
 import main.entity.Item.Item.Type;
 import main.gfx.AssetManager;
@@ -87,7 +88,7 @@ public class Player extends Character implements Drawable{
     {
         if(attackable instanceof Zombie)
         {
-            attackable.damage(10); // temporary... change when weapon system is online ./.
+            attackable.damage(10); // temporary... change when weapon system is online
         }
     }
 
@@ -109,6 +110,7 @@ public class Player extends Character implements Drawable{
             case "south":
                 break;
             case "east":
+                if(getPos().getX() zombie.g)
                 break;
             case "west":
                 break;
