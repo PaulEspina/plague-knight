@@ -1,12 +1,17 @@
 package main.entity;
 
+import main.crop.Weapon;
+
 public class Inventory {
+
+    private Weapon[] weapons;
     private Item[] items;
     private int firstFree;
 
-    public Inventory(int size){
-        items = new Item[size];
-        firstFree = 0;
+    public Inventory(){
+        weapons = new Weapon[6];
+
+
     }
 
     public void add(Item item){
@@ -36,22 +41,4 @@ public class Inventory {
         return items[index];
     }
 
-//    For Story but not sure if it will be implemented
-    public void remove(int index){
-        items[index] = null;
-        if(index < firstFree){
-            firstFree = index;
-        }
-    }
-
-    public void remove(Item item){
-        for(int i = 0; i < items.length; i++){
-            if(items[i] == item){
-                items[i] = null;
-                if(i < firstFree)
-                    firstFree = i;
-                return;
-            }
-        }
-    }
 }

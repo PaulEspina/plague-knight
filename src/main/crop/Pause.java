@@ -1,9 +1,8 @@
-package main.button;
+package main.crop;
 
 import main.Config;
 import main.Game;
 import main.gfx.AssetManager;
-import main.gfx.ImageLoader;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;

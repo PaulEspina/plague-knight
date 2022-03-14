@@ -64,6 +64,7 @@ public class Item extends Entity{
 
     public Item(Player player, Vector2f pos, Vector2f size, Type type){
         this(type);
+        this.player = player;
         this.pos = pos;
         this.size = size;
     }
@@ -80,11 +81,27 @@ public class Item extends Entity{
         System.out.println("Picked up " + name);
         player.addItem(this);
     }
+
+    public void itemIsInRadius(Player player){
+            System.out.println("item x = " + (int) pos.getX());
+            System.out.println("item y = " + (int) pos.getY());
+            System.out.println("Player x = " + (int) player.getPos().getX());
+            System.out.println("Player Y = " + (int) player.getPos().getY());
+//            Need dynamic array for items to check location of the item since item's pos will change every new spawn
+//        if(((int) player.getPos().getX() == (int) getPos().getX()) &&
+//                ((int) player.getPos().getY() == (int) getPos().getY())){
+//            return true;
+//        }
+//        return false;
+    }
     @Override
     public void update()
     {
-//        If may naapakan
-//        pickUp();
+        itemIsInRadius(player);
+//        if(itemIsInRadius(player)){
+//            System.out.println("PICKED UP");
+//            pickUp();
+//        }
     }
 
     @Override
@@ -93,6 +110,10 @@ public class Item extends Entity{
         if(shouldShow)
         {
             g.drawImage(images[type.getValue()],(int) pos.getX() - (int) size.getX() / 2, (int) pos.getY() - (int) size.getY() / 2, (int) size.getX(), (int) size.getY(), null);
+//            System.out.println("item x = " + pos.getX());
+//            System.out.println("item y = " + pos.getY());
+//            System.out.println("Player x = " + player.getPos().getX());
+//            System.out.println("Player Y = " + player.getPos().getY());
         }
     }
 }

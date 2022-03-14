@@ -2,14 +2,12 @@ package main.states;
 
 import main.Config;
 import main.Game;
-import main.button.Button;
-import main.button.Screen;
+import main.crop.Button;
+import main.crop.Screen;
 import main.gfx.AssetManager;
-import main.gfx.ImageLoader;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
 import java.util.Random;
 
 public class MenuState extends State

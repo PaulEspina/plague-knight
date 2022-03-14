@@ -2,9 +2,9 @@ package main.states;
 
 import main.Config;
 import main.Game;
-import main.button.Button;
-import main.button.ImageText;
-import main.button.Pause;
+import main.crop.Button;
+import main.crop.ImageText;
+import main.crop.Pause;
 import main.entity.Crate;
 import main.entity.Item;
 import main.Vector2f;
@@ -17,7 +17,6 @@ import java.awt.event.MouseEvent;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.security.Key;
 import java.util.Random;
 import java.util.Vector;
 
@@ -117,6 +116,7 @@ public class GameState extends State
         {
             zombies.get(i).draw(g);
         }
+
         player.draw(g);
         pauseButton.draw(g);
         if(isPause){

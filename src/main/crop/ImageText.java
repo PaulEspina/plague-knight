@@ -1,4 +1,4 @@
-package main.button;
+package main.crop;
 
 import main.Config;
 import main.Game;

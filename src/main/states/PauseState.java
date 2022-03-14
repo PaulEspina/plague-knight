@@ -2,9 +2,8 @@ package main.states;
 
 import main.Config;
 import main.Game;
-import main.button.Button;
-import main.button.ImageText;
-import main.button.Pause;
+import main.crop.Button;
+import main.crop.ImageText;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
