@@ -86,8 +86,8 @@ public class Player extends Character implements Drawable{
 
     }
 
-    public void addItem(Item item){
-        System.out.println("Picked up!!");
+    public void pickup(Item item){
+        System.out.println("Picked up!!" + item);
     }
 
     public void checkRotation()
