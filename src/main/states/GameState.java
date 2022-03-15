@@ -20,7 +20,14 @@ import java.awt.event.MouseEvent;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.Random;
+import java.util.Scanner;
 import java.util.Vector;
 
 public class GameState extends State
@@ -194,7 +201,16 @@ public class GameState extends State
             returnMenuButton.hoveredImage();
             if(game.getMouseManager().getMouseButtonState(MouseEvent.BUTTON1)){
                 returnMenuButton.clickedImage();
-                returnMenuPressed = true;
+                returnMenuPressed = true;try
+                {
+                    FileWriter file = new FileWriter("scores.txt", true);
+                    file.write(LocalDate.now().toString() + " - SCORE: " + score + "\n");
+                    file.close();
+                }
+                catch(IOException e)
+                {
+                    e.printStackTrace();
+                }
             }
         }
         else{
@@ -206,6 +222,16 @@ public class GameState extends State
             if(game.getMouseManager().getMouseButtonState(MouseEvent.BUTTON1)){
                 retryButton.clickedImage();
                 retryGamePressed = true;
+                try
+                {
+                    FileWriter file = new FileWriter("scores.txt", true);
+                    file.write(LocalDate.now().toString() + " - SCORE: " + score + "\n");
+                    file.close();
+                }
+                catch(IOException e)
+                {
+                    e.printStackTrace();
+                }
             }
         }
         else{
