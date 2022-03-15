@@ -42,9 +42,21 @@ public class Zombie extends Enemy
         this.pos = pos;
         this.size = size;
         this.type = type;
-        int randNum = (int) (Math.random() * 100) % 3;
+        int index = 0;
+        if(type.equals("normal"))
+        {
+            index = 0;
+        }
+        else if(type.equals("fast"))
+        {
+            index = 1;
+        }
+        if(type.equals("slow"))
+        {
+            index = 2;
+        }
         sprite = AssetManager.getInstance().getZombie();
-        sprite = sprite.getSubimage(0, Config.ZOMBIE_ASSET_HEIGHT * randNum, Config.ZOMBIE_ASSET_WIDTH * 12, Config.ZOMBIE_ASSET_HEIGHT);
+        sprite = sprite.getSubimage(0, Config.ZOMBIE_ASSET_HEIGHT * index, Config.ZOMBIE_ASSET_WIDTH * 12, Config.ZOMBIE_ASSET_HEIGHT);
         for(int i = 0; i < 12; i++)
         {
             images[i] = sprite.getSubimage(Config.ZOMBIE_ASSET_WIDTH * i, 0, Config.ZOMBIE_ASSET_WIDTH, Config.ZOMBIE_ASSET_HEIGHT);
@@ -56,16 +68,16 @@ public class Zombie extends Enemy
         switch(type)
         {
             case "normal":
-                healthPoints = 30;
-                movementSpeed = 1.0f;
+                healthPoints = 80;
+                movementSpeed = 0.8f;
                 break;
             case "fast":
                 healthPoints = 20;
-                movementSpeed = 1.5f;
+                movementSpeed = 1.2f;
                 break;
             case "slow":
-                healthPoints = 40;
-                movementSpeed = 0.5f;
+                healthPoints = 250;
+                movementSpeed = 0.4f;
                 break;
         }
     }
