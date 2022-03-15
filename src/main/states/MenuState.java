@@ -10,6 +10,8 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.util.Random;
 
+import static java.lang.System.exit;
+
 public class MenuState extends State
 {
     private Game game;
@@ -43,16 +45,19 @@ public class MenuState extends State
     private double flickerAnimation = 0;
     private double brokenSurvivalAnimation = 0;
     private double brokenStoryAnimation = 0;
+    private double exitGameAnimation = 0;
     private Random rand = new Random();
     private int random;
 
     //    Mouse Click
     private boolean survivalIsPressed = false;
     private boolean storyIsPressed = false;
+    private boolean exitIsPressed = false;
 
 //    For broken screen delay
     private boolean survivalNext = false;
     private boolean storyNext = false;
+    private boolean exitNext = false;
 
 
     @Override
@@ -88,6 +93,13 @@ public class MenuState extends State
             }
         }
 
+        if(exitIsPressed){
+            exitGameAnimation++;
+            if(exitGameAnimation % Config.BUTTON_DELAY_ANIMATION == 0){
+                exitNext = true;
+                exitGameAnimation = Config.BUTTON_DELAY_ANIMATION;
+            }
+        }
         if(survivalButton.isInside(x, y)){
             survivalButton.hoveredImage();
             //If button clicked
@@ -121,6 +133,7 @@ public class MenuState extends State
             if(game.getMouseManager().getMouseButtonState(MouseEvent.BUTTON1)) {
                 //Animate button
                 exitButton.clickedImage();
+                exitIsPressed = true;
             }
         }
         else{
@@ -153,6 +166,10 @@ public class MenuState extends State
 
         if(storyNext){
             setState(new StoryMenuState(game));
+        }
+
+        if(exitNext){
+            exit(0);
         }
     }
 }

@@ -57,7 +57,7 @@ public class GameState extends State
     private YouDied youDiedImage;
 
     private Heart heartHUD;
-    
+
     private Font ARCADECLASSIC;
 
     private final String[] zombieTypes = {"normal", "fast", "slow"};
@@ -189,6 +189,7 @@ public class GameState extends State
 //                (int) player.getSize().getX(), (int) player.getSize().getY());
         pauseButton.draw(g);
         heartHUD.draw(g);
+
 //        try{
 //            ARCADECLASSIC = Font.createFont(Font.TRUETYPE_FONT, new File(Config.FONT_PATH)).deriveFont(72f);
 //            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
@@ -196,7 +197,9 @@ public class GameState extends State
 //        }
 //        catch(IOException | FontFormatException e){
 //        }
-        g.setFont(new Font("Monospaced", Font.PLAIN, 72));
+//        g.setFont(ARCADECLASSIC);
+        g.setFont(new Font(null, Font.PLAIN,72));
+//        g.setFont(new Font("Monospaced", Font.PLAIN, 72));
         g.drawString("Kills: " + score, 10, (Config.HEART_HEIGHT / 2) * 5);
         if(isPause){
             resumeButton.draw(g);
