@@ -31,14 +31,14 @@ public class MenuState extends State
     {
         this.game = game;
 //        Coordinate in Frame
-        survivalButton = new Button(game, new Point(364, 465), new Point(85, 50), 0, "survival");
-        storyButton = new Button(game, new Point(480, 465), new Point(85, 50), 88, "story");
-        exitButton = new Button(game, new Point(606, 465), new Point(85, 50), 264, "exit");
-        startButton = new Button(game, new Point(435, 385), new Point(85, 50), 176, "start");
-        cancelButton = new Button(game, new Point(548, 385), new Point(85, 50), 352, "cancel");
+        survivalButton = new Button(new Point(364, 465), new Point(85, 50), 0, "survival");
+        storyButton = new Button(new Point(480, 465), new Point(85, 50), 88, "story");
+        exitButton = new Button(new Point(606, 465), new Point(85, 50), 264, "exit");
+        startButton = new Button(new Point(435, 385), new Point(85, 50), 176, "start");
+        cancelButton = new Button(new Point(548, 385), new Point(85, 50), 352, "cancel");
 
-        dottedBG = new Screen(game, new Point(169, 69), new Point(463, 222), Config.DOTTED_BACKGROUND_ASSET_PATH, "dot");
-        defaultBG = new Screen(game, new Point(169, 69), new Point(463, 222), Config.MENU_BACKGROUND_ASSET_PATH, "default");
+        dottedBG = new Screen(new Point(169, 69), new Point(463, 222), Config.DOTTED_BACKGROUND_ASSET_PATH, "dot");
+        defaultBG = new Screen(new Point(169, 69), new Point(463, 222), Config.MENU_BACKGROUND_ASSET_PATH, "default");
     }
     private double flickerAnimation = 0;
     private double brokenSurvivalAnimation = 0;

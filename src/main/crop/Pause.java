@@ -8,22 +8,20 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class Pause {
-    private Game game;
     private Point pos;
     private Point size;
     private String pauseName;
     private BufferedImage icon;
     private BufferedImage currentIcon;
     private BufferedImage[] pauseIcon = new BufferedImage[3];
-    public Pause(Game game, Point pos, Point size, String pauseName){
-        this.game = game;
+    public Pause(Point pos, Point size, String pauseName){
         this.pos = pos;
         this.size = size;
         this.pauseName = pauseName;
 
         icon = AssetManager.getInstance().getMenuButtonImage();
         for(int i = 0; i < 3; i++){
-            pauseIcon[i] = icon.getSubimage(i * Config.PAUSE_ASSET_WIDTH, 617, Config.PAUSE_ASSET_WIDTH, Config.PAUSE_ASSET_HEIGHT);
+            pauseIcon[i] = icon.getSubimage(i * Config.PAUSE_ASSET_WIDTH, 705, Config.PAUSE_ASSET_WIDTH, Config.PAUSE_ASSET_HEIGHT);
         }
     }
 

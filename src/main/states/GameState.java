@@ -48,6 +48,7 @@ public class GameState extends State
     private Button resumeButton;
     private Button mainMenuButton;
     private Button returnMenuButton;
+    private Button retryButton;
     private ImageText pauseText;
     private YouDied youDiedImage;
 
@@ -63,7 +64,7 @@ public class GameState extends State
 
         settings = new GameSetting();
 
-        pauseButton = new Pause(game, new Point(Config.SCREEN_WIDTH - 55, 5), new Point(50, 50), "pause");
+        pauseButton = new Pause(new Point(Config.SCREEN_WIDTH - 55, 5), new Point(50, 50), "pause");
 
         //character position and size
         player = new Player(new Vector2f((float) Config.SCREEN_WIDTH / 2, (float) Config.SCREEN_HEIGHT / 2),
@@ -84,17 +85,23 @@ public class GameState extends State
         items = new Vector<>();
 
         //Coordinate in Frame
-        resumeButton = new Button(game, new Point(470, 370), new Point(90, 55), 528, "resume");
-        mainMenuButton = new Button(game, new Point(230, 370), new Point(90, 55), 440, "menu");
-        pauseText = new ImageText(game, new Point(Config.SCREEN_WIDTH / 2 - Config.PAUSE_ASSET_WIDTH, 20), new Point(250, 100), "pause");
+        resumeButton = new Button(new Point(470, 370), new Point(90, 55), 528, "resume");
+        mainMenuButton = new Button(new Point(230, 370), new Point(90, 55), 440, "menu");
+        pauseText = new ImageText(new Point(Config.SCREEN_WIDTH / 2 - Config.PAUSE_ASSET_WIDTH, 20), new Point(250, 100), "pause");
 
         heartHUD = new Heart(new Point(5, 5), new Point(50, 50), "heart");
         youDiedImage = new YouDied(new Point(Config.SCREEN_WIDTH / 2 - Config.PAUSE_ASSET_WIDTH, 20), new Point(250, 100), "dead");
-        returnMenuButton = new Button(game, new Point(230, 370), new Point(90, 55), 440, "menu");
+        returnMenuButton = new Button(new Point(230, 370), new Point(90, 55), 440, "retry");
+        retryButton = new Button(new Point(470, 370), new Point(90, 55), 616, "resume");
     }
     private boolean isPause = false;
-    private boolean returnMenu = false;
     private boolean isDead = false;
+
+    private boolean returnMenu = false;
+    private boolean retryGame = false;
+
+    private boolean returnMenuPressed = false;
+    private boolean retryGamePressed = false;
     @Override
     public void tick()
     {
@@ -115,8 +122,22 @@ public class GameState extends State
                 playerTick();
             }
         }
+        if(returnMenuPressed){
+            if(animationCounter % Config.BUTTON_DELAY_ANIMATION == 0){
+                returnMenu = true;
+            }
+        }
+        if(retryGamePressed){
+            if(animationCounter % Config.BUTTON_DELAY_ANIMATION == 0){
+                retryGame = true;
+            }
+        }
+
         if(returnMenu){
             setState(new MenuState(game));
+        }
+        if(retryGame){
+            setState(new GameState(game));
         }
 
     }
@@ -161,6 +182,7 @@ public class GameState extends State
         if (isDead) {
             youDiedImage.draw(g);
             returnMenuButton.draw(g);
+            retryButton.draw(g);
         }
     }
 
@@ -171,13 +193,23 @@ public class GameState extends State
         if(returnMenuButton.isInside(x, y)){
             returnMenuButton.hoveredImage();
             if(game.getMouseManager().getMouseButtonState(MouseEvent.BUTTON1)){
-                pauseButton.resumeImage();
-                setState(new MenuState(game) {
-                });
+                returnMenuButton.clickedImage();
+                returnMenuPressed = true;
             }
         }
         else{
             returnMenuButton.unhoveredImage();
+        }
+
+        if(retryButton.isInside(x, y)){
+            retryButton.hoveredImage();
+            if(game.getMouseManager().getMouseButtonState(MouseEvent.BUTTON1)){
+                retryButton.clickedImage();
+                retryGamePressed = true;
+            }
+        }
+        else{
+            retryButton.unhoveredImage();
         }
     }
     private void pauseImageTick()
