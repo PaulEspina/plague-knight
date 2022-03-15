@@ -161,7 +161,13 @@ public class GameState extends State
 
         for(int i = 0; i < items.size(); i++)
         {
-            items.get(i).draw(g);
+            if(items.size() >= 5){
+                items.remove(i);
+                break;
+            }
+            else{
+                items.get(i).draw(g);
+            }
         }
 
         for(int i = 0; i < zombies.size(); i++)
