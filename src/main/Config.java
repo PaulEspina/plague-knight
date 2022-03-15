@@ -74,4 +74,6 @@ public class Config {
     public static final int YOU_DIED_HEIGHT = 133;
 
     public static final double BUTTON_DELAY_ANIMATION = 30;
+
+    public static final String FONT_PATH = "/assets/fonts/ARCADECLASSIC.TTF";
 }

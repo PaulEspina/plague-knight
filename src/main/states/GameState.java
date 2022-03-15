@@ -20,10 +20,7 @@ import java.awt.event.MouseEvent;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.Random;
@@ -60,6 +57,8 @@ public class GameState extends State
     private YouDied youDiedImage;
 
     private Heart heartHUD;
+
+    private Font ARCADECLASSIC;
     public GameState(Game game)
     {
         this.game = game;
@@ -153,7 +152,6 @@ public class GameState extends State
     public void render(Graphics g)
     {
         g.drawImage(map, 0, 0, Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT, null);
-
         for(int i = 0; i < crates.size(); i++)
         {
             crates.get(i).draw(g);
@@ -187,6 +185,15 @@ public class GameState extends State
 //                (int) player.getSize().getX(), (int) player.getSize().getY());
         pauseButton.draw(g);
         heartHUD.draw(g);
+//        try{
+//            ARCADECLASSIC = Font.createFont(Font.TRUETYPE_FONT, new File(Config.FONT_PATH)).deriveFont(72f);
+//            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+//            ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File(Config.FONT_PATH)));
+//        }
+//        catch(IOException | FontFormatException e){
+//        }
+        g.setFont(new Font("Monospaced", Font.PLAIN, 72));
+        g.drawString("Kills: " + score, 10, (Config.HEART_HEIGHT / 2) * 5);
         if(isPause){
             resumeButton.draw(g);
             mainMenuButton.draw(g);
