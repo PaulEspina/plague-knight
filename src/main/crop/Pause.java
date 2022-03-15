@@ -21,7 +21,7 @@ public class Pause {
 
         icon = AssetManager.getInstance().getMenuButtonImage();
         for(int i = 0; i < 3; i++){
-            pauseIcon[i] = icon.getSubimage(i * Config.PAUSE_ASSET_WIDTH, 617, Config.PAUSE_ASSET_WIDTH, Config.PAUSE_ASSET_HEIGHT);
+            pauseIcon[i] = icon.getSubimage(i * Config.PAUSE_ASSET_WIDTH, 705, Config.PAUSE_ASSET_WIDTH, Config.PAUSE_ASSET_HEIGHT);
         }
     }
 
