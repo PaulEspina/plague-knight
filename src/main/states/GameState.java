@@ -57,8 +57,11 @@ public class GameState extends State
     private YouDied youDiedImage;
 
     private Heart heartHUD;
-
+    
     private Font ARCADECLASSIC;
+
+    private final String[] zombieTypes = {"normal", "fast", "slow"};
+
     public GameState(Game game)
     {
         this.game = game;
@@ -82,7 +85,8 @@ public class GameState extends State
         for(int i = 0; i < settings.zombiePerSpawn; i++)
         {
             zombies.add(new Zombie(new Vector2f(rand.nextInt(Config.SCREEN_WIDTH), rand.nextInt(Config.SCREEN_HEIGHT)),
-                                   new Vector2f(Config.ZOMBIE_ASSET_WIDTH * settings.zoom, Config.ZOMBIE_ASSET_HEIGHT * settings.zoom)));
+                                   new Vector2f(Config.ZOMBIE_ASSET_WIDTH * settings.zoom, Config.ZOMBIE_ASSET_HEIGHT * settings.zoom),
+                                   zombieTypes[rand.nextInt(3)]));
         }
 
         crates = new Vector<>();
@@ -370,7 +374,8 @@ public class GameState extends State
                 }
 
                 zombies.add(new Zombie(new Vector2f(x, y),
-                                       new Vector2f(Config.ZOMBIE_ASSET_WIDTH * settings.zoom, Config.ZOMBIE_ASSET_HEIGHT * settings.zoom)));
+                                       new Vector2f(Config.ZOMBIE_ASSET_WIDTH * settings.zoom, Config.ZOMBIE_ASSET_HEIGHT * settings.zoom),
+                                       zombieTypes[rand.nextInt(3)]));
             }
         }
         for(int i = 0; i < zombies.size(); i++)

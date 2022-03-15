@@ -42,7 +42,7 @@ public class Game implements Runnable
         gameState = new GameState(this);
         survivalMenuState = new SurvivalMenuState(this);
         pauseState = new PauseState(this);
-        State.setState(gameState);
+        State.setState(menuState);
     }
 
 //    DINAGDAG KO TONG VARIABLE
