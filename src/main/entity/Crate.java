@@ -41,7 +41,7 @@ public class Crate extends Entity{
         int select = (int) (Math.random() * 100 % Config.TOTAL_ITEMS);
         return new Item(new Vector2f(pos.getX(), pos.getY()),
                         new Vector2f(Config.ITEMS_ASSET_WIDTH / 2f, Config.ITEMS_ASSET_HEIGHT / 2f),
-                        Item.Type.values()[select]);
+                        Item.Type.values()[select], 5000);
     }
 
     @Override

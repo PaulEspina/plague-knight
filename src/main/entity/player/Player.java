@@ -4,14 +4,14 @@ import main.Attackable;
 import main.Config;
 import main.Drawable;
 import main.Vector2f;
-import main.entity.Item.Weapon;
+import main.entity.Item.Item;
 import main.entity.enemy.Zombie;
-import main.entity.Item.Item.Type;
 import main.gfx.AssetManager;
 import main.input.KeyManager;
-import java.util.Date;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.time.Clock;
 
 public class Player extends Character implements Drawable{
 
@@ -26,17 +26,34 @@ public class Player extends Character implements Drawable{
 
     private final BufferedImage[] knifeImages;
     private int attackDirectionIndex;
+
+    private int damage;
+    private Clock clock;
+    private float speedBoost;
+    private Long speedBoostStart;
+    private Long speedBoostDuration;
+    private int attackBoost;
+    private Long attackBoostStart;
+    private Long attackBoostDuration;
+    private Long defenseBoostStart;
+    private Long defenseBoostDuration;
+    private boolean defenseBoosted;
+
     public Player()
     {
         sprite = null;
         images = new BufferedImage[12];
         currentImages = new BufferedImage[3];
         knifeImages = new BufferedImage[9];
-
         movementSpeed = 1;
         animationIndex = 0;
         animationSpeed = 20;
         direction = "north";
+        damage = 1;
+        speedBoost = 1;
+        attackBoost = 1;
+        defenseBoosted = false;
+        clock = Clock.systemDefaultZone();
     }
 
     public Player(Vector2f pos, Vector2f size)
@@ -65,7 +82,52 @@ public class Player extends Character implements Drawable{
     @Override
     public void update()
     {
-        pos.add(new Vector2f(vel.getX() * movementSpeed, vel.getY() * movementSpeed));
+        if(speedBoostDuration != null)
+        {
+            if(clock.millis() >= speedBoostStart + speedBoostDuration)
+            {
+                speedBoostStart = null;
+                speedBoostDuration = null;
+                speedBoost = 1;
+            }
+            else
+            {
+                speedBoost = 2;
+            }
+        }
+
+        if(attackBoostDuration != null)
+        {
+            if(clock.millis() >= attackBoostStart + attackBoostDuration)
+            {
+                attackBoostStart = null;
+                attackBoostDuration = null;
+                attackBoost = 1;
+            }
+            else
+            {
+                attackBoost = 2;
+            }
+        }
+
+        if(defenseBoostDuration != null)
+        {
+            if(clock.millis() >= defenseBoostStart + defenseBoostDuration)
+            {
+                defenseBoostStart = null;
+                defenseBoostDuration = null;
+                reduceHearts(1);
+                defenseBoosted = false;
+            }
+            else if(!defenseBoosted)
+            {
+                defenseBoosted = true;
+                increaseHearts(1);
+                increaseCurrentHearts(1);
+            }
+        }
+
+        pos.add(new Vector2f(vel.getX() * movementSpeed * speedBoost, vel.getY() * movementSpeed * speedBoost));
         if(pos.getX() < 0)
         {
             pos.setX(0);
@@ -82,8 +144,6 @@ public class Player extends Character implements Drawable{
         {
             pos.setY(Config.SCREEN_HEIGHT);
         }
-//        pos.setX(clamp((int)pos.getX(), 10, Config.SCREEN_WIDTH - 46));
-//        pos.setY(clamp((int)pos.getY(), 10, Config.SCREEN_HEIGHT - 58));
         checkRotation();
     }
 
@@ -116,12 +176,12 @@ public class Player extends Character implements Drawable{
     {
         if(attackable instanceof Zombie)
         {
-            attackable.damage(10); // temporary... change when weapon system is online
+            attackable.damage(damage * attackBoost); // temporary... change when weapon system is online
         }
     }
 
     @Override
-    public void damage(int damage)
+    public void damage(float damage)
     {
         if(currentHearts > 0)
         {
@@ -180,8 +240,8 @@ public class Player extends Character implements Drawable{
         return false;
     }
 
-    public void pickup(Type type){
-        switch (type){
+    public void pickup(Item item){
+        switch (item.getType()){
             case HEART:
                 if(checkMaxHeart()){
                     hearts += 1;
@@ -189,32 +249,24 @@ public class Player extends Character implements Drawable{
                 }
                 System.out.println("HEARTS : " + hearts);
                 System.out.println("CURRENT : " + currentHearts);
-            break;
+                break;
             case APPLE:
                 if(checkCurrentHearts())
                     currentHearts += 1;
                 System.out.println("CURRENT : " + currentHearts);
-            break;
+                break;
             case BOOTS:
-//                boolean active = true;
-//                long activeTime = new Date().getTime();
-//                long endTime = activeTime + 5000;
-//
-//                update();
-//                while(active && activeTime < endTime)
-//                {
-//
-//                }
-//                System.out.println("BEFORE : " + movementSpeed);
-//                setMovementSpeed(getMovementSpeed() + 100);
-//                System.out.println("AFTER : " + movementSpeed);
-            break;
+                speedBoostStart = clock.millis();
+                speedBoostDuration = item.getDuration();
+                break;
             case ATTACK_BOOST:
-
-            break;
+                attackBoostStart = clock.millis();
+                attackBoostDuration = item.getDuration();
+                break;
             case DEFENSE_BOOST:
-
-            break;
+                defenseBoostStart = clock.millis();
+                defenseBoostDuration = item.getDuration();
+                break;
         }
     }
 
@@ -295,5 +347,15 @@ public class Player extends Character implements Drawable{
 
     public void setAttackAnimate(boolean attackAnimate){
         this.attackAnimate = attackAnimate;
+    }
+
+    public int getDamage()
+    {
+        return damage;
+    }
+
+    public void setDamage(int damage)
+    {
+        this.damage = damage;
     }
 }

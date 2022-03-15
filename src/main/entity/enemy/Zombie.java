@@ -8,6 +8,7 @@ import main.gfx.AssetManager;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.Vector;
 
 public class Zombie extends Enemy
 {
@@ -79,13 +80,12 @@ public class Zombie extends Enemy
     }
 
     @Override
-    public void damage(int damage)
+    public void damage(float damage)
     {
         if(healthPoints > 0)
         {
             healthPoints -= damage;
         }
-
     }
 
     @Override

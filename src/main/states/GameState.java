@@ -65,6 +65,8 @@ public class GameState extends State
         //character position and size
         player = new Player(new Vector2f((float) Config.SCREEN_WIDTH / 2, (float) Config.SCREEN_HEIGHT / 2),
                             new Vector2f(Config.PLAYER_SPRITE_WIDTH * settings.zoom, Config.PLAYER_SPRITE_HEIGHT * settings.zoom));
+        player.setMovementSpeed(settings.playerMovementSpeed);
+        player.setDamage(10);
 
         zombies = new Vector<>();
         for(int i = 0; i < settings.zombiePerSpawn; i++)
@@ -247,19 +249,24 @@ public class GameState extends State
     private void itemsTick()
     {
         Random rand = new Random();
-        int chance = 1000;
-        int randInt = rand.nextInt(chance);
-        if(randInt % chance == 0)
+        int randInt = rand.nextInt(settings.itemChance);
+        if(randInt % settings.itemChance == 0)
         {
-            items.add(new Item(new Vector2f(rand.nextInt(Config.SCREEN_WIDTH) , rand.nextInt(Config.SCREEN_HEIGHT)),
-                               new Vector2f(Config.ITEMS_ASSET_WIDTH / 1.5f * settings.zoom, Config.ITEMS_ASSET_HEIGHT / 1.5f * settings.zoom),
-                    Item.Type.values()[rand.nextInt(Item.Type.values().length)]));
+            Item item = null;
+            while(item == null || (!player.checkMaxHeart() && item.getType() == Item.Type.HEART))
+            {
+                item = new Item(new Vector2f(rand.nextInt(Config.SCREEN_WIDTH) , rand.nextInt(Config.SCREEN_HEIGHT)),
+                                new Vector2f(Config.ITEMS_ASSET_WIDTH / 1.5f * settings.zoom, Config.ITEMS_ASSET_HEIGHT / 1.5f * settings.zoom),
+                                Item.Type.values()[rand.nextInt(Item.Type.values().length)],
+                                settings.boostDuration);
+            }
+            items.add(item);
         }
         for(int i = 0; i < items.size(); i++)
         {
             if(items.get(i).checkBounds(player))
             {
-                player.pickup(items.get(i).getType());
+                player.pickup(items.get(i));
                 items.get(i).hide();
             }
             items.get(i).update();

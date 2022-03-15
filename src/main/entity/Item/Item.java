@@ -9,6 +9,7 @@ import main.gfx.AssetManager;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.time.Clock;
 
 public class Item extends Entity {
 
@@ -30,25 +31,29 @@ public class Item extends Entity {
         }
     }
 
+    Clock clock;
     private BufferedImage asset;
     private BufferedImage[] images;
     private Type type;
-    private int randomize;
 
     private Boolean shouldShow;
+
+    private Long duration;
 
 //pickup items beta
 
     public Item(){
+        clock = Clock.systemDefaultZone();
         pos = new Vector2f(0, 0);
         size = new Vector2f(0, 0);
         images = new BufferedImage[5];
         shouldShow = true;
+        duration = null;
     }
 
-    public Item(Type type){
+    public Item(Type type, long duration){
         this();
-
+        this.duration = duration;
         this.type = type;
         asset = AssetManager.getInstance().getItem();
         images[Type.ATTACK_BOOST.getValue()] = asset.getSubimage(Config.ITEMS_ASSET_WIDTH * 11, 0, Config.ITEMS_ASSET_WIDTH, Config.ITEMS_ASSET_HEIGHT);
@@ -58,8 +63,8 @@ public class Item extends Entity {
         images[Type.APPLE.getValue()] = asset.getSubimage(Config.ITEMS_ASSET_WIDTH * 15, 0, Config.ITEMS_ASSET_WIDTH, Config.ITEMS_ASSET_HEIGHT);
     }
 
-    public Item(Vector2f pos, Vector2f size, Type type){
-        this(type);
+    public Item(Vector2f pos, Vector2f size, Type type, long duration){
+        this(type, duration);
         this.pos = pos;
         this.size = size;
     }
@@ -108,10 +113,16 @@ public class Item extends Entity {
         if(shouldShow)
         {
             g.drawImage(images[type.getValue()],(int) pos.getX() - (int) size.getX() / 2, (int) pos.getY() - (int) size.getY() / 2, (int) size.getX(), (int) size.getY(), null);
-//            System.out.println("item x = " + pos.getX());
-//            System.out.println("item y = " + pos.getY());
-//            System.out.println("Player x = " + player.getPos().getX());
-//            System.out.println("Player Y = " + player.getPos().getY());
         }
+    }
+
+    public Long getDuration()
+    {
+        return duration;
+    }
+
+    public void setDuration(Long duration)
+    {
+        this.duration = duration;
     }
 }
