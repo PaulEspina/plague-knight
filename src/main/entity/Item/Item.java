@@ -85,15 +85,7 @@ public class Item extends Entity {
         int itemPosY = (int) pos.getY();    //50
         int itemSizeX = (int) size.getX();  //30
         int itemSizeY = (int) size.getY();  //30
-//            System.out.println("item x = " + ((int) pos.getX() - (int) size.getX() / 2));
-//            System.out.println("item y = " + ((int) pos.getY() + (int) size.getY() / 2));
-//            System.out.println("Player x = " + ((int) player.getPos().getX() - (int) player.getSize().getX() / 2));
-//            System.out.println("Player Y = " + ((int) player.getPos().getY() + (int) player.getSize().getY() / 2));
 
-//        (((playerPosX + playerSizeX / 2) - 15 >= (itemPosX - itemSizeX / 2)) &&   //Right
-//                ((playerPosX - playerSizeX / 2) + 15 <= (itemPosX + itemSizeX / 2)) &&  //Left
-//                ((playerPosY + playerSizeY / 2) - 15 >= (itemPosY - itemSizeY / 2)) &&  //Down
-//                ((playerPosY) <= (itemPosY + itemSizeY / 2))){  //Up
         if (shouldShow) {
             if(((playerPosX) >= (itemPosX - itemSizeX / 2)) &&   //Right
                     ((playerPosX) <= (itemPosX + itemSizeX / 2)) &&  //Left

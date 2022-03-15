@@ -103,6 +103,24 @@ public class Zombie extends Enemy
                     null);
     }
 
+    public boolean inRange(Player player){
+        int playerPosX = (int) player.getPos().getX();           //30
+        int playerPosY = (int) player.getPos().getY();           //30
+        int playerSizeX = (int) player.getSize().getX();         //30
+        int playerSizeY = (int) player.getSize().getY();         //20
+        int zombiePosX = (int) getPos().getX();           //50
+        int zombiePosY = (int) getPos().getY();           //50
+        int zombieSizeX = (int) getSize().getX();         //30
+        int zombieSizeY = (int) getSize().getY();         //20
+        if(((zombiePosX) >= (playerPosX - playerSizeX / 2)) &&        //LEFT
+          ((zombiePosX) <= (playerPosX + playerSizeX / 2)) &&         //RIGHT
+          ((zombiePosY) >= (playerPosY - playerSizeY / 2)) &&         //DOWN
+          ((zombiePosY) <= (playerPosY + playerSizeY / 2))) {         //UP
+          return true;
+        }
+        return false;
+    }
+
     public void follow(Vector2f target)
     {
         try

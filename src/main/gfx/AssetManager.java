@@ -8,6 +8,7 @@ import java.awt.image.BufferedImage;
 public class AssetManager
 {
     private BufferedImage player;
+    private BufferedImage HUD;
     private BufferedImage zombie;
     private BufferedImage crate;
     private BufferedImage item;
@@ -40,6 +41,7 @@ public class AssetManager
             player = ImageLoader.loadImage(Config.PLAYER_SPRITE_PATH);
             zombie = ImageLoader.loadImage(Config.ZOMBIE_ASSET_PATH);
             crate = ImageLoader.loadImage(Config.CRATE_ASSET_PATH);
+            HUD = ImageLoader.loadImage(Config.HUD_ASSET_PATH);
             item = ImageLoader.loadImage(Config.ITEMS_ASSET_PATH);
             menuButtonImage = ImageLoader.loadImage(Config.MENU_BUTTON_ASSET_PATH);
             defaultBGImage = ImageLoader.loadImage(Config.MENU_BACKGROUND_ASSET_PATH);
@@ -100,4 +102,7 @@ public class AssetManager
         return pausedImage;
     }
 
+    public BufferedImage getHUD() {
+        return HUD;
+    }
 }

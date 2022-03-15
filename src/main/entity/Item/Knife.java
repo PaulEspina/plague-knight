@@ -11,7 +11,7 @@ public class Knife extends Weapon {
         damage = 10;
         animationSpeed = 1;
         cooldownSpeed = 1;
-        range = 1;
+        range = 30;             //Final 30 = low/1
         knockback = 0;
     }
 }

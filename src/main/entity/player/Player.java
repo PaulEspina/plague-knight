@@ -15,6 +15,7 @@ import java.awt.image.BufferedImage;
 
 public class Player extends Character implements Drawable{
 
+    private boolean attackAnimate = false;
     private KeyManager keyManager;
     private Vector2f vel;
     private String direction;
@@ -23,11 +24,15 @@ public class Player extends Character implements Drawable{
     private final BufferedImage[] currentImages;
     private int animationIndex;
 
+    private final BufferedImage[] knifeImages;
+    private int attackDirectionIndex;
     public Player()
     {
         sprite = null;
         images = new BufferedImage[12];
         currentImages = new BufferedImage[3];
+        knifeImages = new BufferedImage[9];
+
         animationIndex = 0;
         animationSpeed = 20;
         direction = "north";
@@ -40,6 +45,7 @@ public class Player extends Character implements Drawable{
         this.size = size;
         vel = new Vector2f(0, 0);
         sprite = AssetManager.getInstance().getPlayer();
+//        No Weapon Player
         for(int i = 0; i < 12; i++)
         {
             images[i] = sprite.getSubimage(Config.PLAYER_SPRITE_WIDTH * i, 0, Config.PLAYER_SPRITE_WIDTH, Config.PLAYER_SPRITE_HEIGHT);
@@ -47,6 +53,12 @@ public class Player extends Character implements Drawable{
         currentImages[0] = images[0];
         currentImages[1] = images[1];
         currentImages[2] = images[2];
+
+//        Knife Weapon Player
+        for(int i = 0; i < 9; i++)
+        {
+            knifeImages[i] = sprite.getSubimage(Config.PLAYER_SPRITE_WIDTH * i, Config.PLAYER_SPRITE_HEIGHT, Config.PLAYER_SPRITE_WIDTH, Config.PLAYER_SPRITE_HEIGHT);
+        }
     }
 
     @Override
@@ -61,11 +73,20 @@ public class Player extends Character implements Drawable{
     @Override
     public void draw(Graphics g)
     {
-        g.drawImage(currentImages[animationIndex], (int) pos.getX() - (int) size.getX() / 2,
+        if(attackAnimate){
+            g.drawImage(knifeImages[attackDirectionIndex], (int) pos.getX() - (int) size.getX() / 2,
                     (int) pos.getY() - (int) size.getY() / 2,
                     (int) size.getX(),
                     (int) size.getY(),
                     null);
+        }
+        else{
+            g.drawImage(currentImages[animationIndex], (int) pos.getX() - (int) size.getX() / 2,
+                    (int) pos.getY() - (int) size.getY() / 2,
+                    (int) size.getX(),
+                    (int) size.getY(),
+                    null);
+        }
     }
 
     public int clamp(int var, int min, int max)
@@ -95,27 +116,58 @@ public class Player extends Character implements Drawable{
     @Override
     public void damage(int damage)
     {
-        if(hearts > 0)
+        if(currentHearts > 0)
         {
-            hearts -= damage;
+            currentHearts -= damage;
         }
     }
 
+
     public boolean inRange(Zombie zombie)
     {
+        int playerPosX = (int) getPos().getX();           //30
+        int playerPosY = (int) getPos().getY();           //30
+        int playerSizeX = (int) getSize().getX();         //30
+        int playerSizeY = (int) getSize().getY();         //20
+        int zombiePosX = (int) zombie.getPos().getX();    //50
+        int zombiePosY = (int) zombie.getPos().getY();    //50
+        int zombieSizeX = (int) zombie.getSize().getX();  //30
+        int zombieSizeY = (int) zombie.getSize().getY();  //20
         switch(direction)
         {
             case "north":
+                if(((playerPosX) >= (zombiePosX - zombieSizeX / 2)) &&        //LEFT
+                  ((playerPosX) <= (zombiePosX + zombieSizeX / 2)) &&         //RIGHT
+                  ((playerPosY) >= (zombiePosY - zombieSizeY / 2)) &&         //DOWN
+                  ((playerPosY) - 30 <= (zombiePosY + zombieSizeY / 2))) {    //UP
+                    return true;
+                }
                 break;
             case "south":
+                if(((playerPosX) >= (zombiePosX - zombieSizeX / 2)) &&        //LEFT
+                  ((playerPosX) <= (zombiePosX + zombieSizeX / 2)) &&         //RIGHT
+                  ((playerPosY) + 30 >= (zombiePosY - zombieSizeY / 2)) &&    //DOWN
+                  ((playerPosY) <= (zombiePosY + zombieSizeY / 2))) {         //UP
+                    return true;
+                }
                 break;
+
             case "east":
-                if(getPos().getX() == zombie.getPos().getX())
+                if(((playerPosX) + 30 >= (zombiePosX - zombieSizeX / 2)) &&   //LEFT
+                  ((playerPosX) <= (zombiePosX + zombieSizeX / 2)) &&         //RIGHT
+                  ((playerPosY) >= (zombiePosY - zombieSizeY / 2)) &&         //DOWN
+                  ((playerPosY) <= (zombiePosY + zombieSizeY / 2))) {         //UP
                     return true;
+                }
                 break;
+
             case "west":
-                if(getPos().getX() == zombie.getPos().getX())
+                if(((playerPosX) >= (zombiePosX - zombieSizeX / 2)) &&        //LEFT
+                  ((playerPosX) - 30 <= (zombiePosX + zombieSizeX / 2)) &&    //RIGHT
+                  ((playerPosY) >= (zombiePosY - zombieSizeY / 2)) &&         //DOWN
+                  ((playerPosY) <= (zombiePosY + zombieSizeY / 2))) {         //UP
                     return true;
+                }
                 break;
         }
         return false;
@@ -167,21 +219,25 @@ public class Player extends Character implements Drawable{
                 currentImages[0] = images[9];
                 currentImages[1] = images[10];
                 currentImages[2] = images[11];
+                attackDirectionIndex = 7;
                 break;
             case "south":
                 currentImages[0] = images[0];
                 currentImages[1] = images[1];
                 currentImages[2] = images[2];
+                attackDirectionIndex = 1;
                 break;
             case "west":
                 currentImages[0] = images[3];
                 currentImages[1] = images[4];
                 currentImages[2] = images[5];
+                attackDirectionIndex = 3;
                 break;
             case "east":
                 currentImages[0] = images[6];
                 currentImages[1] = images[7];
                 currentImages[2] = images[8];
+                attackDirectionIndex = 5;
                 break;
         }
     }
@@ -224,5 +280,13 @@ public class Player extends Character implements Drawable{
     public void setDirection(String direction)
     {
         this.direction = direction;
+    }
+
+    public boolean isAttackAnimate() {
+        return attackAnimate;
+    }
+
+    public void setAttackAnimate(boolean attackAnimate){
+        this.attackAnimate = attackAnimate;
     }
 }

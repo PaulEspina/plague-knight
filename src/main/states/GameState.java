@@ -3,6 +3,7 @@ package main.states;
 import main.Config;
 import main.Game;
 import main.crop.Button;
+import main.entity.player.Heart;
 import main.crop.ImageText;
 import main.crop.Pause;
 import main.entity.Crate;
@@ -44,7 +45,7 @@ public class GameState extends State
     private Button mainMenuButton;
     private ImageText pauseText;
 
-
+    private Heart heartHUD;
     public GameState(Game game)
     {
         this.game = game;
@@ -54,7 +55,7 @@ public class GameState extends State
 
         settings = new GameSetting();
 
-        pauseButton = new Pause(game, new Point(5, 5), new Point(50, 50), "pause");
+        pauseButton = new Pause(game, new Point(Config.SCREEN_WIDTH - 55, 5), new Point(50, 50), "pause");
 
         //character position and size
         player = new Player(new Vector2f((float) Config.SCREEN_WIDTH / 2, (float) Config.SCREEN_HEIGHT / 2),
@@ -73,10 +74,11 @@ public class GameState extends State
         items = new Vector<>();
 
         //Coordinate in Frame
-        resumeButton = new Button(game, new Point(450, 370), new Point(90, 55), 528, "resume");
-        mainMenuButton = new Button(game, new Point(210, 370), new Point(90, 55), 440, "menu");
+        resumeButton = new Button(game, new Point(470, 370), new Point(90, 55), 528, "resume");
+        mainMenuButton = new Button(game, new Point(230, 370), new Point(90, 55), 440, "menu");
         pauseText = new ImageText(game, new Point(Config.SCREEN_WIDTH / 2 - Config.PAUSE_ASSET_WIDTH, 20), new Point(250, 100), "pause");
 
+        heartHUD = new Heart(game, new Point(5, 5), new Point(50, 50), "heart");
     }
     private boolean isPause = false;
     private boolean returnMenu = false;
@@ -85,6 +87,7 @@ public class GameState extends State
     {
         animationCounter++;
         pauseImageTick();
+        healthTick();
         if(returnMenu){
             setState(new MenuState(game));
         }
@@ -115,10 +118,20 @@ public class GameState extends State
         for(int i = 0; i < zombies.size(); i++)
         {
             zombies.get(i).draw(g);
+//            g.setColor(Color.RED);
+//            g.fillRect((int) zombies.get(i).getPos().getX() - (int) zombies.get(i).getSize().getX() / 2,
+//                    (int) zombies.get(i).getPos().getY() - (int) zombies.get(i).getSize().getY() / 2,
+//                    (int) zombies.get(i).getSize().getX(), (int) zombies.get(i).getSize().getY());
         }
 
+
         player.draw(g);
+//        g.setColor(Color.RED);
+//        g.fillRect((int) player.getPos().getX() - (int) player.getSize().getX() / 2,
+//                (int) player.getPos().getY() - (int) player.getSize().getY() / 2,
+//                (int) player.getSize().getX(), (int) player.getSize().getY());
         pauseButton.draw(g);
+        heartHUD.draw(g);
         if(isPause){
             resumeButton.draw(g);
             mainMenuButton.draw(g);
@@ -242,19 +255,43 @@ public class GameState extends State
                                        new Vector2f(Config.ZOMBIE_ASSET_WIDTH * settings.zoom, Config.ZOMBIE_ASSET_HEIGHT * settings.zoom)));
             }
         }
-
         for(int i = 0; i < zombies.size(); i++)
         {
-            if(player.inRange(zombies.get(i)))
-            {
-                player.attack(zombies.get(i));
+            if(game.getMouseManager().getMouseButtonState(MouseEvent.BUTTON1)){
+                player.setAttackAnimate(true);
+                if(player.inRange(zombies.get(i)))
+                {
+                    System.out.println(player.isAttackAnimate());
+                    player.attack(zombies.get(i));
+                }
             }
+
+            if(zombies.get(i).getHealthPoints() <= 0){
+                zombies.remove(i);
+                continue;
+            }
+
             zombies.get(i).follow(player.getPos());
+
+            if(animationCounter % settings.normalZombieAttackDelay == 0) {
+                if (zombies.get(i).inRange(player)) {
+                    zombies.get(i).attack(player);
+                }
+            }
             if(animationCounter % zombies.get(i).getAnimationSpeed() == 0)
             {
                 zombies.get(i).animate();
             }
             zombies.get(i).update();
+        }
+    }
+
+    private void healthTick(){
+        heartHUD.setCurrentHeartCount(player.getCurrentHearts());
+        heartHUD.setHeartCount(player.getHearts());
+        if(player.getCurrentHearts() <= 0){
+            System.out.println("YOU DEAD");
+//            GAMEOVERSTATE
         }
     }
 
@@ -297,11 +334,9 @@ public class GameState extends State
             player.animate();
         }
 
-        if(game.getMouseManager().getMouseButtonState(MouseEvent.BUTTON1)){
-            System.out.println("Attack!");
-            for(int i = 0; i < zombies.size(); i++) {
-                if(player.inRange(zombies.get(i)))
-                    player.attack(zombies.get(i));
+        if(animationCounter % Config.PLAYER_KNIFE_COOLDOWN_DELAY == 0) {
+            if(player.isAttackAnimate()){
+                player.setAttackAnimate(false);
             }
         }
 

@@ -21,4 +21,20 @@ public abstract class Character extends Entity implements Attackable
         }
         return false;
     }
+
+    public int getHearts() {
+        return hearts;
+    }
+
+    public void setHearts(int hearts) {
+        this.hearts = hearts;
+    }
+
+    public int getCurrentHearts() {
+        return currentHearts;
+    }
+
+    public void setCurrentHearts(int currentHearts) {
+        this.currentHearts = currentHearts;
+    }
 }

@@ -36,15 +36,15 @@ public class Config {
     public static final double START_SURVIVAL_ANIMATION_DELAY = 70;
     public static final double START_STORY_ANIMATION_DELAY = 90;
 
-    public static final String HUD_ASSET_PATH = "/assets/menu/floaters/gamehud/hudv1.psd";
-
     public static final String ZOMBIE_ASSET_PATH = "/assets/sprites/zombies/zombiesmainv1.png";
     public static final int ZOMBIE_ASSET_WIDTH = 36;
     public static final int ZOMBIE_ASSET_HEIGHT = 48;
 
-    public static final String PLAYER_SPRITE_PATH = "/assets/sprites/player/playermovements_2.png";
-    public static final int PLAYER_SPRITE_WIDTH = 36;
+    public static final String PLAYER_SPRITE_PATH = "/assets/sprites/player/playerv2.png";
+    public static final int PLAYER_SPRITE_WIDTH = 40;
     public static final int PLAYER_SPRITE_HEIGHT = 48;
+
+    public static final int PLAYER_KNIFE_COOLDOWN_DELAY = 10;
 
     public static final float DEGREES_NORTH = -90f;
     public static final float DEGREES_SOUTH = 90f;
@@ -64,5 +64,9 @@ public class Config {
     public static final String VILLAGE_MAP_PATH = "/assets/sprites/world/crate/villagemap.png";
     public static final int VILLAGE_MAP_WIDTH = 1392;
     public static final int VILLAGE_MAP_HEIGHT = 1584;
+
+    public static final String HUD_ASSET_PATH = "/assets/menu/floaters/gamehud/hudv1.png";
+    public static final int HEART_WIDTH = 48;
+    public static final int HEART_HEIGHT = 48;
 
 }
