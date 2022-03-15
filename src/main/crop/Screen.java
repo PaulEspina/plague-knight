@@ -8,14 +8,12 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class Screen {
-    private Game game;
     private Point pos;
     private Point size;
     private String screenName;
     private BufferedImage screen;
     private BufferedImage currentScreen;
-    public Screen(Game game, Point pos, Point size, String path, String screenName){
-        this.game = game;
+    public Screen(Point pos, Point size, String path, String screenName){
         this.pos = pos;
         this.size = size;
         this.screenName = screenName;

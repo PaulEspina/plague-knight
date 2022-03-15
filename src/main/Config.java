@@ -7,7 +7,7 @@ public class Config {
     public static final String TITLE = "Plague Knight";
 
 
-    public static final String MENU_BUTTON_ASSET_PATH = "/assets/menu/menubuttons/menubuttonsv6.png";
+    public static final String MENU_BUTTON_ASSET_PATH = "/assets/menu/menubuttons/menubuttonsv7.png";
     public static final int BUTTON_ASSET_WIDTH = 174;
     public static final int BUTTON_ASSET_HEIGHT = 88;
 //    Pause Icon
@@ -72,4 +72,6 @@ public class Config {
     public static final String YOU_DIED_ASSET_PATH = "/assets/menu/floaters/youdied/youdiedv1.png";
     public static final int YOU_DIED_WIDTH = 393;
     public static final int YOU_DIED_HEIGHT = 133;
+
+    public static final double BUTTON_DELAY_ANIMATION = 30;
 }

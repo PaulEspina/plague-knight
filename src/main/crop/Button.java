@@ -8,7 +8,6 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class Button{
-    private Game game;
     private Point pos;
     private Point size;
     private Point imagePos;
@@ -22,8 +21,7 @@ public class Button{
     private BufferedImage[] buttons = new BufferedImage[4];
     private BufferedImage currentImage;
 
-    public Button(Game game, Point pos, Point size, int buttonAsset, String buttonName){
-        this.game = game;
+    public Button(Point pos, Point size, int buttonAsset, String buttonName){
         this.pos = pos;
         this.size = size;
         this.buttonName = buttonName;
