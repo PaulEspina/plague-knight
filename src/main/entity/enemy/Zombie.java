@@ -85,6 +85,7 @@ public class Zombie extends Enemy
         {
             healthPoints -= damage;
         }
+
     }
 
     @Override

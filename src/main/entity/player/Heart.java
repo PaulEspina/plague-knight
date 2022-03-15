@@ -20,8 +20,7 @@ public class Heart implements Drawable {
     private int heartCount;
     private int currentHeartCount;
 
-    public Heart(Game game, Point pos, Point size, String name){
-        this.game = game;
+    public Heart(Point pos, Point size, String name){
         this.pos = pos;
         this.size = size;
         this.name = name;

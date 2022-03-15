@@ -69,4 +69,7 @@ public class Config {
     public static final int HEART_WIDTH = 48;
     public static final int HEART_HEIGHT = 48;
 
+    public static final String YOU_DIED_ASSET_PATH = "/assets/menu/floaters/youdied/youdiedv1.png";
+    public static final int YOU_DIED_WIDTH = 393;
+    public static final int YOU_DIED_HEIGHT = 133;
 }

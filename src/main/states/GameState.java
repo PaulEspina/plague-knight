@@ -3,6 +3,7 @@ package main.states;
 import main.Config;
 import main.Game;
 import main.crop.Button;
+import main.crop.YouDied;
 import main.entity.player.Heart;
 import main.crop.ImageText;
 import main.crop.Pause;
@@ -29,6 +30,8 @@ public class GameState extends State
     Random rand;
     double animationCounter = 0;
 
+    public int score;
+
     private Player player;
     private Map map;
 
@@ -43,7 +46,9 @@ public class GameState extends State
 
     private Button resumeButton;
     private Button mainMenuButton;
+    private Button returnMenuButton;
     private ImageText pauseText;
+    private YouDied youDiedImage;
 
     private Heart heartHUD;
     public GameState(Game game)
@@ -78,28 +83,37 @@ public class GameState extends State
         mainMenuButton = new Button(game, new Point(230, 370), new Point(90, 55), 440, "menu");
         pauseText = new ImageText(game, new Point(Config.SCREEN_WIDTH / 2 - Config.PAUSE_ASSET_WIDTH, 20), new Point(250, 100), "pause");
 
-        heartHUD = new Heart(game, new Point(5, 5), new Point(50, 50), "heart");
+        heartHUD = new Heart(new Point(5, 5), new Point(50, 50), "heart");
+        youDiedImage = new YouDied(new Point(Config.SCREEN_WIDTH / 2 - Config.PAUSE_ASSET_WIDTH, 20), new Point(250, 100), "dead");
+        returnMenuButton = new Button(game, new Point(230, 370), new Point(90, 55), 440, "menu");
     }
     private boolean isPause = false;
     private boolean returnMenu = false;
+    private boolean isDead = false;
     @Override
     public void tick()
     {
         animationCounter++;
         pauseImageTick();
         healthTick();
+        if(isDead){
+            returnMenuTick();
+        }
+        else{
+            if(isPause){
+                pauseStateTick();
+            }
+            else{
+                cratesTick();
+                itemsTick();
+                zombiesTick();
+                playerTick();
+            }
+        }
         if(returnMenu){
             setState(new MenuState(game));
         }
-        if(isPause){
-            pauseStateTick();
-        }
-        else{
-            cratesTick();
-            itemsTick();
-            zombiesTick();
-            playerTick();
-        }
+
     }
 
     @Override
@@ -136,6 +150,27 @@ public class GameState extends State
             resumeButton.draw(g);
             mainMenuButton.draw(g);
             pauseText.draw(g);
+        }
+        if (isDead) {
+            youDiedImage.draw(g);
+            returnMenuButton.draw(g);
+        }
+    }
+
+    private void returnMenuTick(){
+        int x = game.getMouseManager().getMouseX();
+        int y = game.getMouseManager().getMouseY();
+
+        if(returnMenuButton.isInside(x, y)){
+            returnMenuButton.hoveredImage();
+            if(game.getMouseManager().getMouseButtonState(MouseEvent.BUTTON1)){
+                pauseButton.resumeImage();
+                setState(new MenuState(game) {
+                });
+            }
+        }
+        else{
+            returnMenuButton.unhoveredImage();
         }
     }
     private void pauseImageTick()
@@ -261,13 +296,13 @@ public class GameState extends State
                 player.setAttackAnimate(true);
                 if(player.inRange(zombies.get(i)))
                 {
-                    System.out.println(player.isAttackAnimate());
                     player.attack(zombies.get(i));
                 }
             }
 
             if(zombies.get(i).getHealthPoints() <= 0){
                 zombies.remove(i);
+                score += 1;
                 continue;
             }
 
@@ -291,6 +326,8 @@ public class GameState extends State
         heartHUD.setHeartCount(player.getHearts());
         if(player.getCurrentHearts() <= 0){
             System.out.println("YOU DEAD");
+            System.out.println("SCORE - " + score);
+            isDead = true;
 //            GAMEOVERSTATE
         }
     }

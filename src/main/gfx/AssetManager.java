@@ -18,6 +18,7 @@ public class AssetManager
     private BufferedImage survivalBrokenBGImage;
     private BufferedImage storyBrokenBGImage;
     private BufferedImage pausedImage;
+    private BufferedImage youDiedImage;
 
     private static AssetManager instance = null;
 
@@ -49,6 +50,7 @@ public class AssetManager
             survivalBrokenBGImage = ImageLoader.loadImage(Config.BROKEN_SURVIVAL_BACKGROUND_ASSET_PATH);
             storyBrokenBGImage = ImageLoader.loadImage(Config.BROKEN_STORY_BACKGROUND_ASSET_PATH);
             pausedImage = ImageLoader.loadImage(Config.PAUSED_TEXT_ASSET_PATH);
+            youDiedImage = ImageLoader.loadImage(Config.YOU_DIED_ASSET_PATH);
         }
         catch(IllegalArgumentException e)
         {
@@ -104,5 +106,9 @@ public class AssetManager
 
     public BufferedImage getHUD() {
         return HUD;
+    }
+
+    public BufferedImage getYouDiedImage() {
+        return youDiedImage;
     }
 }
