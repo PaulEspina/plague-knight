@@ -11,7 +11,7 @@ import main.entity.Crate;
 import main.entity.Item.Item;
 import main.Vector2f;
 import main.entity.enemy.Zombie;
-import main.entity.map.Map;
+import main.gfx.AssetManager;
 import main.input.KeyManager;
 import main.input.MouseManager;
 import main.entity.player.Player;
@@ -19,6 +19,7 @@ import java.awt.event.MouseEvent;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
 import java.util.Random;
 import java.util.Vector;
 
@@ -33,7 +34,7 @@ public class GameState extends State
     public int score;
 
     private Player player;
-    private Map map;
+    private BufferedImage map;
 
     private Vector<Zombie> zombies;
     private final MouseManager mouseManager;
@@ -57,6 +58,8 @@ public class GameState extends State
         keyManager = game.getKeyManager();
         mouseManager = game.getMouseManager();
         rand = new Random();
+
+        map = AssetManager.getInstance().getMap().getSubimage(100, 100, Config.MAP_WIDTH / 2, Config.MAP_HEIGHT / 2);
 
         settings = new GameSetting();
 
@@ -121,6 +124,8 @@ public class GameState extends State
     @Override
     public void render(Graphics g)
     {
+        g.drawImage(map, 0, 0, Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT, null);
+
         for(int i = 0; i < crates.size(); i++)
         {
             crates.get(i).draw(g);

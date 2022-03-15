@@ -7,6 +7,7 @@ import java.awt.image.BufferedImage;
 
 public class AssetManager
 {
+    private BufferedImage map;
     private BufferedImage player;
     private BufferedImage HUD;
     private BufferedImage zombie;
@@ -19,6 +20,7 @@ public class AssetManager
     private BufferedImage storyBrokenBGImage;
     private BufferedImage pausedImage;
     private BufferedImage youDiedImage;
+    private BufferedImage treeObstacle;
 
     private static AssetManager instance = null;
 
@@ -39,6 +41,7 @@ public class AssetManager
     {
         try
         {
+            map = ImageLoader.loadImage(Config.MAP_PATH);
             player = ImageLoader.loadImage(Config.PLAYER_SPRITE_PATH);
             zombie = ImageLoader.loadImage(Config.ZOMBIE_ASSET_PATH);
             crate = ImageLoader.loadImage(Config.CRATE_ASSET_PATH);
@@ -51,6 +54,7 @@ public class AssetManager
             storyBrokenBGImage = ImageLoader.loadImage(Config.BROKEN_STORY_BACKGROUND_ASSET_PATH);
             pausedImage = ImageLoader.loadImage(Config.PAUSED_TEXT_ASSET_PATH);
             youDiedImage = ImageLoader.loadImage(Config.YOU_DIED_ASSET_PATH);
+//            treeObstacle = ImageLoader.loadImage(Config.TREE_OBSTACLE_ASSET_PATH);
         }
         catch(IllegalArgumentException e)
         {
@@ -110,5 +114,15 @@ public class AssetManager
 
     public BufferedImage getYouDiedImage() {
         return youDiedImage;
+    }
+
+    public BufferedImage getTreeObstacle()
+    {
+        return treeObstacle;
+    }
+
+    public BufferedImage getMap()
+    {
+        return map;
     }
 }

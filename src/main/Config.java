@@ -61,9 +61,9 @@ public class Config {
     public static final int ITEMS_ASSET_HEIGHT = 48;
     public static final int TOTAL_ITEMS = 5;
 
-    public static final String VILLAGE_MAP_PATH = "/assets/sprites/world/crate/villagemap.png";
-    public static final int VILLAGE_MAP_WIDTH = 1392;
-    public static final int VILLAGE_MAP_HEIGHT = 1584;
+    public static final String MAP_PATH = "/assets/sprites/world/map/outsidevillagev1.png";
+    public static final int MAP_WIDTH = 1392;
+    public static final int MAP_HEIGHT = 1584;
 
     public static final String HUD_ASSET_PATH = "/assets/menu/floaters/gamehud/hudv1.png";
     public static final int HEART_WIDTH = 48;
