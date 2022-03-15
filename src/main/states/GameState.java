@@ -337,22 +337,22 @@ public class GameState extends State
         // Key Down
         if(keyManager.isKeyDown(KeyEvent.VK_W))
         {
-            player.setVelY(-1.2f);
+            player.setVelY(-1f);
             player.setDirection("north");
         }
         if(keyManager.isKeyDown(KeyEvent.VK_S))
         {
-            player.setVelY(1.2f);
+            player.setVelY(1f);
             player.setDirection("south");
         }
         if(keyManager.isKeyDown(KeyEvent.VK_A))
         {
-            player.setVelX(-1.2f);
+            player.setVelX(-1f);
             player.setDirection("west");
         }
         if(keyManager.isKeyDown(KeyEvent.VK_D))
         {
-            player.setVelX(1.2f);
+            player.setVelX(1f);
             player.setDirection("east");
         }
 

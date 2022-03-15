@@ -33,6 +33,7 @@ public class Player extends Character implements Drawable{
         currentImages = new BufferedImage[3];
         knifeImages = new BufferedImage[9];
 
+        movementSpeed = 1;
         animationIndex = 0;
         animationSpeed = 20;
         direction = "north";
@@ -64,7 +65,23 @@ public class Player extends Character implements Drawable{
     @Override
     public void update()
     {
-        pos.add(vel);
+        pos.add(new Vector2f(vel.getX() * movementSpeed, vel.getY() * movementSpeed));
+        if(pos.getX() < 0)
+        {
+            pos.setX(0);
+        }
+        if(pos.getX() > Config.SCREEN_WIDTH)
+        {
+            pos.setX(Config.SCREEN_WIDTH);
+        }
+        if(pos.getY() < 0)
+        {
+            pos.setY(0);
+        }
+        if(pos.getY() > Config.SCREEN_HEIGHT)
+        {
+            pos.setY(Config.SCREEN_HEIGHT);
+        }
 //        pos.setX(clamp((int)pos.getX(), 10, Config.SCREEN_WIDTH - 46));
 //        pos.setY(clamp((int)pos.getY(), 10, Config.SCREEN_HEIGHT - 58));
         checkRotation();
@@ -87,16 +104,6 @@ public class Player extends Character implements Drawable{
                     (int) size.getY(),
                     null);
         }
-    }
-
-    public int clamp(int var, int min, int max)
-    {
-        if( var >= max)
-            return var = max;
-        else if( var <= min)
-            return var = min;
-        else
-            return var;
     }
 
     public void animate()
