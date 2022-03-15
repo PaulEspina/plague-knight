@@ -9,7 +9,6 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class WeaponSlot {
-    private Game game;
     private Point pos;
     private Point size;
     private int weaponAsset;
@@ -19,8 +18,7 @@ public class WeaponSlot {
     private BufferedImage[] weapons;
     private int currentWeapon;
 
-    public WeaponSlot(Game game, Point pos, Point size, String weaponName){
-        this.game = game;
+    public WeaponSlot(Point pos, Point size, String weaponName){
         this.pos = pos;
         this.size = size;
         this.weaponName = weaponName;

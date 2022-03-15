@@ -60,7 +60,7 @@ public class GameState extends State
 
         settings = new GameSetting();
 
-        pauseButton = new Pause(game, new Point(Config.SCREEN_WIDTH - 55, 5), new Point(50, 50), "pause");
+        pauseButton = new Pause(new Point(Config.SCREEN_WIDTH - 55, 5), new Point(50, 50), "pause");
 
         //character position and size
         player = new Player(new Vector2f((float) Config.SCREEN_WIDTH / 2, (float) Config.SCREEN_HEIGHT / 2),
@@ -79,13 +79,13 @@ public class GameState extends State
         items = new Vector<>();
 
         //Coordinate in Frame
-        resumeButton = new Button(game, new Point(470, 370), new Point(90, 55), 528, "resume");
-        mainMenuButton = new Button(game, new Point(230, 370), new Point(90, 55), 440, "menu");
-        pauseText = new ImageText(game, new Point(Config.SCREEN_WIDTH / 2 - Config.PAUSE_ASSET_WIDTH, 20), new Point(250, 100), "pause");
+        resumeButton = new Button(new Point(470, 370), new Point(90, 55), 528, "resume");
+        mainMenuButton = new Button(new Point(230, 370), new Point(90, 55), 440, "menu");
+        pauseText = new ImageText(new Point(Config.SCREEN_WIDTH / 2 - Config.PAUSE_ASSET_WIDTH, 20), new Point(250, 100), "pause");
 
         heartHUD = new Heart(new Point(5, 5), new Point(50, 50), "heart");
         youDiedImage = new YouDied(new Point(Config.SCREEN_WIDTH / 2 - Config.PAUSE_ASSET_WIDTH, 20), new Point(250, 100), "dead");
-        returnMenuButton = new Button(game, new Point(230, 370), new Point(90, 55), 440, "menu");
+        returnMenuButton = new Button(new Point(230, 370), new Point(90, 55), 440, "menu");
     }
     private boolean isPause = false;
     private boolean returnMenu = false;

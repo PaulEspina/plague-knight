@@ -8,7 +8,6 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class ImageText {
-    private Game game;
     private Point pos;
     private Point size;
     private String name;
@@ -18,8 +17,7 @@ public class ImageText {
     private BufferedImage pausedImage;
     private BufferedImage noImage;
 
-    public ImageText(Game game, Point pos, Point size, String name){
-        this.game = game;
+    public ImageText(Point pos, Point size, String name){
         this.pos = pos;
         this.size = size;
         this.name = name;

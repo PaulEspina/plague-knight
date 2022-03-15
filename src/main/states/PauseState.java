@@ -18,9 +18,9 @@ public class PauseState extends State{
         this.game = game;
 
 //        Coordinate in Frame
-        resumeButton = new Button(game, new Point(450, 370), new Point(90, 55), 528, "resume");
-        mainMenuButton = new Button(game, new Point(210, 370), new Point(90, 55), 440, "menu");
-        pauseText = new ImageText(game, new Point(Config.SCREEN_WIDTH / 2 - Config.PAUSE_ASSET_WIDTH, 20), new Point(250, 100), "pause");
+        resumeButton = new Button(new Point(450, 370), new Point(90, 55), 528, "resume");
+        mainMenuButton = new Button(new Point(210, 370), new Point(90, 55), 440, "menu");
+        pauseText = new ImageText(new Point(Config.SCREEN_WIDTH / 2 - Config.PAUSE_ASSET_WIDTH, 20), new Point(250, 100), "pause");
 
 //        Coordinate in Photos
 //        resumeButton.loadTexture(new Point(0, 88), new Point(173, 87), path);

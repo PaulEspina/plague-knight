@@ -23,11 +23,11 @@ public class SurvivalMenuState extends State{
         this.game = game;
 
 //        Coordinate in Frame
-        survivalButton = new Button(game, new Point(364, 465), new Point(85, 50), 0, "survival");
-        storyButton = new Button(game, new Point(480, 465), new Point(85, 50), 88, "story");
-        startButton = new Button(game, new Point(435, 385), new Point(85, 50), 176, "start");
-        exitButton = new Button(game, new Point(606, 465), new Point(85, 50), 264, "exit");
-        cancelButton = new Button(game, new Point(548, 385), new Point(85, 50), 352, "cancel");
+        survivalButton = new Button(new Point(364, 465), new Point(85, 50), 0, "survival");
+        storyButton = new Button(new Point(480, 465), new Point(85, 50), 88, "story");
+        startButton = new Button(new Point(435, 385), new Point(85, 50), 176, "start");
+        exitButton = new Button(new Point(606, 465), new Point(85, 50), 264, "exit");
+        cancelButton = new Button(new Point(548, 385), new Point(85, 50), 352, "cancel");
 
     }
 
