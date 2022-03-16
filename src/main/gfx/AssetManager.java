@@ -2,6 +2,7 @@ package main.gfx;
 
 import main.Config;
 
+import javax.sound.sampled.AudioInputStream;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -25,6 +26,7 @@ public class AssetManager
     private BufferedImage pausedImage;
     private BufferedImage youDiedImage;
     private BufferedImage treeObstacle;
+    private AudioInputStream audio1; // samples
     private Font arcadeClassic;
 
     private static AssetManager instance = null;
@@ -61,6 +63,8 @@ public class AssetManager
             storyBrokenBGImage = ImageLoader.loadImage(Config.BROKEN_STORY_BACKGROUND_ASSET_PATH);
             pausedImage = ImageLoader.loadImage(Config.PAUSED_TEXT_ASSET_PATH);
             youDiedImage = ImageLoader.loadImage(Config.YOU_DIED_ASSET_PATH);
+
+            audio1 = AudioLoader.loadAudio("mainmenumusic.wav");
 
             arcadeClassic = Font.createFont(Font.TRUETYPE_FONT, new File("ARCADECLASSIC.TTF")).deriveFont(72f);
             GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
@@ -143,6 +147,11 @@ public class AssetManager
     public BufferedImage getMap()
     {
         return map;
+    }
+
+    public AudioInputStream getAudio1()
+    {
+        return audio1;
     }
 
     public Font getArcadeClassic() {
