@@ -42,6 +42,7 @@ public class MenuState extends State
         dottedBG = new Screen(new Point(169, 69), new Point(463, 222), Config.DOTTED_BACKGROUND_ASSET_PATH, "dot");
         defaultBG = new Screen(new Point(169, 69), new Point(463, 222), Config.MENU_BACKGROUND_ASSET_PATH, "default");
     }
+
     private double flickerAnimation = 0;
     private double brokenSurvivalAnimation = 0;
     private double brokenStoryAnimation = 0;

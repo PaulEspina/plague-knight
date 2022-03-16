@@ -120,6 +120,7 @@ public class GameState extends State
         healthTick();
         if(isDead){
             returnMenuTick();
+            pauseButton.hideImage();
         }
         else{
             if(isPause){
@@ -132,6 +133,7 @@ public class GameState extends State
                 playerTick();
             }
         }
+
         if(returnMenuPressed){
             if(animationCounter % Config.BUTTON_DELAY_ANIMATION == 0){
                 returnMenu = true;
@@ -262,15 +264,7 @@ public class GameState extends State
     {
         int x = game.getMouseManager().getMouseX();
         int y = game.getMouseManager().getMouseY();
-
-        if(game.getKeyManager().isKeyDown(KeyEvent.VK_ESCAPE)){
-            pauseButton.resumeImage();
-            if(isPause)
-                isPause = false;
-            else
-                isPause = true;
-        }
-
+        
         if(pauseButton.isInside(x, y)){
             pauseButton.hoverImage();
             if(game.getMouseManager().getMouseButtonState(MouseEvent.BUTTON1)){
