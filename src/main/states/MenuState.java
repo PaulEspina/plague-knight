@@ -27,9 +27,8 @@ public class MenuState extends State
     private Screen defaultBG;
     private Screen dottedBG;
 
-    Sound backgroundMusic;
+
     private Speaker speaker;
-    private AudioLoader playBGM;
 
     // TODO Auto-generated method stub
 
@@ -49,8 +48,6 @@ public class MenuState extends State
 
         speaker = new Speaker(new Point(Config.SCREEN_WIDTH - 55, Config.SCREEN_HEIGHT - 55), new Point(50, 50), 336, 192, "speaker");
 
-        backgroundMusic = new Sound(AssetManager.getInstance().getAudio1());
-        backgroundMusic.play();
     }
 
     private double flickerAnimation = 0;
@@ -65,7 +62,7 @@ public class MenuState extends State
     private boolean storyIsPressed = false;
     private boolean exitIsPressed = false;
 
-//    For broken screen delay
+//    For brokendelay
     private boolean survivalNext = false;
     private boolean storyNext = false;
     private boolean exitNext = false;
@@ -75,6 +72,9 @@ public class MenuState extends State
     public void tick() {
         int x = game.getMouseManager().getMouseX();
         int y = game.getMouseManager().getMouseY();
+
+        speaker.unhoveredImage();
+        game.getBackgroundMusic().setSound(-10);
 
         dottedBG.getCurrentScreen();
         defaultBG.getCurrentScreen();
@@ -91,6 +91,8 @@ public class MenuState extends State
         if(survivalIsPressed){
             brokenSurvivalAnimation++;
             if(brokenSurvivalAnimation % Config.BROKEN_SURVIVAL_ANIMATION_DELAY == 0){
+//                game.getButtonPressSound().stop();
+                survivalIsPressed = false;
                 survivalNext = true;
                 brokenSurvivalAnimation = Config.BROKEN_SURVIVAL_ANIMATION_DELAY;
             }
@@ -99,6 +101,7 @@ public class MenuState extends State
         if(storyIsPressed){
             brokenStoryAnimation++;
             if(brokenStoryAnimation % Config.BROKEN_STORY_ANIMATION_DELAY == 0){
+                storyIsPressed = false;
                 storyNext = true;
                 brokenStoryAnimation = Config.BROKEN_STORY_ANIMATION_DELAY;
             }
@@ -107,6 +110,7 @@ public class MenuState extends State
         if(exitIsPressed){
             exitGameAnimation++;
             if(exitGameAnimation % Config.BUTTON_DELAY_ANIMATION == 0){
+                exitIsPressed = false;
                 exitNext = true;
                 exitGameAnimation = Config.BUTTON_DELAY_ANIMATION;
             }
@@ -117,6 +121,7 @@ public class MenuState extends State
             if(game.getMouseManager().getMouseButtonState(MouseEvent.BUTTON1)) {
 
                 //Animate button
+                game.getButtonPressSound().play();
                 survivalButton.clickedImage();
                 survivalIsPressed = true;
             }
@@ -130,6 +135,7 @@ public class MenuState extends State
             //If button clicked
             if(game.getMouseManager().getMouseButtonState(MouseEvent.BUTTON1)) {
                 //Animate button
+                game.getButtonPressSound().setSound(0);
                 storyButton.clickedImage();
                 storyIsPressed = true;
             }
@@ -143,6 +149,7 @@ public class MenuState extends State
             //If button clicked
             if(game.getMouseManager().getMouseButtonState(MouseEvent.BUTTON1)) {
                 //Animate button
+                game.getButtonPressSound().setSound(0);
                 exitButton.clickedImage();
                 exitIsPressed = true;
             }
@@ -154,18 +161,18 @@ public class MenuState extends State
         if(speaker.isInside(x, y)){
             speaker.hoveredImage();
             if(game.getMouseManager().getMouseButtonState(MouseEvent.BUTTON1)){
-                if(backgroundMusic.isPlaying())
+                if(game.getBackgroundMusic().isPlaying())
                 {
-                    backgroundMusic.stop();
+                    game.getBackgroundMusic().stop();
                 }
                 else
                 {
-                    backgroundMusic.play();
+                    game.getBackgroundMusic().play();
                 }
             }
         }
         else{
-            if(backgroundMusic.isPlaying())
+            if(game.getBackgroundMusic().isPlaying())
             {
                 speaker.unhoveredImage();
             }
@@ -197,14 +204,17 @@ public class MenuState extends State
 
 //        Next state
         if(survivalNext){
+            survivalNext = false;
             setState(new SurvivalMenuState(game));
         }
 
         if(storyNext){
+            storyNext = false;
             setState(new StoryMenuState(game));
         }
 
         if(exitNext){
+            exitNext = false;
             setState(new ExitState(game));
         }
     }

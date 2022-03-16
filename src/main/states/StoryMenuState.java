@@ -60,6 +60,7 @@ public class StoryMenuState extends State{
             if(game.getMouseManager().getMouseButtonState(MouseEvent.BUTTON1)) {
                 //Animate button
                 startButton.clickedImage();
+                game.getButtonPressSound().play();
                 storyIsClicked = true;
             }
         }
@@ -72,7 +73,7 @@ public class StoryMenuState extends State{
             if(game.getMouseManager().getMouseButtonState(MouseEvent.BUTTON1)) {
                 //Animate button
                 cancelButton.clickedImage();
-
+                game.getButtonPressSound().play();
                 cancelClicked = true;
             }
         }
@@ -83,11 +84,26 @@ public class StoryMenuState extends State{
         if(speaker.isInside(x, y)){
             speaker.hoveredImage();
             if(game.getMouseManager().getMouseButtonState(MouseEvent.BUTTON1)){
-                speaker.clickedImage();
+                game.getButtonPressSound().play();
+                if(game.getBackgroundMusic().isPlaying())
+                {
+                    game.getBackgroundMusic().stop();
+                }
+                else
+                {
+                    game.getBackgroundMusic().play();
+                }
             }
         }
         else{
-            speaker.unhoveredImage();
+            if(game.getBackgroundMusic().isPlaying())
+            {
+                speaker.unhoveredImage();
+            }
+            else
+            {
+                speaker.clickedImage();
+            }
         }
 
     }

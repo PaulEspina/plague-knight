@@ -248,13 +248,10 @@ public class Player extends Character implements Drawable{
                     hearts += 1;
                     currentHearts += 1;
                 }
-                System.out.println("HEARTS : " + hearts);
-                System.out.println("CURRENT : " + currentHearts);
                 break;
             case APPLE:
                 if(checkCurrentHearts())
                     currentHearts += 1;
-                System.out.println("CURRENT : " + currentHearts);
                 break;
             case BOOTS:
                 speedBoostStart = clock.millis();

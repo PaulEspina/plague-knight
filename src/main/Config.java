@@ -67,7 +67,7 @@ public class Config {
     public static final int MAP_WIDTH = 1392;
     public static final int MAP_HEIGHT = 1584;
 
-    public static final String HUD_ASSET_PATH = "/assets/menu/floaters/gamehud/hudv2.png";
+    public static final String HUD_ASSET_PATH = "/assets/menu/floaters/gamehud/hudv3.png";
     public static final int HEART_WIDTH = 48;
     public static final int HEART_HEIGHT = 48;
     public static final int SPEAKER_WIDTH = 48;
@@ -81,7 +81,17 @@ public class Config {
 
     public static final String FONT_PATH = "/assets/fonts/ARCADECLASSIC.TTF";
     public static final String MAIN_MENU_BG_MUSIC_PATH = "mainmenumusic.wav";
+    public static final String IN_GAME_MUSIC_PATH = "ingame.wav";
+    public static final String KNIFE_STAB_MUSIC_PATH = "knifestab.wav";
+    public static final String ENTER_GAME_PATH = "entergame.wav";
+    public static final String BUTTON_PRESS_PATH = "buttonpress.wav";
     public static final String ZOMBIE_1_MUSIC_PATH = "zombie_1.wav";
+    public static final String ZOMBIE_2_MUSIC_PATH = "zombie_2.wav";
+    public static final String ZOMBIE_3_MUSIC_PATH = "zombie_3.wav";
 
-
+    public static final String SCORES_PATH = "scores.txt";
+    public static final String PAUSE_BG_PATH = "/assets/menu/menubackground/pausedbackgroundv1.png";
+    public static final String DIED_BG_PATH = "/assets/menu/menubackground/youdiedbackgroundv1.png";
+    public static final int RANKING_HUD_WIDTH = 336;
+    public static final int RANKING_HUD_HEIGHT = 152;
 }

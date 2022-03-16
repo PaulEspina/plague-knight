@@ -13,6 +13,8 @@ import main.gfx.AssetManager;
 import main.input.KeyManager;
 import main.input.MouseManager;
 import main.entity.player.Player;
+
+import java.awt.List;
 import java.awt.event.MouseEvent;
 
 import java.awt.*;
@@ -20,10 +22,7 @@ import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.time.LocalDate;
-import java.util.Date;
-import java.util.Random;
-import java.util.Scanner;
-import java.util.Vector;
+import java.util.*;
 
 public class GameState extends State
 {
@@ -93,14 +92,15 @@ public class GameState extends State
         items = new Vector<>();
 
         //Coordinate in Frame
-        resumeButton = new Button(new Point(470, 370), new Point(90, 55), 528, "resume");
-        mainMenuButton = new Button(new Point(230, 370), new Point(90, 55), 440, "menu");
-        pauseText = new ImageText(new Point(Config.SCREEN_WIDTH / 2 - Config.PAUSE_ASSET_WIDTH, 20), new Point(250, 100), "pause");
+        pauseText = new ImageText(new Point(Config.SCREEN_WIDTH / 2 - Config.PAUSE_ASSET_WIDTH, 120), new Point(250, 100), "pause");
+        resumeButton = new Button(new Point(590, 465), new Point(90, 55), 528, "resume");
+        mainMenuButton = new Button(new Point(410, 465), new Point(90, 55), 440, "menu");
 
         heartHUD = new Heart(new Point(5, 5), new Point(50, 50), "heart");
-        youDiedImage = new YouDied(new Point(Config.SCREEN_WIDTH / 2 - Config.PAUSE_ASSET_WIDTH, 20), new Point(250, 100), "dead");
-        returnMenuButton = new Button(new Point(230, 370), new Point(90, 55), 440, "retry");
-        retryButton = new Button(new Point(470, 370), new Point(90, 55), 616, "resume");
+
+        youDiedImage = new YouDied(new Point(Config.SCREEN_WIDTH / 2 - Config.PAUSE_ASSET_WIDTH, 120), new Point(250, 100), "dead");
+        returnMenuButton = new Button(new Point(410, 465), new Point(90, 55), 440, "retry");
+        retryButton = new Button(new Point(590, 465), new Point(90, 55), 616, "resume");
 
         speaker = new Speaker(new Point(Config.SCREEN_WIDTH - 55, Config.SCREEN_HEIGHT - 55), new Point(50, 50), 336, 192, "speaker");
     }
@@ -115,6 +115,10 @@ public class GameState extends State
     @Override
     public void tick()
     {
+        game.getBackgroundMusic().setSound(-80);
+        game.getEnterPressSound().setSound(-80);
+        game.getButtonPressSound().setSound(-80);
+        game.getInGameMusic().setSound(-20);
         animationCounter++;
         pauseImageTick();
         healthTick();
@@ -147,7 +151,7 @@ public class GameState extends State
         }
 
         if(returnMenu){
-            setState(new MenuState(game));
+            setState(new LeaderBoardState(game));
         }
         if(retryGame){
             setState(new GameState(game));
@@ -190,22 +194,35 @@ public class GameState extends State
 //        g.fillRect((int) player.getPos().getX() - (int) player.getSize().getX() / 2,
 //                (int) player.getPos().getY() - (int) player.getSize().getY() / 2,
 //                (int) player.getSize().getX(), (int) player.getSize().getY());
-        pauseButton.draw(g);
+
         heartHUD.draw(g);
-        speaker.draw(g);
 
         g.setFont(AssetManager.getInstance().getArcadeClassic());
         g.drawString("Kills !" + score, 10, (Config.HEART_HEIGHT / 2) * 5);
         if(isPause){
+            g.drawImage(AssetManager.getInstance().getYouPausedBG(), 0, 0, Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT, null);
             resumeButton.draw(g);
             mainMenuButton.draw(g);
             pauseText.draw(g);
+            game.getZombie1BG().setSound(-80);
+            game.getZombie2BG().setSound(-80);
+            game.getZombie3BG().setSound(-80);
+            game.getKnifeSound().setSound(-80);
         }
         if (isDead) {
+            g.drawImage(AssetManager.getInstance().getYouDiedBG(), 0, 0, Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT, null);
             youDiedImage.draw(g);
             returnMenuButton.draw(g);
             retryButton.draw(g);
+            game.getInGameMusic().setSound(-80);
+            game.getZombie1BG().setSound(-80);
+            game.getZombie2BG().setSound(-80);
+            game.getZombie3BG().setSound(-80);
+            game.getKnifeSound().setSound(-80);
+
         }
+        pauseButton.draw(g);
+        speaker.draw(g);
     }
 
     private void speakerTick(){
@@ -215,14 +232,27 @@ public class GameState extends State
         if(speaker.isInside(x, y)){
             speaker.hoveredImage();
             if(game.getMouseManager().getMouseButtonState(MouseEvent.BUTTON1)){
-                speaker.clickedImage();
+                if(game.getInGameMusic().isPlaying())
+                {
+                    game.getInGameMusic().stop();
+                }
+                else
+                {
+                    game.getInGameMusic().play();
+                }
             }
         }
         else{
-            speaker.unhoveredImage();
+            if(game.getInGameMusic().isPlaying())
+            {
+                speaker.unhoveredImage();
+            }
+            else
+            {
+                speaker.clickedImage();
+            }
         }
     }
-
     private void returnMenuTick(){
         int x = game.getMouseManager().getMouseX();
         int y = game.getMouseManager().getMouseY();
@@ -232,16 +262,7 @@ public class GameState extends State
             if(game.getMouseManager().getMouseButtonState(MouseEvent.BUTTON1)){
                 returnMenuButton.clickedImage();
                 returnMenuPressed = true;
-                try
-                {
-                    FileWriter file = new FileWriter("scores.txt", true);
-                    file.write(LocalDate.now().toString() + " - SCORE: " + score + "\n");
-                    file.close();
-                }
-                catch(IOException e)
-                {
-                    e.printStackTrace();
-                }
+                scoreWriter(score);
             }
         }
         else{
@@ -253,22 +274,27 @@ public class GameState extends State
             if(game.getMouseManager().getMouseButtonState(MouseEvent.BUTTON1)){
                 retryButton.clickedImage();
                 retryGamePressed = true;
-                try
-                {
-                    FileWriter file = new FileWriter("scores.txt", true);
-                    file.write(LocalDate.now().toString() + " - SCORE: " + score + "\n");
-                    file.close();
-                }
-                catch(IOException e)
-                {
-                    e.printStackTrace();
-                }
+                scoreWriter(score);
             }
         }
         else{
             retryButton.unhoveredImage();
         }
     }
+
+    private void scoreWriter(int score){
+        try
+        {
+            FileWriter file = new FileWriter("scores.txt", true);
+            file.write(score + "\n");
+            file.close();
+        }
+        catch(IOException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
     private void pauseImageTick()
     {
         int x = game.getMouseManager().getMouseX();
@@ -412,6 +438,9 @@ public class GameState extends State
                 zombies.get(i).animate();
             }
             zombies.get(i).update();
+            game.getZombie1BG().setSound(-30);
+            game.getZombie2BG().setSound(-30);
+//            game.getZombie3BG().setSound(-25);
         }
     }
 
@@ -419,9 +448,8 @@ public class GameState extends State
         heartHUD.setCurrentHeartCount(player.getCurrentHearts());
         heartHUD.setHeartCount(player.getHearts());
         if(player.getCurrentHearts() <= 0){
-            System.out.println("YOU DEAD");
-            System.out.println("SCORE - " + score);
             isDead = true;
+
 //            GAMEOVERSTATE
         }
     }
@@ -467,10 +495,12 @@ public class GameState extends State
 
         if(animationCounter % Config.PLAYER_KNIFE_COOLDOWN_DELAY == 0) {
             if(player.isAttackAnimate()){
+                game.getKnifeSound().setSound(-10);
+                game.getKnifeSound().play();
+                game.getKnifeSound().setFramePosition(1);
                 player.setAttackAnimate(false);
             }
         }
-
         player.update();
     }
 }

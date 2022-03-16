@@ -59,6 +59,7 @@ public class SurvivalMenuState extends State{
         storyButton.disabledImage();
         exitButton.disabledImage();
 
+
         startDelay++;
         if(startDelay % Config.START_SURVIVAL_ANIMATION_DELAY == 0){
             startClicked = true;
@@ -70,6 +71,7 @@ public class SurvivalMenuState extends State{
             if(game.getMouseManager().getMouseButtonState(MouseEvent.BUTTON1)) {
                 //Animate button
                 easyButton.clickedImage();
+//                game.getButtonPressSound().play();
                 GameSetting.gameDifficulty = false;
                 changeEasyToClicked = true;
                 changeHardToClicked = false;
@@ -89,6 +91,7 @@ public class SurvivalMenuState extends State{
             if(game.getMouseManager().getMouseButtonState(MouseEvent.BUTTON1)) {
                 //Animate button
                 hardButton.clickedImage();
+//                game.getButtonPressSound().play();
                 GameSetting.gameDifficulty = true;
                 changeHardToClicked = true;
                 changeEasyToClicked = false;
@@ -108,6 +111,7 @@ public class SurvivalMenuState extends State{
             //If button clicked
             if(game.getMouseManager().getMouseButtonState(MouseEvent.BUTTON1)) {
                 //Animate button
+                game.getEnterPressSound().setSound(-10);
                 startButton.clickedImage();
                 survivalIsClicked = true;
             }
@@ -121,6 +125,7 @@ public class SurvivalMenuState extends State{
             if(game.getMouseManager().getMouseButtonState(MouseEvent.BUTTON1)) {
                 //Animate button
                 cancelButton.clickedImage();
+                game.getButtonPressSound().play();
                 cancelClicked = true;
             }
         }
@@ -131,11 +136,26 @@ public class SurvivalMenuState extends State{
         if(speaker.isInside(x, y)){
             speaker.hoveredImage();
             if(game.getMouseManager().getMouseButtonState(MouseEvent.BUTTON1)){
-                speaker.clickedImage();
+//                game.getButtonPressSound().play();
+                if(game.getBackgroundMusic().isPlaying())
+                {
+                    game.getBackgroundMusic().stop();
+                }
+                else
+                {
+                    game.getBackgroundMusic().play();
+                }
             }
         }
         else{
-            speaker.unhoveredImage();
+            if(game.getBackgroundMusic().isPlaying())
+            {
+                speaker.unhoveredImage();
+            }
+            else
+            {
+                speaker.clickedImage();
+            }
         }
     }
 
@@ -158,6 +178,7 @@ public class SurvivalMenuState extends State{
 
         //        Broken survival BG
         if(survivalIsClicked){
+
             g.drawImage(AssetManager.getInstance().getSurvivalBrokenBGImage(), 0, 0, Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT, null);
             if(startClicked){
                 setState(new GameState(game));
