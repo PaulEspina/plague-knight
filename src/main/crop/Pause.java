@@ -13,14 +13,14 @@ public class Pause {
     private String pauseName;
     private BufferedImage icon;
     private BufferedImage currentIcon;
-    private BufferedImage[] pauseIcon = new BufferedImage[3];
+    private BufferedImage[] pauseIcon = new BufferedImage[4];
     public Pause(Point pos, Point size, String pauseName){
         this.pos = pos;
         this.size = size;
         this.pauseName = pauseName;
 
         icon = AssetManager.getInstance().getMenuButtonImage();
-        for(int i = 0; i < 3; i++){
+        for(int i = 0; i < 4; i++){
             pauseIcon[i] = icon.getSubimage(i * Config.PAUSE_ASSET_WIDTH, 705, Config.PAUSE_ASSET_WIDTH, Config.PAUSE_ASSET_HEIGHT);
         }
     }
@@ -51,6 +51,10 @@ public class Pause {
 
     public void resumeImage(){
         currentIcon = pauseIcon[2];
+    }
+
+    public void hideImage() {
+        currentIcon = pauseIcon[3];
     }
 
     public boolean isInside(float x, float y) {
