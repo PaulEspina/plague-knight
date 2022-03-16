@@ -6,13 +6,12 @@ import main.crop.Button;
 import main.crop.Screen;
 import main.crop.Speaker;
 import main.gfx.AssetManager;
-import main.gfx.SoundLoader;
+import main.gfx.AudioLoader;
+import main.gfx.Sound;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.util.Random;
-
-import static java.lang.System.exit;
 
 public class MenuState extends State
 {
@@ -28,8 +27,9 @@ public class MenuState extends State
     private Screen defaultBG;
     private Screen dottedBG;
 
+    Sound backgroundMusic;
     private Speaker speaker;
-    private SoundLoader playBGM;
+    private AudioLoader playBGM;
 
     // TODO Auto-generated method stub
 
@@ -48,6 +48,9 @@ public class MenuState extends State
         defaultBG = new Screen(new Point(169, 69), new Point(463, 222), Config.MENU_BACKGROUND_ASSET_PATH, "default");
 
         speaker = new Speaker(new Point(Config.SCREEN_WIDTH - 55, Config.SCREEN_HEIGHT - 55), new Point(50, 50), 336, 192, "speaker");
+
+        backgroundMusic = new Sound(AssetManager.getInstance().getAudio1());
+        backgroundMusic.play();
     }
 
     private double flickerAnimation = 0;
@@ -151,11 +154,25 @@ public class MenuState extends State
         if(speaker.isInside(x, y)){
             speaker.hoveredImage();
             if(game.getMouseManager().getMouseButtonState(MouseEvent.BUTTON1)){
-                speaker.clickedImage();
+                if(backgroundMusic.isPlaying())
+                {
+                    backgroundMusic.stop();
+                }
+                else
+                {
+                    backgroundMusic.play();
+                }
             }
         }
         else{
-            speaker.unhoveredImage();
+            if(backgroundMusic.isPlaying())
+            {
+                speaker.unhoveredImage();
+            }
+            else
+            {
+                speaker.clickedImage();
+            }
         }
     }
 
