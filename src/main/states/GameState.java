@@ -10,8 +10,6 @@ import main.crop.Pause;
 import main.entity.Crate;
 import main.entity.Item.Item;
 import main.Vector2f;
-import main.entity.enemy.FastZombie;
-import main.entity.enemy.SlowZombie;
 import main.entity.enemy.Zombie;
 import main.gfx.AssetManager;
 import main.input.KeyManager;
@@ -24,9 +22,7 @@ import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.Random;
-import java.util.Scanner;
 import java.util.Vector;
 
 public class GameState extends State
@@ -43,8 +39,6 @@ public class GameState extends State
     private BufferedImage map;
 
     private Vector<Zombie> zombies;
-    private Vector<FastZombie> fastZombie;
-    private Vector<SlowZombie> slowZombie;
     private final MouseManager mouseManager;
 
     private Vector<Crate> crates;
@@ -92,9 +86,6 @@ public class GameState extends State
                                    new Vector2f(Config.ZOMBIE_ASSET_WIDTH * settings.zoom, Config.ZOMBIE_ASSET_HEIGHT * settings.zoom),
                                    zombieTypes[rand.nextInt(3)]));
         }
-
-        fastZombie = new Vector<>();
-        slowZombie = new Vector<>();
 
         crates = new Vector<>();
 //        crates.add(new Crate(new Vector2f(300, 100), new Vector2f((float) Config.CRATE_ASSET_WIDTH / 2 * settings.zoom, (float) Config.CRATE_ASSET_HEIGHT / 2 * settings.zoom)));
@@ -190,14 +181,6 @@ public class GameState extends State
 //            g.fillRect((int) zombies.get(i).getPos().getX() - (int) zombies.get(i).getSize().getX() / 2,
 //                    (int) zombies.get(i).getPos().getY() - (int) zombies.get(i).getSize().getY() / 2,
 //                    (int) zombies.get(i).getSize().getX(), (int) zombies.get(i).getSize().getY());
-        }
-        for(int i = 0; i < fastZombie.size(); i++)
-        {
-            fastZombie.get(i).draw(g);
-        }
-        for(int i = 0; i < slowZombie.size(); i++)
-        {
-            slowZombie.get(i).draw(g);
         }
 
 
@@ -399,23 +382,6 @@ public class GameState extends State
                     y = rand.nextInt(Config.SCREEN_WIDTH + 100) * ySign;
                 }
 
-                int randNum = rand.nextInt(100);
-                if(randNum % 5 == 0)
-                {
-                    fastZombie.add(new FastZombie(new Vector2f(x, y),
-                            new Vector2f(Config.ZOMBIE_ASSET_WIDTH * settings.zoom, Config.ZOMBIE_ASSET_HEIGHT * settings.zoom)));
-                }
-                else if(randNum % 7 == 0)
-                {
-                    slowZombie.add(new SlowZombie(new Vector2f(x, y),
-                            new Vector2f(Config.ZOMBIE_ASSET_WIDTH * settings.zoom, Config.ZOMBIE_ASSET_HEIGHT * settings.zoom)));
-                }
-                else
-                {
-                    zombies.add(new Zombie(new Vector2f(x, y),
-                            new Vector2f(Config.ZOMBIE_ASSET_WIDTH * settings.zoom, Config.ZOMBIE_ASSET_HEIGHT * settings.zoom)));
-                }
-
                 zombies.add(new Zombie(new Vector2f(x, y),
                                        new Vector2f(Config.ZOMBIE_ASSET_WIDTH * settings.zoom, Config.ZOMBIE_ASSET_HEIGHT * settings.zoom),
                                        zombieTypes[rand.nextInt(3)]));
@@ -449,25 +415,6 @@ public class GameState extends State
                 zombies.get(i).animate();
             }
             zombies.get(i).update();
-        }
-
-        for(int i = 0; i < fastZombie.size(); i++)
-        {
-            fastZombie.get(i).follow(player.getPos());
-            if(animationCounter % fastZombie.get(i).getAnimationSpeed() == 0)
-            {
-                fastZombie.get(i).animate();
-            }
-            fastZombie.get(i).update();
-        }
-        for(int i = 0; i < slowZombie.size(); i++)
-        {
-            slowZombie.get(i).follow(player.getPos());
-            if(animationCounter % slowZombie.get(i).getAnimationSpeed() == 0)
-            {
-                slowZombie.get(i).animate();
-            }
-            slowZombie.get(i).update();
         }
     }
 
