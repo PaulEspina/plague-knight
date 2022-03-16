@@ -121,7 +121,9 @@ public class MenuState extends State
             if(game.getMouseManager().getMouseButtonState(MouseEvent.BUTTON1)) {
 
                 //Animate button
+                game.getButtonPressSound().setSound(-10);
                 game.getButtonPressSound().play();
+                game.getButtonPressSound().setFramePosition(0);
                 survivalButton.clickedImage();
                 survivalIsPressed = true;
             }
@@ -135,7 +137,9 @@ public class MenuState extends State
             //If button clicked
             if(game.getMouseManager().getMouseButtonState(MouseEvent.BUTTON1)) {
                 //Animate button
-                game.getButtonPressSound().setSound(0);
+                game.getButtonPressSound().setSound(-10);
+                game.getButtonPressSound().play();
+                game.getButtonPressSound().setFramePosition(0);
                 storyButton.clickedImage();
                 storyIsPressed = true;
             }
@@ -149,7 +153,9 @@ public class MenuState extends State
             //If button clicked
             if(game.getMouseManager().getMouseButtonState(MouseEvent.BUTTON1)) {
                 //Animate button
-                game.getButtonPressSound().setSound(0);
+                game.getButtonPressSound().setSound(-10);
+                game.getButtonPressSound().play();
+                game.getButtonPressSound().setFramePosition(0);
                 exitButton.clickedImage();
                 exitIsPressed = true;
             }
@@ -161,6 +167,9 @@ public class MenuState extends State
         if(speaker.isInside(x, y)){
             speaker.hoveredImage();
             if(game.getMouseManager().getMouseButtonState(MouseEvent.BUTTON1)){
+                game.getButtonPressSound().setSound(-10);
+                game.getButtonPressSound().play();
+                game.getButtonPressSound().setFramePosition(0);
                 if(game.getBackgroundMusic().isPlaying())
                 {
                     game.getBackgroundMusic().stop();

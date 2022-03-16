@@ -61,17 +61,15 @@ public class Game implements Runnable
         inGameMusic.loop();
 
         knifeSound = new Sound(AssetManager.getInstance().getKnifeBG());
-        knifeSound.setSound(-80);
 
-//        knifeSound.loop();
 
         enterPressSound = new Sound(AssetManager.getInstance().getEnterPressBG());
-        enterPressSound.setSound(-80);
-        enterPressSound.loop();
+//        enterPressSound.setSound(-80);
+//        enterPressSound.loop();
 
         buttonPressSound = new Sound(AssetManager.getInstance().getButtonPressBG());
-        buttonPressSound.setSound(-80);
-        buttonPressSound.loop();
+//        buttonPressSound.setSound(-80);
+//        buttonPressSound.loop();
 
         zombie1BG = new Sound(AssetManager.getInstance().getZombie1BG());
         zombie1BG.setSound(-80);
@@ -91,7 +89,7 @@ public class Game implements Runnable
         pauseState = new PauseState(this);
         leaderBoardState = new LeaderBoardState(this);
 
-        State.setState(gameState);
+        State.setState(menuState);
     }
 
 //    DINAGDAG KO TONG VARIABLE

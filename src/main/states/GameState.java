@@ -261,6 +261,9 @@ public class GameState extends State
             returnMenuButton.hoveredImage();
             if(game.getMouseManager().getMouseButtonState(MouseEvent.BUTTON1)){
                 returnMenuButton.clickedImage();
+                game.getButtonPressSound().setSound(-10);
+                game.getButtonPressSound().play();
+                game.getButtonPressSound().setFramePosition(0);
                 returnMenuPressed = true;
                 scoreWriter(score);
             }
@@ -273,6 +276,9 @@ public class GameState extends State
             retryButton.hoveredImage();
             if(game.getMouseManager().getMouseButtonState(MouseEvent.BUTTON1)){
                 retryButton.clickedImage();
+                game.getButtonPressSound().setSound(-10);
+                game.getButtonPressSound().play();
+                game.getButtonPressSound().setFramePosition(0);
                 retryGamePressed = true;
                 scoreWriter(score);
             }
@@ -304,6 +310,9 @@ public class GameState extends State
             pauseButton.hoverImage();
             if(game.getMouseManager().getMouseButtonState(MouseEvent.BUTTON1)){
                 pauseButton.resumeImage();
+                game.getButtonPressSound().setSound(-10);
+                game.getButtonPressSound().play();
+                game.getButtonPressSound().setFramePosition(0);
                 isPause = true;
             }
         }
@@ -323,6 +332,9 @@ public class GameState extends State
             if(game.getMouseManager().getMouseButtonState(MouseEvent.BUTTON1)) {
                 //Animate button
                 resumeButton.clickedImage();
+                game.getButtonPressSound().setSound(-10);
+                game.getButtonPressSound().play();
+                game.getButtonPressSound().setFramePosition(0);
                 isPause = false;
             }
         }
@@ -336,6 +348,9 @@ public class GameState extends State
             if(game.getMouseManager().getMouseButtonState(MouseEvent.BUTTON1)) {
                 //Animate button
                 mainMenuButton.clickedImage();
+                game.getButtonPressSound().setSound(-10);
+                game.getButtonPressSound().play();
+                game.getButtonPressSound().setFramePosition(0);
                 returnMenu = true;
             }
         }
@@ -496,8 +511,9 @@ public class GameState extends State
         if(animationCounter % Config.PLAYER_KNIFE_COOLDOWN_DELAY == 0) {
             if(player.isAttackAnimate()){
                 game.getKnifeSound().setSound(-10);
+                game.getKnifeSound().setFramePosition(0);
                 game.getKnifeSound().play();
-                game.getKnifeSound().setFramePosition(1);
+
                 player.setAttackAnimate(false);
             }
         }

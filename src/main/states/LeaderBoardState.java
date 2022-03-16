@@ -57,7 +57,9 @@ public class LeaderBoardState extends State{
             menuButton.hoveredImage();
             if(game.getMouseManager().getMouseButtonState(MouseEvent.BUTTON1)){
                 menuButton.clickedImage();
+                game.getButtonPressSound().setSound(-10);
                 game.getButtonPressSound().play();
+                game.getButtonPressSound().setFramePosition(0);
                 menuPressed = true;
             }
         }
@@ -68,7 +70,9 @@ public class LeaderBoardState extends State{
         if(speaker.isInside(x, y)){
             speaker.hoveredImage();
             if(game.getMouseManager().getMouseButtonState(MouseEvent.BUTTON1)){
+                game.getButtonPressSound().setSound(-10);
                 game.getButtonPressSound().play();
+                game.getButtonPressSound().setFramePosition(0);
                 if(game.getBackgroundMusic().isPlaying())
                 {
                     game.getBackgroundMusic().stop();
