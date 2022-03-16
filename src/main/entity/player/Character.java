@@ -8,6 +8,7 @@ public abstract class Character extends Entity implements Attackable
 //  Movement speed, Hearts
     protected int hearts = 5;
     protected int currentHearts = 5;
+    protected int temporaryHeart = 0;
     protected int damage = 1;
 
     public boolean checkMaxHeart(){
@@ -47,6 +48,9 @@ public abstract class Character extends Entity implements Attackable
         hearts += value;
     }
 
+//    public void temporaryHearts(int value){
+//        temporaryHeart = hearts + value;
+//    }
     public void increaseCurrentHearts(int value)
     {
         if(currentHearts + value <= hearts)

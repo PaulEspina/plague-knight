@@ -4,6 +4,7 @@ import main.Config;
 import main.Game;
 import main.crop.Button;
 import main.crop.Screen;
+import main.crop.Speaker;
 import main.gfx.AssetManager;
 import main.states.State;
 
@@ -20,6 +21,8 @@ public class ExitState extends State {
     private Button startButton;
     private Button cancelButton;
 
+    private Speaker speaker;
+
     public ExitState(Game game)
     {
         this.game = game;
@@ -30,6 +33,7 @@ public class ExitState extends State {
         startButton = new main.crop.Button(new Point(435, 385), new Point(85, 50), 176, "start");
         cancelButton = new Button(new Point(548, 385), new Point(85, 50), 352, "cancel");
 
+        speaker = new Speaker(new Point(Config.SCREEN_WIDTH - 55, Config.SCREEN_HEIGHT - 55), new Point(50, 50), 336, 192, "speaker");
     }
 
     private double startDelay = 0;
@@ -43,8 +47,8 @@ public class ExitState extends State {
         int y = game.getMouseManager().getMouseY();
 
         survivalButton.disabledImage();
-        storyButton.clickedImage();
-        exitButton.disabledImage();
+        storyButton.disabledImage();
+        exitButton.clickedImage();
 
         startDelay++;
         if(startDelay % Config.START_STORY_ANIMATION_DELAY == 0){
@@ -77,22 +81,33 @@ public class ExitState extends State {
         else{
             cancelButton.unhoveredImage();
         }
+
+        if(speaker.isInside(x, y)){
+            speaker.hoveredImage();
+            if(game.getMouseManager().getMouseButtonState(MouseEvent.BUTTON1)){
+                speaker.clickedImage();
+            }
+        }
+        else{
+            speaker.unhoveredImage();
+        }
     }
 
     @Override
     public void render(Graphics g) {
-        g.drawImage(AssetManager.getInstance().getDefaultBGImage(), 0, 0, Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT, null);
+        g.drawImage(AssetManager.getInstance().getExitBGImage(), 0, 0, Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT, null);
         startButton.draw(g);
         cancelButton.draw(g);
         storyButton.draw(g);
         survivalButton.draw(g);
         exitButton.draw(g);
+        speaker.draw(g);
 
         if(cancelClicked){
             setState(new MenuState(game));
         }
         if(exitIsClicked){
-            g.drawImage(AssetManager.getInstance().getStoryBrokenBGImage(), 0, 0, Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT, null);
+//            g.drawImage(AssetManager.getInstance().getExitBGImage(), 0, 0, Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT, null);
             if(exitClicked){
                 exit(0);
             }

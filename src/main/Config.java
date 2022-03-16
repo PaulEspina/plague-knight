@@ -6,7 +6,7 @@ public class Config {
     public static final int SCREEN_HEIGHT = 600;
     public static final String TITLE = "Plague Knight";
 
-
+    public static final String DIFFICULTY_ASSET_PATH = "/assets/menu/menubuttons/difficultybuttons.png";
     public static final String MENU_BUTTON_ASSET_PATH = "/assets/menu/menubuttons/menubuttonsv7.png";
     public static final int BUTTON_ASSET_WIDTH = 174;
     public static final int BUTTON_ASSET_HEIGHT = 88;
@@ -23,6 +23,8 @@ public class Config {
     public static final int MENU_SCREEN_Y = 55;
     public static final int MENU_SCREEN_WIDTH = 419;
     public static final int MENU_SCREEN_HEIGHT = 178;
+
+    public static final String EXIT_MENU_ASSET_PATH = "/assets/menu/menubackground/menubackgroundv12.png";
 
 //    Pause Text
     public static final String PAUSED_TEXT_ASSET_PATH = "/assets/menu/floaters/paused/pausedv1.png";
@@ -65,9 +67,11 @@ public class Config {
     public static final int MAP_WIDTH = 1392;
     public static final int MAP_HEIGHT = 1584;
 
-    public static final String HUD_ASSET_PATH = "/assets/menu/floaters/gamehud/hudv1.png";
+    public static final String HUD_ASSET_PATH = "/assets/menu/floaters/gamehud/hudv2.png";
     public static final int HEART_WIDTH = 48;
     public static final int HEART_HEIGHT = 48;
+    public static final int SPEAKER_WIDTH = 48;
+    public static final int SPEAKER_HEIGHT = 48;
 
     public static final String YOU_DIED_ASSET_PATH = "/assets/menu/floaters/youdied/youdiedv1.png";
     public static final int YOU_DIED_WIDTH = 393;
@@ -76,4 +80,5 @@ public class Config {
     public static final double BUTTON_DELAY_ANIMATION = 30;
 
     public static final String FONT_PATH = "/assets/fonts/ARCADECLASSIC.TTF";
+
 }

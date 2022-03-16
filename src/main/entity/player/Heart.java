@@ -9,7 +9,6 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class Heart implements Drawable {
-    private Game game;
     private Point pos;
     private Point size;
     private String name;
@@ -20,15 +19,17 @@ public class Heart implements Drawable {
     private int heartCount;
     private int currentHeartCount;
 
+    private Boolean gotDefense = false;
+
     public Heart(Point pos, Point size, String name){
         this.pos = pos;
         this.size = size;
         this.name = name;
 
-        heartImage = new BufferedImage[2];
+        heartImage = new BufferedImage[3];
 
         image = AssetManager.getInstance().getHUD();
-        for(int i = 0; i < 2; i++){
+        for(int i = 0; i < 3; i++){
             heartImage[i] = image.getSubimage(i * Config.HEART_WIDTH, 0, Config.HEART_WIDTH, Config.HEART_HEIGHT);
         }
     }
@@ -70,5 +71,9 @@ public class Heart implements Drawable {
 
     public void setCurrentHeartCount(int currentHeartCount) {
         this.currentHeartCount = currentHeartCount;
+    }
+
+    public void setGotDefense(Boolean gotDefense) {
+        this.gotDefense = gotDefense;
     }
 }

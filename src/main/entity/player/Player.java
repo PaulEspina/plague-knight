@@ -39,6 +39,7 @@ public class Player extends Character implements Drawable{
     private Long defenseBoostDuration;
     private boolean defenseBoosted;
 
+
     public Player()
     {
         sprite = null;
@@ -358,4 +359,5 @@ public class Player extends Character implements Drawable{
     {
         this.damage = damage;
     }
+
 }

@@ -3,6 +3,7 @@ package main.states;
 import main.Config;
 import main.Game;
 import main.crop.Button;
+import main.crop.Speaker;
 import main.gfx.AssetManager;
 
 import java.awt.*;
@@ -16,6 +17,7 @@ public class StoryMenuState extends State{
     private Button storyButton;
     private Button survivalButton;
     private Button exitButton;
+    private Speaker speaker;
 
 
     public StoryMenuState(Game game){
@@ -27,6 +29,8 @@ public class StoryMenuState extends State{
         storyButton = new Button(new Point(480, 465), new Point(85, 50), 88, "story");
         exitButton = new Button(new Point(606, 465), new Point(85, 50), 264, "exit");
         cancelButton = new Button(new Point(548, 385), new Point(85, 50), 352, "cancel");
+
+        speaker = new Speaker(new Point(Config.SCREEN_WIDTH - 55, Config.SCREEN_HEIGHT - 55), new Point(50, 50), 336, 192, "speaker");
 
     }
 
@@ -75,6 +79,17 @@ public class StoryMenuState extends State{
         else{
             cancelButton.unhoveredImage();
         }
+
+        if(speaker.isInside(x, y)){
+            speaker.hoveredImage();
+            if(game.getMouseManager().getMouseButtonState(MouseEvent.BUTTON1)){
+                speaker.clickedImage();
+            }
+        }
+        else{
+            speaker.unhoveredImage();
+        }
+
     }
 
     @Override
@@ -85,6 +100,7 @@ public class StoryMenuState extends State{
         storyButton.draw(g);
         survivalButton.draw(g);
         exitButton.draw(g);
+        speaker.draw(g);
 
         if(cancelClicked){
             setState(new MenuState(game));

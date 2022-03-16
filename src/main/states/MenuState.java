@@ -4,6 +4,7 @@ import main.Config;
 import main.Game;
 import main.crop.Button;
 import main.crop.Screen;
+import main.crop.Speaker;
 import main.gfx.AssetManager;
 
 import java.awt.*;
@@ -26,6 +27,8 @@ public class MenuState extends State
     private Screen defaultBG;
     private Screen dottedBG;
 
+    private Speaker speaker;
+
     // TODO Auto-generated method stub
 
 
@@ -41,6 +44,8 @@ public class MenuState extends State
 
         dottedBG = new Screen(new Point(169, 69), new Point(463, 222), Config.DOTTED_BACKGROUND_ASSET_PATH, "dot");
         defaultBG = new Screen(new Point(169, 69), new Point(463, 222), Config.MENU_BACKGROUND_ASSET_PATH, "default");
+
+        speaker = new Speaker(new Point(Config.SCREEN_WIDTH - 55, Config.SCREEN_HEIGHT - 55), new Point(50, 50), 336, 192, "speaker");
     }
 
     private double flickerAnimation = 0;
@@ -140,6 +145,16 @@ public class MenuState extends State
         else{
             exitButton.unhoveredImage();
         }
+
+        if(speaker.isInside(x, y)){
+            speaker.hoveredImage();
+            if(game.getMouseManager().getMouseButtonState(MouseEvent.BUTTON1)){
+                speaker.clickedImage();
+            }
+        }
+        else{
+            speaker.unhoveredImage();
+        }
     }
 
     @Override
@@ -151,6 +166,7 @@ public class MenuState extends State
         exitButton.draw(g);
         startButton.draw(g);
         cancelButton.draw(g);
+        speaker.draw(g);
 
 //      Animation in main menu
         if(random % 2 == 0){
@@ -170,7 +186,7 @@ public class MenuState extends State
         }
 
         if(exitNext){
-            exit(0);
+            setState(new ExitState(game));
         }
     }
 }

@@ -2,11 +2,9 @@ package main.states;
 
 import main.Config;
 import main.Game;
+import main.crop.*;
 import main.crop.Button;
-import main.crop.YouDied;
 import main.entity.player.Heart;
-import main.crop.ImageText;
-import main.crop.Pause;
 import main.entity.Crate;
 import main.entity.Item.Item;
 import main.Vector2f;
@@ -58,7 +56,7 @@ public class GameState extends State
 
     private Heart heartHUD;
 
-    private Font ARCADECLASSIC;
+    private Speaker speaker;
 
     private final String[] zombieTypes = {"normal", "fast", "slow"};
 
@@ -103,6 +101,8 @@ public class GameState extends State
         youDiedImage = new YouDied(new Point(Config.SCREEN_WIDTH / 2 - Config.PAUSE_ASSET_WIDTH, 20), new Point(250, 100), "dead");
         returnMenuButton = new Button(new Point(230, 370), new Point(90, 55), 440, "retry");
         retryButton = new Button(new Point(470, 370), new Point(90, 55), 616, "resume");
+
+        speaker = new Speaker(new Point(Config.SCREEN_WIDTH - 55, Config.SCREEN_HEIGHT - 55), new Point(50, 50), 336, 192, "speaker");
     }
     private boolean isPause = false;
     private boolean isDead = false;
@@ -118,6 +118,7 @@ public class GameState extends State
         animationCounter++;
         pauseImageTick();
         healthTick();
+        speakerTick();
         if(isDead){
             returnMenuTick();
             pauseButton.hideImage();
@@ -191,18 +192,10 @@ public class GameState extends State
 //                (int) player.getSize().getX(), (int) player.getSize().getY());
         pauseButton.draw(g);
         heartHUD.draw(g);
+        speaker.draw(g);
 
-//        try{
-//            ARCADECLASSIC = Font.createFont(Font.TRUETYPE_FONT, new File(Config.FONT_PATH)).deriveFont(72f);
-//            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-//            ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File(Config.FONT_PATH)));
-//        }
-//        catch(IOException | FontFormatException e){
-//        }
-//        g.setFont(ARCADECLASSIC);
-        g.setFont(new Font(null, Font.PLAIN,72));
-//        g.setFont(new Font("Monospaced", Font.PLAIN, 72));
-        g.drawString("Kills: " + score, 10, (Config.HEART_HEIGHT / 2) * 5);
+        g.setFont(AssetManager.getInstance().getArcadeClassic());
+        g.drawString("Kills !" + score, 10, (Config.HEART_HEIGHT / 2) * 5);
         if(isPause){
             resumeButton.draw(g);
             mainMenuButton.draw(g);
@@ -215,6 +208,21 @@ public class GameState extends State
         }
     }
 
+    private void speakerTick(){
+        int x = game.getMouseManager().getMouseX();
+        int y = game.getMouseManager().getMouseY();
+
+        if(speaker.isInside(x, y)){
+            speaker.hoveredImage();
+            if(game.getMouseManager().getMouseButtonState(MouseEvent.BUTTON1)){
+                speaker.clickedImage();
+            }
+        }
+        else{
+            speaker.unhoveredImage();
+        }
+    }
+
     private void returnMenuTick(){
         int x = game.getMouseManager().getMouseX();
         int y = game.getMouseManager().getMouseY();
@@ -223,7 +231,8 @@ public class GameState extends State
             returnMenuButton.hoveredImage();
             if(game.getMouseManager().getMouseButtonState(MouseEvent.BUTTON1)){
                 returnMenuButton.clickedImage();
-                returnMenuPressed = true;try
+                returnMenuPressed = true;
+                try
                 {
                     FileWriter file = new FileWriter("scores.txt", true);
                     file.write(LocalDate.now().toString() + " - SCORE: " + score + "\n");
@@ -264,7 +273,7 @@ public class GameState extends State
     {
         int x = game.getMouseManager().getMouseX();
         int y = game.getMouseManager().getMouseY();
-        
+
         if(pauseButton.isInside(x, y)){
             pauseButton.hoverImage();
             if(game.getMouseManager().getMouseButtonState(MouseEvent.BUTTON1)){
