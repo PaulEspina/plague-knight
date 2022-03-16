@@ -1,12 +1,14 @@
 package main.entity.enemy;
 
+import main.Attackable;
 import main.Config;
 import main.Vector2f;
+import main.entity.player.Player;
 import main.gfx.AssetManager;
-import main.gfx.ImageLoader;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.Vector;
 
 public class Zombie extends Enemy
 {
@@ -42,6 +44,21 @@ public class Zombie extends Enemy
         this.type = type;
         sprite = AssetManager.getInstance().getZombie();
         sprite = sprite.getSubimage(0, Config.ZOMBIE_ASSET_HEIGHT * 0, Config.ZOMBIE_ASSET_WIDTH * 12, Config.ZOMBIE_ASSET_HEIGHT);
+        int index = 0;
+        if(type.equals("normal"))
+        {
+            index = 0;
+        }
+        else if(type.equals("fast"))
+        {
+            index = 1;
+        }
+        if(type.equals("slow"))
+        {
+            index = 2;
+        }
+        sprite = AssetManager.getInstance().getZombie();
+        sprite = sprite.getSubimage(0, Config.ZOMBIE_ASSET_HEIGHT * index, Config.ZOMBIE_ASSET_WIDTH * 12, Config.ZOMBIE_ASSET_HEIGHT);
         for(int i = 0; i < 12; i++)
         {
             images[i] = sprite.getSubimage(Config.ZOMBIE_ASSET_WIDTH * i, 0, Config.ZOMBIE_ASSET_WIDTH, Config.ZOMBIE_ASSET_HEIGHT);
@@ -49,12 +66,40 @@ public class Zombie extends Enemy
         currentImages[0] = images[0];
         currentImages[1] = images[1];
         currentImages[2] = images[2];
+
+        switch(type)
+        {
+            case "normal":
+                healthPoints = 80;
+                movementSpeed = 0.8f;
+                break;
+            case "fast":
+                healthPoints = 20;
+                movementSpeed = 1.2f;
+                break;
+            case "slow":
+                healthPoints = 250;
+                movementSpeed = 0.4f;
+                break;
+        }
     }
 
     @Override
-    public void attack(int damage)
+    public void attack(Attackable attackable)
     {
+        if(attackable instanceof Player)
+        {
+            attackable.damage(1); // temporary magic number for testing
+        }
+    }
 
+    @Override
+    public void damage(float damage)
+    {
+        if(healthPoints > 0)
+        {
+            healthPoints -= damage;
+        }
     }
 
     @Override
@@ -71,6 +116,24 @@ public class Zombie extends Enemy
                     (int) size.getX(),
                     (int) size.getY(),
                     null);
+    }
+
+    public boolean inRange(Player player){
+        int playerPosX = (int) player.getPos().getX();           //30
+        int playerPosY = (int) player.getPos().getY();           //30
+        int playerSizeX = (int) player.getSize().getX();         //30
+        int playerSizeY = (int) player.getSize().getY();         //20
+        int zombiePosX = (int) getPos().getX();           //50
+        int zombiePosY = (int) getPos().getY();           //50
+        int zombieSizeX = (int) getSize().getX();         //30
+        int zombieSizeY = (int) getSize().getY();         //20
+        if(((zombiePosX) >= (playerPosX - playerSizeX / 2)) &&        //LEFT
+          ((zombiePosX) <= (playerPosX + playerSizeX / 2)) &&         //RIGHT
+          ((zombiePosY) >= (playerPosY - playerSizeY / 2)) &&         //DOWN
+          ((zombiePosY) <= (playerPosY + playerSizeY / 2))) {         //UP
+          return true;
+        }
+        return false;
     }
 
     public void follow(Vector2f target)

@@ -2,15 +2,15 @@ package main.states;
 
 import main.Config;
 import main.Game;
-import main.button.Button;
-import main.button.Screen;
+import main.crop.Button;
+import main.crop.Screen;
 import main.gfx.AssetManager;
-import main.gfx.ImageLoader;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
 import java.util.Random;
+
+import static java.lang.System.exit;
 
 public class MenuState extends State
 {
@@ -33,30 +33,31 @@ public class MenuState extends State
     {
         this.game = game;
 //        Coordinate in Frame
-        survivalButton = new Button(game, new Point(364, 465), new Point(85, 50), 0, "survival");
-        storyButton = new Button(game, new Point(480, 465), new Point(85, 50), 88, "story");
-        exitButton = new Button(game, new Point(606, 465), new Point(85, 50), 264, "exit");
-        startButton = new Button(game, new Point(435, 385), new Point(85, 50), 176, "start");
-        cancelButton = new Button(game, new Point(548, 385), new Point(85, 50), 352, "cancel");
+        survivalButton = new Button(new Point(364, 465), new Point(85, 50), 0, "survival");
+        storyButton = new Button(new Point(480, 465), new Point(85, 50), 88, "story");
+        exitButton = new Button(new Point(606, 465), new Point(85, 50), 264, "exit");
+        startButton = new Button(new Point(435, 385), new Point(85, 50), 176, "start");
+        cancelButton = new Button(new Point(548, 385), new Point(85, 50), 352, "cancel");
 
-        dottedBG = new Screen(game, new Point(169, 69), new Point(463, 222), Config.DOTTED_BACKGROUND_ASSET_PATH, "dot");
-        defaultBG = new Screen(game, new Point(169, 69), new Point(463, 222), Config.MENU_BACKGROUND_ASSET_PATH, "default");
+        dottedBG = new Screen(new Point(169, 69), new Point(463, 222), Config.DOTTED_BACKGROUND_ASSET_PATH, "dot");
+        defaultBG = new Screen(new Point(169, 69), new Point(463, 222), Config.MENU_BACKGROUND_ASSET_PATH, "default");
     }
     private double flickerAnimation = 0;
     private double brokenSurvivalAnimation = 0;
     private double brokenStoryAnimation = 0;
+    private double exitGameAnimation = 0;
     private Random rand = new Random();
     private int random;
 
     //    Mouse Click
     private boolean survivalIsPressed = false;
     private boolean storyIsPressed = false;
+    private boolean exitIsPressed = false;
 
 //    For broken screen delay
     private boolean survivalNext = false;
     private boolean storyNext = false;
-
-
+    private boolean exitNext = false;
 
 
     @Override
@@ -92,6 +93,13 @@ public class MenuState extends State
             }
         }
 
+        if(exitIsPressed){
+            exitGameAnimation++;
+            if(exitGameAnimation % Config.BUTTON_DELAY_ANIMATION == 0){
+                exitNext = true;
+                exitGameAnimation = Config.BUTTON_DELAY_ANIMATION;
+            }
+        }
         if(survivalButton.isInside(x, y)){
             survivalButton.hoveredImage();
             //If button clicked
@@ -125,6 +133,7 @@ public class MenuState extends State
             if(game.getMouseManager().getMouseButtonState(MouseEvent.BUTTON1)) {
                 //Animate button
                 exitButton.clickedImage();
+                exitIsPressed = true;
             }
         }
         else{
@@ -157,6 +166,10 @@ public class MenuState extends State
 
         if(storyNext){
             setState(new StoryMenuState(game));
+        }
+
+        if(exitNext){
+            exit(0);
         }
     }
 }

@@ -1,32 +1,59 @@
 package main.entity.player;
 
+import main.Attackable;
 import main.Config;
 import main.Drawable;
 import main.Vector2f;
+import main.entity.Item.Item;
+import main.entity.enemy.Zombie;
 import main.gfx.AssetManager;
 import main.input.KeyManager;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.time.Clock;
 
 public class Player extends Character implements Drawable{
 
+    private boolean attackAnimate = false;
     private KeyManager keyManager;
     private Vector2f vel;
     private String direction;
     private BufferedImage sprite;
-    private BufferedImage[] images;
-    private BufferedImage[] currentImages;
+    private final BufferedImage[] images;
+    private final BufferedImage[] currentImages;
     private int animationIndex;
+
+    private final BufferedImage[] knifeImages;
+    private int attackDirectionIndex;
+
+    private int damage;
+    private Clock clock;
+    private float speedBoost;
+    private Long speedBoostStart;
+    private Long speedBoostDuration;
+    private int attackBoost;
+    private Long attackBoostStart;
+    private Long attackBoostDuration;
+    private Long defenseBoostStart;
+    private Long defenseBoostDuration;
+    private boolean defenseBoosted;
 
     public Player()
     {
         sprite = null;
         images = new BufferedImage[12];
         currentImages = new BufferedImage[3];
+        knifeImages = new BufferedImage[9];
+        movementSpeed = 1;
         animationIndex = 0;
         animationSpeed = 20;
         direction = "north";
+        damage = 1;
+        speedBoost = 1;
+        attackBoost = 1;
+        defenseBoosted = false;
+        clock = Clock.systemDefaultZone();
     }
 
     public Player(Vector2f pos, Vector2f size)
@@ -36,6 +63,7 @@ public class Player extends Character implements Drawable{
         this.size = size;
         vel = new Vector2f(0, 0);
         sprite = AssetManager.getInstance().getPlayer();
+//        No Weapon Player
         for(int i = 0; i < 12; i++)
         {
             images[i] = sprite.getSubimage(Config.PLAYER_SPRITE_WIDTH * i, 0, Config.PLAYER_SPRITE_WIDTH, Config.PLAYER_SPRITE_HEIGHT);
@@ -43,35 +71,99 @@ public class Player extends Character implements Drawable{
         currentImages[0] = images[0];
         currentImages[1] = images[1];
         currentImages[2] = images[2];
+
+//        Knife Weapon Player
+        for(int i = 0; i < 9; i++)
+        {
+            knifeImages[i] = sprite.getSubimage(Config.PLAYER_SPRITE_WIDTH * i, Config.PLAYER_SPRITE_HEIGHT, Config.PLAYER_SPRITE_WIDTH, Config.PLAYER_SPRITE_HEIGHT);
+        }
     }
 
     @Override
     public void update()
     {
-        pos.add(vel);
-//        pos.setX(clamp((int)pos.getX(), 10, Config.SCREEN_WIDTH - 46));
-//        pos.setY(clamp((int)pos.getY(), 10, Config.SCREEN_HEIGHT - 58));
+        if(speedBoostDuration != null)
+        {
+            if(clock.millis() >= speedBoostStart + speedBoostDuration)
+            {
+                speedBoostStart = null;
+                speedBoostDuration = null;
+                speedBoost = 1;
+            }
+            else
+            {
+                speedBoost = 2;
+            }
+        }
+
+        if(attackBoostDuration != null)
+        {
+            if(clock.millis() >= attackBoostStart + attackBoostDuration)
+            {
+                attackBoostStart = null;
+                attackBoostDuration = null;
+                attackBoost = 1;
+            }
+            else
+            {
+                attackBoost = 2;
+            }
+        }
+
+        if(defenseBoostDuration != null)
+        {
+            if(clock.millis() >= defenseBoostStart + defenseBoostDuration)
+            {
+                defenseBoostStart = null;
+                defenseBoostDuration = null;
+                reduceHearts(1);
+                defenseBoosted = false;
+            }
+            else if(!defenseBoosted)
+            {
+                defenseBoosted = true;
+                increaseHearts(1);
+                increaseCurrentHearts(1);
+            }
+        }
+
+        pos.add(new Vector2f(vel.getX() * movementSpeed * speedBoost, vel.getY() * movementSpeed * speedBoost));
+        if(pos.getX() < 0)
+        {
+            pos.setX(0);
+        }
+        if(pos.getX() > Config.SCREEN_WIDTH)
+        {
+            pos.setX(Config.SCREEN_WIDTH);
+        }
+        if(pos.getY() < 0)
+        {
+            pos.setY(0);
+        }
+        if(pos.getY() > Config.SCREEN_HEIGHT)
+        {
+            pos.setY(Config.SCREEN_HEIGHT);
+        }
         checkRotation();
     }
 
     @Override
     public void draw(Graphics g)
     {
-        g.drawImage(currentImages[animationIndex], (int) pos.getX() - (int) size.getX() / 2,
+        if(attackAnimate){
+            g.drawImage(knifeImages[attackDirectionIndex], (int) pos.getX() - (int) size.getX() / 2,
                     (int) pos.getY() - (int) size.getY() / 2,
                     (int) size.getX(),
                     (int) size.getY(),
                     null);
-    }
-
-    public int clamp(int var, int min, int max)
-    {
-        if( var >= max)
-            return var = max;
-        else if( var <= min)
-            return var = min;
-        else
-            return var;
+        }
+        else{
+            g.drawImage(currentImages[animationIndex], (int) pos.getX() - (int) size.getX() / 2,
+                    (int) pos.getY() - (int) size.getY() / 2,
+                    (int) size.getX(),
+                    (int) size.getY(),
+                    null);
+        }
     }
 
     public void animate()
@@ -80,9 +172,102 @@ public class Player extends Character implements Drawable{
     }
 
     @Override
-    public void attack(int damage)
+    public void attack(Attackable attackable)
     {
+        if(attackable instanceof Zombie)
+        {
+            attackable.damage(damage * attackBoost); // temporary... change when weapon system is online
+        }
+    }
 
+    @Override
+    public void damage(float damage)
+    {
+        if(currentHearts > 0)
+        {
+            currentHearts -= damage;
+        }
+    }
+
+
+    public boolean inRange(Zombie zombie)
+    {
+        int playerPosX = (int) getPos().getX();           //30
+        int playerPosY = (int) getPos().getY();           //30
+        int playerSizeX = (int) getSize().getX();         //30
+        int playerSizeY = (int) getSize().getY();         //20
+        int zombiePosX = (int) zombie.getPos().getX();    //50
+        int zombiePosY = (int) zombie.getPos().getY();    //50
+        int zombieSizeX = (int) zombie.getSize().getX();  //30
+        int zombieSizeY = (int) zombie.getSize().getY();  //20
+        switch(direction)
+        {
+            case "north":
+                if(((playerPosX) >= (zombiePosX - zombieSizeX / 2)) &&        //LEFT
+                  ((playerPosX) <= (zombiePosX + zombieSizeX / 2)) &&         //RIGHT
+                  ((playerPosY) >= (zombiePosY - zombieSizeY / 2)) &&         //DOWN
+                  ((playerPosY) - 30 <= (zombiePosY + zombieSizeY / 2))) {    //UP
+                    return true;
+                }
+                break;
+            case "south":
+                if(((playerPosX) >= (zombiePosX - zombieSizeX / 2)) &&        //LEFT
+                  ((playerPosX) <= (zombiePosX + zombieSizeX / 2)) &&         //RIGHT
+                  ((playerPosY) + 30 >= (zombiePosY - zombieSizeY / 2)) &&    //DOWN
+                  ((playerPosY) <= (zombiePosY + zombieSizeY / 2))) {         //UP
+                    return true;
+                }
+                break;
+
+            case "east":
+                if(((playerPosX) + 30 >= (zombiePosX - zombieSizeX / 2)) &&   //LEFT
+                  ((playerPosX) <= (zombiePosX + zombieSizeX / 2)) &&         //RIGHT
+                  ((playerPosY) >= (zombiePosY - zombieSizeY / 2)) &&         //DOWN
+                  ((playerPosY) <= (zombiePosY + zombieSizeY / 2))) {         //UP
+                    return true;
+                }
+                break;
+
+            case "west":
+                if(((playerPosX) >= (zombiePosX - zombieSizeX / 2)) &&        //LEFT
+                  ((playerPosX) - 30 <= (zombiePosX + zombieSizeX / 2)) &&    //RIGHT
+                  ((playerPosY) >= (zombiePosY - zombieSizeY / 2)) &&         //DOWN
+                  ((playerPosY) <= (zombiePosY + zombieSizeY / 2))) {         //UP
+                    return true;
+                }
+                break;
+        }
+        return false;
+    }
+
+    public void pickup(Item item){
+        switch (item.getType()){
+            case HEART:
+                if(checkMaxHeart()){
+                    hearts += 1;
+                    currentHearts += 1;
+                }
+                System.out.println("HEARTS : " + hearts);
+                System.out.println("CURRENT : " + currentHearts);
+                break;
+            case APPLE:
+                if(checkCurrentHearts())
+                    currentHearts += 1;
+                System.out.println("CURRENT : " + currentHearts);
+                break;
+            case BOOTS:
+                speedBoostStart = clock.millis();
+                speedBoostDuration = item.getDuration();
+                break;
+            case ATTACK_BOOST:
+                attackBoostStart = clock.millis();
+                attackBoostDuration = item.getDuration();
+                break;
+            case DEFENSE_BOOST:
+                defenseBoostStart = clock.millis();
+                defenseBoostDuration = item.getDuration();
+                break;
+        }
     }
 
     public void checkRotation()
@@ -93,21 +278,25 @@ public class Player extends Character implements Drawable{
                 currentImages[0] = images[9];
                 currentImages[1] = images[10];
                 currentImages[2] = images[11];
+                attackDirectionIndex = 7;
                 break;
             case "south":
                 currentImages[0] = images[0];
                 currentImages[1] = images[1];
                 currentImages[2] = images[2];
+                attackDirectionIndex = 1;
                 break;
             case "west":
                 currentImages[0] = images[3];
                 currentImages[1] = images[4];
                 currentImages[2] = images[5];
+                attackDirectionIndex = 3;
                 break;
             case "east":
                 currentImages[0] = images[6];
                 currentImages[1] = images[7];
                 currentImages[2] = images[8];
+                attackDirectionIndex = 5;
                 break;
         }
     }
@@ -150,5 +339,23 @@ public class Player extends Character implements Drawable{
     public void setDirection(String direction)
     {
         this.direction = direction;
+    }
+
+    public boolean isAttackAnimate() {
+        return attackAnimate;
+    }
+
+    public void setAttackAnimate(boolean attackAnimate){
+        this.attackAnimate = attackAnimate;
+    }
+
+    public int getDamage()
+    {
+        return damage;
+    }
+
+    public void setDamage(int damage)
+    {
+        this.damage = damage;
     }
 }

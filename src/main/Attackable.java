@@ -2,5 +2,6 @@ package main;
 
 public interface Attackable
 {
-    void attack(int damage);
+    void attack(Attackable attackable);
+    void damage(float damage);
 }

@@ -1,17 +1,13 @@
-package main.button;
+package main.crop;
 
 import main.Config;
 import main.Game;
 import main.gfx.AssetManager;
-import main.gfx.ImageLoader;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-import static java.lang.System.exit;
-
 public class Button{
-    private Game game;
     private Point pos;
     private Point size;
     private Point imagePos;
@@ -25,8 +21,7 @@ public class Button{
     private BufferedImage[] buttons = new BufferedImage[4];
     private BufferedImage currentImage;
 
-    public Button(Game game, Point pos, Point size, int buttonAsset, String buttonName){
-        this.game = game;
+    public Button(Point pos, Point size, int buttonAsset, String buttonName){
         this.pos = pos;
         this.size = size;
         this.buttonName = buttonName;
@@ -84,7 +79,7 @@ public class Button{
                 return true;
             }
             return false;
-        }
+    }
 
     public void draw(Graphics g){
         g.drawImage(currentImage, (int) getPos().getX(), (int) getPos().getY(), (int) getSize().getX(), (int) getSize().getY(), null);

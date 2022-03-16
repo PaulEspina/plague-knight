@@ -4,7 +4,6 @@ import main.Drawable;
 import main.Vector2f;
 import main.gfx.ImageLoader;
 
-import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public abstract class Entity implements Drawable
@@ -74,7 +73,7 @@ public abstract class Entity implements Drawable
         return movementSpeed;
     }
 
-    public void setMovementSpeed(int movementSpeed) {
+    public void setMovementSpeed(float movementSpeed) {
         if (movementSpeed < 0) {
             movementSpeed = 0;
         }

@@ -9,4 +9,8 @@ public abstract class Enemy extends Entity implements Attackable
     protected int fastZombieHealth = 20;
     protected int slowzombieHealth = 40;
     protected int damage = 1;
+
+    public int getHealthPoints(){
+        return healthPoints;
+    }
 }

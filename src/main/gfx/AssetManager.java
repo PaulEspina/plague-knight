@@ -7,7 +7,9 @@ import java.awt.image.BufferedImage;
 
 public class AssetManager
 {
+    private BufferedImage map;
     private BufferedImage player;
+    private BufferedImage HUD;
     private BufferedImage zombie;
     private BufferedImage crate;
     private BufferedImage item;
@@ -16,6 +18,9 @@ public class AssetManager
     private BufferedImage dottedBGImage;
     private BufferedImage survivalBrokenBGImage;
     private BufferedImage storyBrokenBGImage;
+    private BufferedImage pausedImage;
+    private BufferedImage youDiedImage;
+    private BufferedImage treeObstacle;
 
     private static AssetManager instance = null;
 
@@ -36,15 +41,20 @@ public class AssetManager
     {
         try
         {
+            map = ImageLoader.loadImage(Config.MAP_PATH);
             player = ImageLoader.loadImage(Config.PLAYER_SPRITE_PATH);
             zombie = ImageLoader.loadImage(Config.ZOMBIE_ASSET_PATH);
             crate = ImageLoader.loadImage(Config.CRATE_ASSET_PATH);
+            HUD = ImageLoader.loadImage(Config.HUD_ASSET_PATH);
             item = ImageLoader.loadImage(Config.ITEMS_ASSET_PATH);
             menuButtonImage = ImageLoader.loadImage(Config.MENU_BUTTON_ASSET_PATH);
             defaultBGImage = ImageLoader.loadImage(Config.MENU_BACKGROUND_ASSET_PATH);
             dottedBGImage = ImageLoader.loadImage(Config.DOTTED_BACKGROUND_ASSET_PATH);
             survivalBrokenBGImage = ImageLoader.loadImage(Config.BROKEN_SURVIVAL_BACKGROUND_ASSET_PATH);
             storyBrokenBGImage = ImageLoader.loadImage(Config.BROKEN_STORY_BACKGROUND_ASSET_PATH);
+            pausedImage = ImageLoader.loadImage(Config.PAUSED_TEXT_ASSET_PATH);
+            youDiedImage = ImageLoader.loadImage(Config.YOU_DIED_ASSET_PATH);
+//            treeObstacle = ImageLoader.loadImage(Config.TREE_OBSTACLE_ASSET_PATH);
         }
         catch(IllegalArgumentException e)
         {
@@ -94,4 +104,25 @@ public class AssetManager
         return storyBrokenBGImage;
     }
 
+    public BufferedImage getPausedImage(){
+        return pausedImage;
+    }
+
+    public BufferedImage getHUD() {
+        return HUD;
+    }
+
+    public BufferedImage getYouDiedImage() {
+        return youDiedImage;
+    }
+
+    public BufferedImage getTreeObstacle()
+    {
+        return treeObstacle;
+    }
+
+    public BufferedImage getMap()
+    {
+        return map;
+    }
 }

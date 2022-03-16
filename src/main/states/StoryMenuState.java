@@ -2,13 +2,11 @@ package main.states;
 
 import main.Config;
 import main.Game;
-import main.button.Button;
+import main.crop.Button;
 import main.gfx.AssetManager;
-import main.gfx.ImageLoader;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
 
 public class StoryMenuState extends State{
 
@@ -24,11 +22,11 @@ public class StoryMenuState extends State{
         this.game = game;
 
 //        Coordinate in Frame
-        survivalButton = new Button(game, new Point(364, 465), new Point(85, 50), 0, "survival");
-        startButton = new Button(game, new Point(435, 385), new Point(85, 50), 176, "start");
-        storyButton = new Button(game, new Point(480, 465), new Point(85, 50), 88, "story");
-        exitButton = new Button(game, new Point(606, 465), new Point(85, 50), 264, "exit");
-        cancelButton = new Button(game, new Point(548, 385), new Point(85, 50), 352, "cancel");
+        survivalButton = new Button(new Point(364, 465), new Point(85, 50), 0, "survival");
+        startButton = new Button(new Point(435, 385), new Point(85, 50), 176, "start");
+        storyButton = new Button(new Point(480, 465), new Point(85, 50), 88, "story");
+        exitButton = new Button(new Point(606, 465), new Point(85, 50), 264, "exit");
+        cancelButton = new Button(new Point(548, 385), new Point(85, 50), 352, "cancel");
 
     }
 

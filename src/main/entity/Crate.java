@@ -2,8 +2,9 @@ package main.entity;
 
 import main.Config;
 import main.Vector2f;
+import main.entity.Item.Item;
+import main.entity.player.Player;
 import main.gfx.AssetManager;
-import main.gfx.ImageLoader;
 
 import java.awt.*;
 
@@ -14,6 +15,8 @@ public class Crate extends Entity{
     private BufferedImage asset;
     private final BufferedImage[] images;
     private boolean destroyed;
+
+    private Player player;
 
     public Crate()
     {
@@ -38,7 +41,7 @@ public class Crate extends Entity{
         int select = (int) (Math.random() * 100 % Config.TOTAL_ITEMS);
         return new Item(new Vector2f(pos.getX(), pos.getY()),
                         new Vector2f(Config.ITEMS_ASSET_WIDTH / 2f, Config.ITEMS_ASSET_HEIGHT / 2f),
-                        Item.Type.values()[select]);
+                        Item.Type.values()[select], 5000);
     }
 
     @Override
