@@ -68,7 +68,7 @@ public class Zombie extends Enemy
         switch(type)
         {
             case "normal":
-                healthPoints = 80;
+                healthPoints = 50;
                 movementSpeed = 0.8f;
                 break;
             case "fast":
@@ -76,7 +76,7 @@ public class Zombie extends Enemy
                 movementSpeed = 1.2f;
                 break;
             case "slow":
-                healthPoints = 250;
+                healthPoints = 100;
                 movementSpeed = 0.4f;
                 break;
         }

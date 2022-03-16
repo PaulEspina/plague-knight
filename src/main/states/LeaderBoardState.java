@@ -93,7 +93,9 @@ public class LeaderBoardState extends State{
                 speaker.clickedImage();
             }
         }
-
+        if(returnMenu){
+            setState(new MenuState(game));
+        }
     }
 
     @Override
@@ -102,11 +104,6 @@ public class LeaderBoardState extends State{
         screenImage.draw(g);
         menuButton.draw(g);
         speaker.draw(g);
-
-        if(returnMenu){
-            game.getBackgroundMusic().setSound(0);
-            setState(new MenuState(game));
-        }
 
 //        if(showRanking){
 //            showRanking = false;

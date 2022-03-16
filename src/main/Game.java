@@ -84,10 +84,6 @@ public class Game implements Runnable
         zombie3BG.loop();
 
         menuState = new MenuState(this);
-        gameState = new GameState(this);
-        survivalMenuState = new SurvivalMenuState(this);
-        pauseState = new PauseState(this);
-        leaderBoardState = new LeaderBoardState(this);
 
         State.setState(menuState);
     }

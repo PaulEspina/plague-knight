@@ -30,7 +30,22 @@ public class MenuState extends State
 
     private Speaker speaker;
 
-    // TODO Auto-generated method stub
+    private double flickerAnimation = 0;
+    private double brokenSurvivalAnimation = 0;
+    private double brokenStoryAnimation = 0;
+    private double exitGameAnimation = 0;
+    private Random rand = new Random();
+    private int random;
+
+    //    Mouse Click
+    private boolean survivalIsPressed = false;
+    private boolean storyIsPressed = false;
+    private boolean exitIsPressed = false;
+
+    //    For brokendelay
+    private boolean survivalNext = false;
+    private boolean storyNext = false;
+    private boolean exitNext = false;
 
 
     public MenuState(Game game)
@@ -47,26 +62,9 @@ public class MenuState extends State
         defaultBG = new Screen(new Point(169, 69), new Point(463, 222), Config.MENU_BACKGROUND_ASSET_PATH, "default");
 
         speaker = new Speaker(new Point(Config.SCREEN_WIDTH - 55, Config.SCREEN_HEIGHT - 55), new Point(50, 50), 336, 192, "speaker");
-
+        game.getBackgroundMusic().setSound(-10);
+        game.getInGameMusic().setSound(-80);
     }
-
-    private double flickerAnimation = 0;
-    private double brokenSurvivalAnimation = 0;
-    private double brokenStoryAnimation = 0;
-    private double exitGameAnimation = 0;
-    private Random rand = new Random();
-    private int random;
-
-    //    Mouse Click
-    private boolean survivalIsPressed = false;
-    private boolean storyIsPressed = false;
-    private boolean exitIsPressed = false;
-
-//    For brokendelay
-    private boolean survivalNext = false;
-    private boolean storyNext = false;
-    private boolean exitNext = false;
-
 
     @Override
     public void tick() {
@@ -74,7 +72,6 @@ public class MenuState extends State
         int y = game.getMouseManager().getMouseY();
 
         speaker.unhoveredImage();
-        game.getBackgroundMusic().setSound(-10);
 
         dottedBG.getCurrentScreen();
         defaultBG.getCurrentScreen();

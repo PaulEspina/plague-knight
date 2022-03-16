@@ -25,11 +25,19 @@ public class SurvivalMenuState extends State{
 
     private Speaker speaker;
 
+    private double startDelay = 0;
+    private Boolean cancelClicked = false;
+    private Boolean startClicked = false;
+    private Boolean survivalIsClicked = false;
+    private Boolean changeEasyToClicked;
+    private Boolean changeHardToClicked = false;
 
     public SurvivalMenuState(Game game){
         this.game = game;
 
-//        Coordinate in Frame
+        changeEasyToClicked = true;
+
+    //        Coordinate in Frame
         survivalButton = new Button(new Point(364, 465), new Point(85, 50), 0, "survival");
         storyButton = new Button(new Point(480, 465), new Point(85, 50), 88, "story");
         startButton = new Button(new Point(435, 385), new Point(85, 50), 176, "start");
@@ -42,13 +50,6 @@ public class SurvivalMenuState extends State{
         speaker = new Speaker(new Point(Config.SCREEN_WIDTH - 55, Config.SCREEN_HEIGHT - 55), new Point(50, 50), 336, 192, "speaker");
 
     }
-
-    private double startDelay = 0;
-    private Boolean cancelClicked = false;
-    private Boolean startClicked = false;
-    private Boolean survivalIsClicked = false;
-    private Boolean changeEasyToClicked = false;
-    private Boolean changeHardToClicked = false;
 
     @Override
     public void tick() {
@@ -169,6 +170,10 @@ public class SurvivalMenuState extends State{
                 speaker.clickedImage();
             }
         }
+        if(survivalIsClicked && startClicked)
+        {
+            setState(new GameState(game));
+        }
     }
 
     @Override
@@ -194,11 +199,7 @@ public class SurvivalMenuState extends State{
             game.getEnterPressSound().play();
             game.getEnterPressSound().setFramePosition(0);
             g.drawImage(AssetManager.getInstance().getSurvivalBrokenBGImage(), 0, 0, Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT, null);
-            if(startClicked){
-                setState(new GameState(game));
-            }
         }
-
     }
 
 }

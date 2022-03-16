@@ -59,6 +59,15 @@ public class GameState extends State
 
     private final String[] zombieTypes = {"normal", "fast", "slow"};
 
+    private boolean isPause = false;
+    private boolean isDead = false;
+
+    private boolean returnMenu = false;
+    private boolean retryGame = false;
+
+    private boolean returnMenuPressed = false;
+    private boolean retryGamePressed = false;
+
     public GameState(Game game)
     {
         this.game = game;
@@ -103,22 +112,15 @@ public class GameState extends State
         retryButton = new Button(new Point(590, 465), new Point(90, 55), 616, "resume");
 
         speaker = new Speaker(new Point(Config.SCREEN_WIDTH - 55, Config.SCREEN_HEIGHT - 55), new Point(50, 50), 336, 192, "speaker");
+        game.getInGameMusic().setSound(-10);
+        game.getBackgroundMusic().setSound(-80);
     }
-    private boolean isPause = false;
-    private boolean isDead = false;
 
-    private boolean returnMenu = false;
-    private boolean retryGame = false;
-
-    private boolean returnMenuPressed = false;
-    private boolean retryGamePressed = false;
     @Override
     public void tick()
     {
-        game.getBackgroundMusic().setSound(-80);
         game.getEnterPressSound().setSound(-80);
         game.getButtonPressSound().setSound(-80);
-        game.getInGameMusic().setSound(-20);
         animationCounter++;
         pauseImageTick();
         healthTick();
@@ -392,6 +394,7 @@ public class GameState extends State
             {
                 items.get(i).hide();
                 player.pickup(items.remove(i));
+                continue;
             }
             items.get(i).update();
         }
