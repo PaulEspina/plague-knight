@@ -170,13 +170,7 @@ public class GameState extends State
 
         for(int i = 0; i < items.size(); i++)
         {
-            if(items.size() >= 5){
-                items.remove(i);
-                break;
-            }
-            else{
-                items.get(i).draw(g);
-            }
+            items.get(i).draw(g);
         }
 
         for(int i = 0; i < zombies.size(); i++)
@@ -375,26 +369,29 @@ public class GameState extends State
 
     private void itemsTick()
     {
-        Random rand = new Random();
-        int randInt = rand.nextInt(settings.itemChance);
-        if(randInt % settings.itemChance == 0)
+        if(items.size() < 5)
         {
-            Item item = null;
-            while(item == null || (!player.checkMaxHeart() && item.getType() == Item.Type.HEART))
+            Random rand = new Random();
+            int randInt = rand.nextInt(settings.itemChance);
+            if(randInt % settings.itemChance == 0)
             {
-                item = new Item(new Vector2f(rand.nextInt(Config.SCREEN_WIDTH) , rand.nextInt(Config.SCREEN_HEIGHT)),
-                                new Vector2f(Config.ITEMS_ASSET_WIDTH / 1.5f * settings.zoom, Config.ITEMS_ASSET_HEIGHT / 1.5f * settings.zoom),
-                                Item.Type.values()[rand.nextInt(Item.Type.values().length)],
-                                settings.boostDuration);
+                Item item = null;
+                while(item == null || (!player.checkMaxHeart() && item.getType() == Item.Type.HEART))
+                {
+                    item = new Item(new Vector2f(rand.nextInt(Config.SCREEN_WIDTH), rand.nextInt(Config.SCREEN_HEIGHT)),
+                                    new Vector2f(Config.ITEMS_ASSET_WIDTH / 1.5f * settings.zoom, Config.ITEMS_ASSET_HEIGHT / 1.5f * settings.zoom),
+                                    Item.Type.values()[rand.nextInt(Item.Type.values().length)],
+                                    settings.boostDuration);
+                }
+                items.add(item);
             }
-            items.add(item);
         }
         for(int i = 0; i < items.size(); i++)
         {
             if(items.get(i).checkBounds(player))
             {
-                player.pickup(items.get(i));
                 items.get(i).hide();
+                player.pickup(items.remove(i));
             }
             items.get(i).update();
         }
