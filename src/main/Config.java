@@ -80,5 +80,8 @@ public class Config {
     public static final double BUTTON_DELAY_ANIMATION = 30;
 
     public static final String FONT_PATH = "/assets/fonts/ARCADECLASSIC.TTF";
+    public static final String MAIN_MENU_BG_PATH = "/assets/audio/mainmenumusic.wav";
+    public static final String ZOMBIE_1_MUSIC_PATH = "/assets/audio/zombie_1.wav";
+
 
 }

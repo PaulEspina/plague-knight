@@ -6,6 +6,7 @@ import main.crop.Button;
 import main.crop.Screen;
 import main.crop.Speaker;
 import main.gfx.AssetManager;
+import main.gfx.SoundLoader;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -28,6 +29,7 @@ public class MenuState extends State
     private Screen dottedBG;
 
     private Speaker speaker;
+    private SoundLoader playBGM;
 
     // TODO Auto-generated method stub
 

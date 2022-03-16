@@ -27,5 +27,4 @@ public class GameSetting
             zombiePerSpawn = 1;
         }
     }
-
 }
