@@ -424,21 +424,21 @@ public class GameState extends State
             }
         }
 
-        if(game.getMouseManager().getMouseButtonState(MouseEvent.BUTTON1))
-        {
-            Sound buttonPressed = new Sound(AssetManager.getInstance().getKnifeFX());
-            buttonPressed.setSound(-10);
-            buttonPressed.play();
-            soundEffects.add(buttonPressed);
-            for(int i = 0; i < zombies.size(); i++)
-            {
-                player.setAttackAnimate(true);
-                if(player.inRange(zombies.get(i)))
-                {
-                    player.attack(zombies.get(i));
-                }
-            }
-        }
+//        if(game.getMouseManager().getMouseButtonState(MouseEvent.BUTTON1))
+//        {
+//            Sound buttonPressed = new Sound(AssetManager.getInstance().getKnifeFX());
+//            buttonPressed.setSound(-10);
+//            buttonPressed.play();
+//            soundEffects.add(buttonPressed);
+//            for(int i = 0; i < zombies.size(); i++)
+//            {
+//                player.setAttackAnimate(true);
+//                if(player.inRange(zombies.get(i)))
+//                {
+//                    player.attack(zombies.get(i));
+//                }
+//            }
+//        }
 
         for(int i = 0; i < zombies.size(); i++)
         {
@@ -486,21 +486,21 @@ public class GameState extends State
             }
         }
 
-        if(game.getMouseManager().getMouseButtonState(MouseEvent.BUTTON1))
-        {
-            Sound buttonPressed = new Sound(AssetManager.getInstance().getKnifeFX());
-            buttonPressed.setSound(-10);
-            buttonPressed.play();
-            soundEffects.add(buttonPressed);
-            for(int i = 0; i < boss.size(); i++)
-            {
-                player.setAttackAnimate(true);
-                if(player.inRange(boss.get(i)))
-                {
-                    player.attack(boss.get(i));
-                }
-            }
-        }
+//        if(game.getMouseManager().getMouseButtonState(MouseEvent.BUTTON1))
+//        {
+//            Sound buttonPressed = new Sound(AssetManager.getInstance().getKnifeFX());
+//            buttonPressed.setSound(-10);
+//            buttonPressed.play();
+//            soundEffects.add(buttonPressed);
+//            for(int i = 0; i < boss.size(); i++)
+//            {
+//                player.setAttackAnimate(true);
+//                if(player.inRange(boss.get(i)))
+//                {
+//                    player.attack(boss.get(i));
+//                }
+//            }
+//        }
 
         for(int i = 0; i < boss.size(); i++)
         {
@@ -511,13 +511,10 @@ public class GameState extends State
                 score += 2;
                 continue;
             }
-            else{
-                boss.get(i).setDeadAnimate(false);
-            }
 
             boss.get(i).follow(player.getPos());
 
-            if (boss.get(i).inRange(player)) {s
+            if (boss.get(i).inRange(player)) {
                 if(animationCounter % settings.bossAttackDelay == 0) {
                     boss.get(i).setAttackAnimate(true);
                     boss.get(i).attack(player);
@@ -595,6 +592,29 @@ public class GameState extends State
                 player.setAttackAnimate(false);
             }
         }
+        if(game.getMouseManager().getMouseButtonState(MouseEvent.BUTTON1))
+        {
+            Sound buttonPressed = new Sound(AssetManager.getInstance().getKnifeFX());
+            buttonPressed.setSound(-10);
+            buttonPressed.play();
+            soundEffects.add(buttonPressed);
+            player.setAttackAnimate(true);
+            for(int i = 0; i < boss.size(); i++)
+            {
+                if(player.inRange(boss.get(i)))
+                {
+                    player.attack(boss.get(i));
+                }
+            }
+            for(int i = 0; i < zombies.size(); i++)
+            {
+                if(player.inRange(zombies.get(i)))
+                {
+                    player.attack(zombies.get(i));
+                }
+            }
+        }
+
         player.update();
     }
 }

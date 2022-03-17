@@ -30,8 +30,8 @@ public class Boss extends Enemy{
         images = new BufferedImage[20];
         currentImages = new BufferedImage[4];
 
-        attackImages = new BufferedImage[5];
-        deadImages = new BufferedImage[5];
+        attackImages = new BufferedImage[4];
+        deadImages = new BufferedImage[4];
         animationIndex = 0;
         attackDirectionIndex = 0;
         deadDirectionIndex = 0;
@@ -66,7 +66,7 @@ public class Boss extends Enemy{
         deadImages[2] = images[18];
         deadImages[3] = images[19];
 
-        healthPoints = 10;
+        healthPoints = 200;
         movementSpeed = 0.8f;
 
     }
