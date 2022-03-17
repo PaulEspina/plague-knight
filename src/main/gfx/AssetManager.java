@@ -16,6 +16,7 @@ public class AssetManager
     private BufferedImage player;
     private BufferedImage HUD;
     private BufferedImage zombie;
+    private BufferedImage boss1;
     private BufferedImage crate;
     private BufferedImage item;
     private BufferedImage menuButtonImage;
@@ -63,6 +64,7 @@ public class AssetManager
             map = ImageLoader.loadImage(Config.MAP_PATH);
             player = ImageLoader.loadImage(Config.PLAYER_SPRITE_PATH);
             zombie = ImageLoader.loadImage(Config.ZOMBIE_ASSET_PATH);
+            boss1 = ImageLoader.loadImage(Config.BOSS_1_ASSET_PATH);
             crate = ImageLoader.loadImage(Config.CRATE_ASSET_PATH);
             HUD = ImageLoader.loadImage(Config.HUD_ASSET_PATH);
             item = ImageLoader.loadImage(Config.ITEMS_ASSET_PATH);
@@ -111,6 +113,10 @@ public class AssetManager
     public BufferedImage getZombie()
     {
         return zombie;
+    }
+
+    public BufferedImage getBoss1() {
+        return boss1;
     }
 
     public BufferedImage getCrate()
