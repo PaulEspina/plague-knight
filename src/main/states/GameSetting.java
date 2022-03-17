@@ -10,7 +10,7 @@ public class GameSetting
 
     public int bossAttackDelay = 70;
     public int bossAttackCooldownDelay = 100;
-    public int bossSpawnTimer = 10000;
+    public int bossSpawnTimer = 2500;
     public int bossPerSpawn = 1;
 
     public int itemChance = 100;

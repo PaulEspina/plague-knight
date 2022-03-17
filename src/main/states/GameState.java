@@ -99,11 +99,11 @@ public class GameState extends State
         }
 
         boss = new Vector<>();
-        for(int i = 0; i < settings.bossPerSpawn; i++)
-        {
-            boss.add(new Boss(new Vector2f(rand.nextInt(Config.SCREEN_WIDTH), rand.nextInt(Config.SCREEN_HEIGHT)),
-                    new Vector2f(Config.BOSS_1_ASSET_WIDTH * settings.zoom, Config.BOSS_1_ASSET_HEIGHT * settings.zoom)));
-        }
+//        for(int i = 0; i < settings.bossPerSpawn; i++)
+//        {
+//            boss.add(new Boss(new Vector2f(rand.nextInt(Config.SCREEN_WIDTH), rand.nextInt(Config.SCREEN_HEIGHT)),
+//                    new Vector2f(Config.BOSS_1_ASSET_WIDTH * settings.zoom, Config.BOSS_1_ASSET_HEIGHT * settings.zoom)));
+//        }
 
 
         crates = new Vector<>();
@@ -449,7 +449,7 @@ public class GameState extends State
                 continue;
             }
 
-//            zombies.get(i).follow(player.getPos());
+            zombies.get(i).follow(player.getPos());
 
             if(animationCounter % settings.normalZombieAttackDelay == 0) {
                 if (zombies.get(i).inRange(player)) {
@@ -467,6 +467,7 @@ public class GameState extends State
     private void bossTick(){
         if(animationCounter % settings.bossSpawnTimer == 0)
         {
+
             for(int i = 0; i < settings.bossPerSpawn; i++)
             {
                 int xSign = rand.nextBoolean() ? 1 : -1;
@@ -520,7 +521,6 @@ public class GameState extends State
                     boss.get(i).attack(player);
                 }
             }
-
 
             if(animationCounter % settings.bossAttackCooldownDelay == 0) {
                 if(boss.get(i).isAttackAnimate()){
