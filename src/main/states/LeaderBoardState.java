@@ -120,23 +120,30 @@ public class LeaderBoardState extends State{
 
         BufferedReader br = new BufferedReader(new FileReader(file));
 
-        int count = 7;
+        int columnOne = 7;
+        int columnTwo = 7;
+        int ctr = 0;
         String line;
         ArrayList<Integer> storage = new ArrayList<>();
         while ((line = br.readLine()) != null)
         {
             storage.add(Integer.valueOf(line));
         }
-        if(storage.size() < count)
+        if(storage.size() < columnOne)
         {
-            count = storage.size();
+            columnOne = storage.size();
+            columnTwo = columnOne * 2;
         }
 
         Collections.sort(storage, Collections.reverseOrder());
 
         g.setFont(AssetManager.getInstance().getArcadeClassicSmall());
-        for(int i = 0; i < count; i++){
+        for(int i = 0; i < columnOne; i++){
             g.drawString("Rank " + (i + 1) + " ! " + String.valueOf(storage.get(i)), 200, 100 + (i * 30));
+        }
+        for(int i = columnTwo; i < columnTwo * 2; i++){
+            g.drawString("Rank " + (i + 1) + " ! " + String.valueOf(storage.get(i)), 400, 100 + ((columnTwo - (columnTwo - ctr)) * 30));
+            ctr += 1;
         }
     }
 }

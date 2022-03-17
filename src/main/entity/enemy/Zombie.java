@@ -122,7 +122,7 @@ public class Zombie extends Enemy
                pos.getY() >= 0 && pos.getY() <= Config.SCREEN_HEIGHT)
             {
                 visisble = true;
-                soundFX.loop();
+                soundFX.play();
             }
         }
 
