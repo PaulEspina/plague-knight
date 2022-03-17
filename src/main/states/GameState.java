@@ -10,18 +10,18 @@ import main.entity.Item.Item;
 import main.Vector2f;
 import main.entity.enemy.Zombie;
 import main.gfx.AssetManager;
+import main.gfx.Sound;
 import main.input.KeyManager;
 import main.input.MouseManager;
 import main.entity.player.Player;
 
-import java.awt.List;
+import javax.sound.sampled.AudioInputStream;
 import java.awt.event.MouseEvent;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.*;
-import java.time.LocalDate;
 import java.util.*;
 
 public class GameState extends State
@@ -34,28 +34,25 @@ public class GameState extends State
 
     public int score;
 
-    private Player player;
-    private BufferedImage map;
+    private final Player player;
+    private final BufferedImage map;
 
-    private Vector<Zombie> zombies;
+    private final Vector<Zombie> zombies;
     private final MouseManager mouseManager;
 
     private Vector<Crate> crates;
 
     private Vector<Item> items;
 
-    private Pause pauseButton;
-
-    private Button resumeButton;
-    private Button mainMenuButton;
-    private Button returnMenuButton;
-    private Button retryButton;
-    private ImageText pauseText;
-    private YouDied youDiedImage;
-
-    private Heart heartHUD;
-
-    private Speaker speaker;
+    private final Pause pauseButton;
+    private final Button resumeButton;
+    private final Button mainMenuButton;
+    private final Button returnMenuButton;
+    private final Button retryButton;
+    private final ImageText pauseText;
+    private final YouDied youDiedImage;
+    private final Heart heartHUD;
+    private final Speaker speaker;
 
     private final String[] zombieTypes = {"normal", "fast", "slow"};
 
@@ -68,11 +65,14 @@ public class GameState extends State
     private boolean returnMenuPressed = false;
     private boolean retryGamePressed = false;
 
+    private final Vector<Sound> soundEffects;
+
     public GameState(Game game)
     {
         this.game = game;
         keyManager = game.getKeyManager();
         mouseManager = game.getMouseManager();
+        soundEffects = game.getSoundEffects();
         rand = new Random();
 
         map = AssetManager.getInstance().getMap().getSubimage(100, 100, Config.MAP_WIDTH / 2, Config.MAP_HEIGHT / 2);
@@ -112,15 +112,13 @@ public class GameState extends State
         retryButton = new Button(new Point(590, 465), new Point(90, 55), 616, "resume");
 
         speaker = new Speaker(new Point(Config.SCREEN_WIDTH - 55, Config.SCREEN_HEIGHT - 55), new Point(50, 50), 336, 192, "speaker");
-        game.getInGameMusic().setSound(-10);
-        game.getBackgroundMusic().setSound(-80);
+        game.getMenuBGM().stop();
+        game.getSurvivalBGM().loop();
     }
 
     @Override
     public void tick()
     {
-        game.getEnterPressSound().setSound(-80);
-        game.getButtonPressSound().setSound(-80);
         animationCounter++;
         pauseImageTick();
         healthTick();
@@ -178,43 +176,26 @@ public class GameState extends State
         for(int i = 0; i < zombies.size(); i++)
         {
             zombies.get(i).draw(g);
-//            g.setColor(Color.RED);
-//            g.fillRect((int) zombies.get(i).getPos().getX() - (int) zombies.get(i).getSize().getX() / 2,
-//                    (int) zombies.get(i).getPos().getY() - (int) zombies.get(i).getSize().getY() / 2,
-//                    (int) zombies.get(i).getSize().getX(), (int) zombies.get(i).getSize().getY());
         }
 
 
         player.draw(g);
-//        g.setColor(Color.RED);
-//        g.fillRect((int) player.getPos().getX() - (int) player.getSize().getX() / 2,
-//                (int) player.getPos().getY() - (int) player.getSize().getY() / 2,
-//                (int) player.getSize().getX(), (int) player.getSize().getY());
 
         heartHUD.draw(g);
 
-        g.setFont(AssetManager.getInstance().getArcadeClassic());
-        g.drawString("Kills !" + score, 10, (Config.HEART_HEIGHT / 2) * 5);
+        g.setFont(AssetManager.getInstance().getArcadeClassicSmall());
+        g.drawString("Kills !" + score, 10, Config.SCREEN_HEIGHT - 10);
         if(isPause){
             g.drawImage(AssetManager.getInstance().getYouPausedBG(), 0, 0, Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT, null);
             resumeButton.draw(g);
             mainMenuButton.draw(g);
             pauseText.draw(g);
-            game.getZombie1BG().setSound(-80);
-            game.getZombie2BG().setSound(-80);
-            game.getZombie3BG().setSound(-80);
-            game.getKnifeSound().setSound(-80);
         }
         if (isDead) {
             g.drawImage(AssetManager.getInstance().getYouDiedBG(), 0, 0, Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT, null);
             youDiedImage.draw(g);
             returnMenuButton.draw(g);
             retryButton.draw(g);
-            game.getInGameMusic().setSound(-80);
-            game.getZombie1BG().setSound(-80);
-            game.getZombie2BG().setSound(-80);
-            game.getZombie3BG().setSound(-80);
-            game.getKnifeSound().setSound(-80);
 
         }
         pauseButton.draw(g);
@@ -228,18 +209,18 @@ public class GameState extends State
         if(speaker.isInside(x, y)){
             speaker.hoveredImage();
             if(game.getMouseManager().getMouseButtonState(MouseEvent.BUTTON1)){
-                if(game.getInGameMusic().isPlaying())
+                if(game.getSurvivalBGM().isPlaying())
                 {
-                    game.getInGameMusic().stop();
+                    game.getSurvivalBGM().pause();
                 }
                 else
                 {
-                    game.getInGameMusic().play();
+                    game.getSurvivalBGM().play();
                 }
             }
         }
         else{
-            if(game.getInGameMusic().isPlaying())
+            if(game.getSurvivalBGM().isPlaying())
             {
                 speaker.unhoveredImage();
             }
@@ -257,9 +238,9 @@ public class GameState extends State
             returnMenuButton.hoveredImage();
             if(game.getMouseManager().getMouseButtonState(MouseEvent.BUTTON1)){
                 returnMenuButton.clickedImage();
-                game.getButtonPressSound().setSound(-10);
-                game.getButtonPressSound().play();
-                game.getButtonPressSound().setFramePosition(0);
+                Sound buttonPressed = new Sound(AssetManager.getInstance().getButtonPressFX());
+                buttonPressed.play();
+                soundEffects.add(buttonPressed);
                 returnMenuPressed = true;
                 scoreWriter(score);
             }
@@ -272,9 +253,9 @@ public class GameState extends State
             retryButton.hoveredImage();
             if(game.getMouseManager().getMouseButtonState(MouseEvent.BUTTON1)){
                 retryButton.clickedImage();
-                game.getButtonPressSound().setSound(-10);
-                game.getButtonPressSound().play();
-                game.getButtonPressSound().setFramePosition(0);
+                Sound buttonPressed = new Sound(AssetManager.getInstance().getButtonPressFX());
+                buttonPressed.play();
+                soundEffects.add(buttonPressed);
                 retryGamePressed = true;
                 scoreWriter(score);
             }
@@ -306,9 +287,9 @@ public class GameState extends State
             pauseButton.hoverImage();
             if(game.getMouseManager().getMouseButtonState(MouseEvent.BUTTON1)){
                 pauseButton.resumeImage();
-                game.getButtonPressSound().setSound(-10);
-                game.getButtonPressSound().play();
-                game.getButtonPressSound().setFramePosition(0);
+                Sound buttonPressed = new Sound(AssetManager.getInstance().getButtonPressFX());
+                buttonPressed.play();
+                soundEffects.add(buttonPressed);
                 isPause = true;
             }
         }
@@ -328,9 +309,9 @@ public class GameState extends State
             if(game.getMouseManager().getMouseButtonState(MouseEvent.BUTTON1)) {
                 //Animate button
                 resumeButton.clickedImage();
-                game.getButtonPressSound().setSound(-10);
-                game.getButtonPressSound().play();
-                game.getButtonPressSound().setFramePosition(0);
+                Sound buttonPressed = new Sound(AssetManager.getInstance().getButtonPressFX());
+                buttonPressed.play();
+                soundEffects.add(buttonPressed);
                 isPause = false;
             }
         }
@@ -344,9 +325,9 @@ public class GameState extends State
             if(game.getMouseManager().getMouseButtonState(MouseEvent.BUTTON1)) {
                 //Animate button
                 mainMenuButton.clickedImage();
-                game.getButtonPressSound().setSound(-10);
-                game.getButtonPressSound().play();
-                game.getButtonPressSound().setFramePosition(0);
+                Sound buttonPressed = new Sound(AssetManager.getInstance().getButtonPressFX());
+                buttonPressed.play();
+                soundEffects.add(buttonPressed);
                 returnMenu = true;
             }
         }
@@ -420,22 +401,33 @@ public class GameState extends State
                     y = rand.nextInt(Config.SCREEN_WIDTH + 100) * ySign;
                 }
 
+                int type = rand.nextInt(3);
                 zombies.add(new Zombie(new Vector2f(x, y),
                                        new Vector2f(Config.ZOMBIE_ASSET_WIDTH * settings.zoom, Config.ZOMBIE_ASSET_HEIGHT * settings.zoom),
-                                       zombieTypes[rand.nextInt(3)]));
+                                       zombieTypes[type]));
             }
         }
-        for(int i = 0; i < zombies.size(); i++)
+
+        if(game.getMouseManager().getMouseButtonState(MouseEvent.BUTTON1))
         {
-            if(game.getMouseManager().getMouseButtonState(MouseEvent.BUTTON1)){
+            Sound buttonPressed = new Sound(AssetManager.getInstance().getKnifeFX());
+            buttonPressed.setSound(-10);
+            buttonPressed.play();
+            soundEffects.add(buttonPressed);
+            for(int i = 0; i < zombies.size(); i++)
+            {
                 player.setAttackAnimate(true);
                 if(player.inRange(zombies.get(i)))
                 {
                     player.attack(zombies.get(i));
                 }
             }
+        }
 
+        for(int i = 0; i < zombies.size(); i++)
+        {
             if(zombies.get(i).getHealthPoints() <= 0){
+                zombies.get(i).die();
                 zombies.remove(i);
                 score += 1;
                 continue;
@@ -453,9 +445,6 @@ public class GameState extends State
                 zombies.get(i).animate();
             }
             zombies.get(i).update();
-            game.getZombie1BG().setSound(-30);
-            game.getZombie2BG().setSound(-30);
-//            game.getZombie3BG().setSound(-25);
         }
     }
 
@@ -464,8 +453,10 @@ public class GameState extends State
         heartHUD.setHeartCount(player.getHearts());
         if(player.getCurrentHearts() <= 0){
             isDead = true;
-
-//            GAMEOVERSTATE
+            for(int i = 0; i < zombies.size(); i++)
+            {
+                zombies.get(i).die();
+            }
         }
     }
 
@@ -510,10 +501,6 @@ public class GameState extends State
 
         if(animationCounter % Config.PLAYER_KNIFE_COOLDOWN_DELAY == 0) {
             if(player.isAttackAnimate()){
-                game.getKnifeSound().setSound(-10);
-                game.getKnifeSound().setFramePosition(0);
-                game.getKnifeSound().play();
-
                 player.setAttackAnimate(false);
             }
         }

@@ -15,13 +15,16 @@ import java.io.InputStream;
 public class AudioLoader
 {
 
-    public static AudioInputStream loadAudio(String filepath){
-        try{
-            return AudioSystem.getAudioInputStream(new File(filepath));
-        }catch(Exception e){
-            e.printStackTrace();
+    public static File loadAudio(String filepath){
+        try
+        {
+            return new File(filepath);
         }
-        return null;
+        catch(NullPointerException e)
+        {
+            System.err.println("Audio file not found.");
+            return null;
+        }
     }
 }
 

@@ -21,26 +21,19 @@ public class Game implements Runnable
     private final KeyManager keyManager;
     private final MouseManager mouseManager;
 
-    private State menuState;
-    private State gameState;
-    private State survivalMenuState;
-    private State pauseState;
-    private State leaderBoardState;
-
-    private Vector<Sound> sounds;
-    private Sound backgroundMusic;
-    private Sound inGameMusic;
-    private Sound knifeSound;
-    private Sound enterPressSound;
-    private Sound buttonPressSound;
-    private Sound zombie1BG;
-    private Sound zombie2BG;
-    private Sound zombie3BG;
+    private final Sound menuBGM;
+    private final Sound survivalBGM;
+    private final Vector<Sound> soundEffects;
 
     public Game()
     {
         keyManager = new KeyManager();
         mouseManager = new MouseManager();
+        soundEffects = new Vector<>();
+        menuBGM = new Sound(AssetManager.getInstance().getMenuBGM());
+        menuBGM.setSound(-5);
+        survivalBGM = new Sound(AssetManager.getInstance().getGameBGM());
+        survivalBGM.setSound(-5);
     }
 
     private void init()
@@ -52,47 +45,20 @@ public class Game implements Runnable
         display.getCanvas().addMouseListener(mouseManager);
         display.getCanvas().addMouseMotionListener(mouseManager);
 
-        backgroundMusic = new Sound(AssetManager.getInstance().getMainMenuBG());
-        backgroundMusic.setSound(-5);
-        backgroundMusic.loop();
-
-        inGameMusic = new Sound(AssetManager.getInstance().getInGameBG());
-        inGameMusic.setSound(-80);
-        inGameMusic.loop();
-
-        knifeSound = new Sound(AssetManager.getInstance().getKnifeBG());
-
-
-        enterPressSound = new Sound(AssetManager.getInstance().getEnterPressBG());
-//        enterPressSound.setSound(-80);
-//        enterPressSound.loop();
-
-        buttonPressSound = new Sound(AssetManager.getInstance().getButtonPressBG());
-//        buttonPressSound.setSound(-80);
-//        buttonPressSound.loop();
-
-        zombie1BG = new Sound(AssetManager.getInstance().getZombie1BG());
-        zombie1BG.setSound(-80);
-        zombie1BG.loop();
-
-        zombie2BG = new Sound(AssetManager.getInstance().getZombie2BG());
-        zombie2BG.setSound(-80);
-        zombie2BG.loop();
-
-        zombie3BG = new Sound(AssetManager.getInstance().getZombie3BG());
-        zombie3BG.setSound(-80);
-        zombie3BG.loop();
-
-        menuState = new MenuState(this);
-
-        State.setState(menuState);
+        State.setState(new MenuState(this));
     }
-
-//    DINAGDAG KO TONG VARIABLE
-    private double deltaPlease;
 
     private void tick()
     {
+        for(int i = 0; i < soundEffects.size(); i++)
+        {
+            if(!soundEffects.get(i).isPlaying())
+            {
+                soundEffects.get(i).dispose();
+                soundEffects.remove(i);
+            }
+        }
+
 		if(State.getState() != null)
 		{
 			State.getState().tick();
@@ -191,7 +157,6 @@ public class Game implements Runnable
         }
     }
 
-
     public KeyManager getKeyManager()
     {
         return keyManager;
@@ -202,35 +167,18 @@ public class Game implements Runnable
         return mouseManager;
     }
 
-    public Sound getBackgroundMusic() {
-        return backgroundMusic;
+    public Vector<Sound> getSoundEffects()
+    {
+        return soundEffects;
     }
 
-    public Sound getInGameMusic() {
-        return inGameMusic;
+    public Sound getMenuBGM()
+    {
+        return menuBGM;
     }
 
-    public Sound getKnifeSound() {
-        return knifeSound;
-    }
-
-    public Sound getEnterPressSound() {
-        return enterPressSound;
-    }
-
-    public Sound getButtonPressSound() {
-        return buttonPressSound;
-    }
-
-    public Sound getZombie1BG() {
-        return zombie1BG;
-    }
-
-    public Sound getZombie2BG() {
-        return zombie2BG;
-    }
-
-    public Sound getZombie3BG() {
-        return zombie3BG;
+    public Sound getSurvivalBGM()
+    {
+        return survivalBGM;
     }
 }

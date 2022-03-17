@@ -5,7 +5,9 @@ import main.Config;
 import main.Vector2f;
 import main.entity.player.Player;
 import main.gfx.AssetManager;
+import main.gfx.Sound;
 
+import javax.sound.sampled.AudioInputStream;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.Vector;
@@ -18,6 +20,8 @@ public class Zombie extends Enemy
     private final BufferedImage[] images;
     private final BufferedImage[] currentImages;
     private int animationIndex;
+    private Sound soundFX;
+    private boolean visisble;
 
     public Zombie()
     {
@@ -29,6 +33,8 @@ public class Zombie extends Enemy
         animationIndex = 0;
         animationSpeed = 20;
         movementSpeed = 1;
+        soundFX = null;
+        visisble = false;
     }
 
     public Zombie(Vector2f pos, Vector2f size)
@@ -65,21 +71,28 @@ public class Zombie extends Enemy
         currentImages[1] = images[1];
         currentImages[2] = images[2];
 
+        AudioInputStream zombieFX = null;
         switch(type)
         {
             case "normal":
+                zombieFX = AssetManager.getInstance().getZombie1FX();
                 healthPoints = 50;
                 movementSpeed = 0.8f;
                 break;
             case "fast":
+                zombieFX = AssetManager.getInstance().getZombie1FX(); // zombie 2 fx is terrible yuck
                 healthPoints = 20;
                 movementSpeed = 1.2f;
                 break;
             case "slow":
+                zombieFX = AssetManager.getInstance().getZombie3FX();
                 healthPoints = 100;
                 movementSpeed = 0.4f;
                 break;
         }
+
+        soundFX = new Sound(zombieFX);
+        soundFX.setSound(-15);
     }
 
     @Override
@@ -103,6 +116,16 @@ public class Zombie extends Enemy
     @Override
     public void update()
     {
+        if(!visisble)
+        {
+            if(pos.getX() >= 0 && pos.getX() <= Config.SCREEN_WIDTH &&
+               pos.getY() >= 0 && pos.getY() <= Config.SCREEN_HEIGHT)
+            {
+                visisble = true;
+                soundFX.loop();
+            }
+        }
+
         checkRotation();
     }
 
@@ -114,6 +137,11 @@ public class Zombie extends Enemy
                     (int) size.getX(),
                     (int) size.getY(),
                     null);
+    }
+
+    public void die()
+    {
+        soundFX.dispose();
     }
 
     public boolean inRange(Player player){

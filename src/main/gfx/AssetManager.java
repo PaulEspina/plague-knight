@@ -3,6 +3,8 @@ package main.gfx;
 import main.Config;
 
 import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -26,14 +28,14 @@ public class AssetManager
     private BufferedImage pausedImage;
     private BufferedImage youDiedImage;
     private BufferedImage treeObstacle;
-    private AudioInputStream mainMenuBG;
-    private AudioInputStream inGameBG;
-    private AudioInputStream knifeBG;
-    private AudioInputStream enterPressBG;
-    private AudioInputStream buttonPressBG;
-    private AudioInputStream zombie1BG;
-    private AudioInputStream zombie2BG;
-    private AudioInputStream zombie3BG;
+    private File menuBGM;
+    private File gameBGM;
+    private File knifeFX;
+    private File enterPressFX;
+    private File buttonPressFX;
+    private File zombie1FX;
+    private File zombie2FX;
+    private File zombie3FX;
     private BufferedImage youDiedBG;
     private BufferedImage youPausedBG;
 
@@ -76,14 +78,14 @@ public class AssetManager
             youDiedBG = ImageLoader.loadImage(Config.DIED_BG_PATH);
             youPausedBG = ImageLoader.loadImage(Config.PAUSE_BG_PATH);
 
-            mainMenuBG = AudioLoader.loadAudio(Config.MAIN_MENU_BG_MUSIC_PATH);
-            inGameBG = AudioLoader.loadAudio(Config.IN_GAME_MUSIC_PATH);
-            knifeBG = AudioLoader.loadAudio(Config.KNIFE_STAB_MUSIC_PATH);
-            enterPressBG = AudioLoader.loadAudio(Config.ENTER_GAME_PATH);
-            buttonPressBG = AudioLoader.loadAudio(Config.BUTTON_PRESS_PATH);
-            zombie1BG = AudioLoader.loadAudio(Config.ZOMBIE_1_MUSIC_PATH);
-            zombie2BG = AudioLoader.loadAudio(Config.ZOMBIE_2_MUSIC_PATH);
-            zombie3BG = AudioLoader.loadAudio(Config.ZOMBIE_3_MUSIC_PATH);
+            menuBGM = AudioLoader.loadAudio(Config.MAIN_MENU_BG_MUSIC_PATH);
+            gameBGM = AudioLoader.loadAudio(Config.IN_GAME_MUSIC_PATH);
+            knifeFX = AudioLoader.loadAudio(Config.KNIFE_STAB_MUSIC_PATH);
+            enterPressFX = AudioLoader.loadAudio(Config.ENTER_GAME_PATH);
+            buttonPressFX = AudioLoader.loadAudio(Config.BUTTON_PRESS_PATH);
+            zombie1FX = AudioLoader.loadAudio(Config.ZOMBIE_1_MUSIC_PATH);
+            zombie2FX = AudioLoader.loadAudio(Config.ZOMBIE_2_MUSIC_PATH);
+            zombie3FX = AudioLoader.loadAudio(Config.ZOMBIE_3_MUSIC_PATH);
 
             arcadeClassicSmall = Font.createFont(Font.TRUETYPE_FONT, new File("ARCADECLASSIC.TTF")).deriveFont(30f);
 
@@ -171,37 +173,101 @@ public class AssetManager
         return map;
     }
 
-    public AudioInputStream getMainMenuBG()
+    public AudioInputStream getMenuBGM()
     {
-        return mainMenuBG;
+        try
+        {
+            return AudioSystem.getAudioInputStream(menuBGM);
+        }
+        catch(UnsupportedAudioFileException | IOException e)
+        {
+            e.printStackTrace();
+            return null;
+        }
     }
 
-    public AudioInputStream getInGameBG() {
-        return inGameBG;
+    public AudioInputStream getGameBGM() {
+        try
+        {
+            return AudioSystem.getAudioInputStream(gameBGM);
+        }
+        catch(UnsupportedAudioFileException | IOException e)
+        {
+            e.printStackTrace();
+            return null;
+        }
     }
 
-    public AudioInputStream getKnifeBG() {
-        return knifeBG;
+    public AudioInputStream getKnifeFX() {
+        try
+        {
+            return AudioSystem.getAudioInputStream(knifeFX);
+        }
+        catch(UnsupportedAudioFileException | IOException e)
+        {
+            e.printStackTrace();
+            return null;
+        }
     }
 
-    public AudioInputStream getEnterPressBG() {
-        return enterPressBG;
+    public AudioInputStream getEnterPressFX() {
+        try
+        {
+            return AudioSystem.getAudioInputStream(enterPressFX);
+        }
+        catch(UnsupportedAudioFileException | IOException e)
+        {
+            e.printStackTrace();
+            return null;
+        }
     }
 
-    public AudioInputStream getButtonPressBG() {
-        return buttonPressBG;
+    public AudioInputStream getButtonPressFX() {
+        try
+        {
+            return AudioSystem.getAudioInputStream(buttonPressFX);
+        }
+        catch(UnsupportedAudioFileException | IOException e)
+        {
+            e.printStackTrace();
+            return null;
+        }
     }
 
-    public AudioInputStream getZombie1BG() {
-        return zombie1BG;
+    public AudioInputStream getZombie1FX() {
+        try
+        {
+            return AudioSystem.getAudioInputStream(zombie1FX);
+        }
+        catch(UnsupportedAudioFileException | IOException e)
+        {
+            e.printStackTrace();
+            return null;
+        }
     }
 
-    public AudioInputStream getZombie2BG() {
-        return zombie2BG;
+    public AudioInputStream getZombie2FX() {
+        try
+        {
+            return AudioSystem.getAudioInputStream(zombie2FX);
+        }
+        catch(UnsupportedAudioFileException | IOException e)
+        {
+            e.printStackTrace();
+            return null;
+        }
     }
 
-    public AudioInputStream getZombie3BG() {
-        return zombie3BG;
+    public AudioInputStream getZombie3FX() {
+        try
+        {
+            return AudioSystem.getAudioInputStream(zombie3FX);
+        }
+        catch(UnsupportedAudioFileException | IOException e)
+        {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public Font getArcadeClassicSmall() {

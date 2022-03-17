@@ -6,35 +6,33 @@ import main.crop.Button;
 import main.crop.Screen;
 import main.crop.Speaker;
 import main.gfx.AssetManager;
-import main.gfx.AudioLoader;
 import main.gfx.Sound;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.util.Random;
+import java.util.Vector;
 
 public class MenuState extends State
 {
-    private Game game;
+    private final Game game;
 //     Create Buttons
-    private Button storyButton;
-    private Button survivalButton;
-    private Button exitButton;
-    private Button startButton;
-    private Button cancelButton;
+    private final Button storyButton;
+    private final Button survivalButton;
+    private final Button exitButton;
+    private final Button startButton;
+    private final Button cancelButton;
 
 //    For Blinking Lights
-    private Screen defaultBG;
-    private Screen dottedBG;
-
-
-    private Speaker speaker;
+    private final Screen defaultBG;
+    private final Screen dottedBG;
+    private final Speaker speaker;
 
     private double flickerAnimation = 0;
     private double brokenSurvivalAnimation = 0;
     private double brokenStoryAnimation = 0;
     private double exitGameAnimation = 0;
-    private Random rand = new Random();
+    private final Random rand = new Random();
     private int random;
 
     //    Mouse Click
@@ -47,6 +45,7 @@ public class MenuState extends State
     private boolean storyNext = false;
     private boolean exitNext = false;
 
+    private final Vector<Sound> soundEffects;
 
     public MenuState(Game game)
     {
@@ -62,8 +61,11 @@ public class MenuState extends State
         defaultBG = new Screen(new Point(169, 69), new Point(463, 222), Config.MENU_BACKGROUND_ASSET_PATH, "default");
 
         speaker = new Speaker(new Point(Config.SCREEN_WIDTH - 55, Config.SCREEN_HEIGHT - 55), new Point(50, 50), 336, 192, "speaker");
-        game.getBackgroundMusic().setSound(-10);
-        game.getInGameMusic().setSound(-80);
+
+        game.getMenuBGM().loop();
+        game.getSurvivalBGM().stop();
+
+        soundEffects = game.getSoundEffects();
     }
 
     @Override
@@ -73,8 +75,6 @@ public class MenuState extends State
 
         speaker.unhoveredImage();
 
-        dottedBG.getCurrentScreen();
-        defaultBG.getCurrentScreen();
         startButton.disabledImage();
         cancelButton.disabledImage();
 
@@ -116,11 +116,9 @@ public class MenuState extends State
             survivalButton.hoveredImage();
             //If button clicked
             if(game.getMouseManager().getMouseButtonState(MouseEvent.BUTTON1)) {
-
-                //Animate button
-                game.getButtonPressSound().setSound(-10);
-                game.getButtonPressSound().play();
-                game.getButtonPressSound().setFramePosition(0);
+                Sound buttonPressed = new Sound(AssetManager.getInstance().getButtonPressFX());
+                buttonPressed.play();
+                soundEffects.add(buttonPressed);
                 survivalButton.clickedImage();
                 survivalIsPressed = true;
             }
@@ -133,10 +131,9 @@ public class MenuState extends State
             storyButton.hoveredImage();
             //If button clicked
             if(game.getMouseManager().getMouseButtonState(MouseEvent.BUTTON1)) {
-                //Animate button
-                game.getButtonPressSound().setSound(-10);
-                game.getButtonPressSound().play();
-                game.getButtonPressSound().setFramePosition(0);
+                Sound buttonPressed = new Sound(AssetManager.getInstance().getButtonPressFX());
+                buttonPressed.play();
+                soundEffects.add(buttonPressed);
                 storyButton.clickedImage();
                 storyIsPressed = true;
             }
@@ -149,10 +146,9 @@ public class MenuState extends State
             exitButton.hoveredImage();
             //If button clicked
             if(game.getMouseManager().getMouseButtonState(MouseEvent.BUTTON1)) {
-                //Animate button
-                game.getButtonPressSound().setSound(-10);
-                game.getButtonPressSound().play();
-                game.getButtonPressSound().setFramePosition(0);
+                Sound buttonPressed = new Sound(AssetManager.getInstance().getButtonPressFX());
+                buttonPressed.play();
+                soundEffects.add(buttonPressed);
                 exitButton.clickedImage();
                 exitIsPressed = true;
             }
@@ -164,21 +160,21 @@ public class MenuState extends State
         if(speaker.isInside(x, y)){
             speaker.hoveredImage();
             if(game.getMouseManager().getMouseButtonState(MouseEvent.BUTTON1)){
-                game.getButtonPressSound().setSound(-10);
-                game.getButtonPressSound().play();
-                game.getButtonPressSound().setFramePosition(0);
-                if(game.getBackgroundMusic().isPlaying())
+                Sound buttonPressed = new Sound(AssetManager.getInstance().getButtonPressFX());
+                buttonPressed.play();
+                soundEffects.add(buttonPressed);
+                if(game.getMenuBGM().isPlaying())
                 {
-                    game.getBackgroundMusic().stop();
+                    game.getMenuBGM().pause();
                 }
                 else
                 {
-                    game.getBackgroundMusic().play();
+                    game.getMenuBGM().play();
                 }
             }
         }
         else{
-            if(game.getBackgroundMusic().isPlaying())
+            if(game.getMenuBGM().isPlaying())
             {
                 speaker.unhoveredImage();
             }
