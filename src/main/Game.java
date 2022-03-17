@@ -18,6 +18,7 @@ public class Game implements Runnable
     private BufferStrategy bs;
     private Graphics g;
     private Thread thread;
+    private Thread garbageCollector;
     private final KeyManager keyManager;
     private final MouseManager mouseManager;
 
@@ -50,15 +51,6 @@ public class Game implements Runnable
 
     private void tick()
     {
-        for(int i = 0; i < soundEffects.size(); i++)
-        {
-            if(!soundEffects.get(i).isPlaying())
-            {
-                soundEffects.get(i).dispose();
-                soundEffects.remove(i);
-            }
-        }
-
 		if(State.getState() != null)
 		{
 			State.getState().tick();
@@ -139,6 +131,17 @@ public class Game implements Runnable
         running = true;
         thread = new Thread(this);
         thread.start();
+        garbageCollector = new Thread(new Runnable() {
+            public void run()
+            {
+                while(true)
+                {
+                    System.out.println(soundEffects.toString());
+                    soundEffects.removeIf(x -> !x.isPlaying());
+                }
+            }
+        });
+        garbageCollector.start();
     }
 
     public synchronized void stop()
@@ -150,6 +153,7 @@ public class Game implements Runnable
         try
         {
             thread.join();
+            garbageCollector.join();
         }
         catch(InterruptedException e)
         {

@@ -66,19 +66,4 @@ public class Sound
         FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
         gainControl.setValue(db);
     }
-
-    public void dispose()
-    {
-        clip.stop();
-        clip.flush();
-        clip.close();
-        try
-        {
-            audio.close();
-        }
-        catch(IOException e)
-        {
-            e.printStackTrace();
-        }
-    }
 }

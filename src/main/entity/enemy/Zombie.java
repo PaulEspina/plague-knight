@@ -141,7 +141,7 @@ public class Zombie extends Enemy
 
     public void die()
     {
-        soundFX.dispose();
+        soundFX.stop();
     }
 
     public boolean inRange(Player player){
