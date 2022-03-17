@@ -67,7 +67,7 @@ public class Config {
     public static final int ITEMS_ASSET_HEIGHT = 48;
     public static final int TOTAL_ITEMS = 5;
 
-    public static final String MAP_PATH = "/assets/sprites/world/map/outsidevillagev2.png";
+    public static final String MAP_PATH = "/assets/sprites/world/map/outsidevillagev3.png";
     public static final int MAP_WIDTH = 1392;
     public static final int MAP_HEIGHT = 1584;
 
