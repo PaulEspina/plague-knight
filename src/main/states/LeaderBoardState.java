@@ -120,15 +120,22 @@ public class LeaderBoardState extends State{
 
         BufferedReader br = new BufferedReader(new FileReader(file));
 
+        int count = 7;
         String line;
         ArrayList<Integer> storage = new ArrayList<>();
         while ((line = br.readLine()) != null)
+        {
             storage.add(Integer.valueOf(line));
+        }
+        if(storage.size() < count)
+        {
+            count = storage.size();
+        }
 
         Collections.sort(storage, Collections.reverseOrder());
 
         g.setFont(AssetManager.getInstance().getArcadeClassicSmall());
-        for(int i = 0; i < 7; i++){
+        for(int i = 0; i < count; i++){
             g.drawString("Rank " + (i + 1) + " ! " + String.valueOf(storage.get(i)), 200, 100 + (i * 30));
         }
     }
