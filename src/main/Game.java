@@ -136,7 +136,6 @@ public class Game implements Runnable
             {
                 while(true)
                 {
-                    System.out.println(soundEffects.toString());
                     soundEffects.removeIf(x -> !x.isPlaying());
                 }
             }
