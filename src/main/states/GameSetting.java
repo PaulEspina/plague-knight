@@ -28,7 +28,7 @@ public class GameSetting
             boostDuration = 5000;
 
             bossAttackDelay = 50;
-            bossSpawnTimer = 180;
+            bossSpawnTimer = 2250;
             bossPerSpawn = 1;
         }
     }

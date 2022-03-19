@@ -5,6 +5,8 @@ import main.Config;
 import main.Drawable;
 import main.Vector2f;
 import main.entity.Item.Item;
+import main.entity.Item.Knife;
+import main.entity.Item.Weapon;
 import main.entity.enemy.Boss;
 import main.entity.enemy.Zombie;
 import main.gfx.AssetManager;

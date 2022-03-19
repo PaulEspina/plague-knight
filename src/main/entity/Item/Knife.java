@@ -14,4 +14,6 @@ public class Knife extends Weapon {
         range = 30;             //Final 30 = low/1
         knockback = 0;
     }
+
+
 }
