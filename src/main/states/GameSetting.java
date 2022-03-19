@@ -22,6 +22,7 @@ public class GameSetting
     public GameSetting()
     {
         if(gameDifficulty){
+            gameDifficulty = false;
             normalZombieAttackDelay = 40;
             zombieSpawnTimer = 60;
             zombiePerSpawn = 2;
