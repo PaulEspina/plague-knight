@@ -8,6 +8,11 @@ public class GameSetting
     public int zombiePerSpawn = 1;
     public float zoom = 1.5f;
 
+    public int bossAttackDelay = 70;
+    public int bossAttackCooldownDelay = 100;
+    public int bossSpawnTimer = 2500;
+    public int bossPerSpawn = 1;
+
     public int itemChance = 100;
 
     public float playerMovementSpeed = 1.25f;
@@ -21,6 +26,10 @@ public class GameSetting
             zombieSpawnTimer = 60;
             zombiePerSpawn = 2;
             boostDuration = 5000;
+
+            bossAttackDelay = 50;
+            bossSpawnTimer = 180;
+            bossPerSpawn = 1;
         }
     }
 }

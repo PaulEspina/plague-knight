@@ -175,6 +175,10 @@ public class SurvivalMenuState extends State{
         }
         if(survivalIsClicked && startClicked)
         {
+            Sound buttonPressed = new Sound(AssetManager.getInstance().getEnterPressFX());
+            buttonPressed.setSound(-10f);
+            buttonPressed.play();
+            soundEffects.add(buttonPressed);
             setState(new GameState(game));
         }
     }

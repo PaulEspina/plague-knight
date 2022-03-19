@@ -121,7 +121,6 @@ public class ExitState extends State {
             setState(new MenuState(game));
         }
         if(exitIsClicked){
-//            g.drawImage(AssetManager.getInstance().getExitBGImage(), 0, 0, Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT, null);
             if(exitClicked){
                 exit(0);
             }
