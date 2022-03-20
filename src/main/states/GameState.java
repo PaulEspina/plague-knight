@@ -4,6 +4,7 @@ import main.Config;
 import main.Game;
 import main.crop.*;
 import main.crop.Button;
+import main.entity.enemy.Boss;
 import main.entity.player.Heart;
 import main.entity.Crate;
 import main.entity.Item.Item;
@@ -38,6 +39,8 @@ public class GameState extends State
     private final BufferedImage map;
 
     private final Vector<Zombie> zombies;
+    private final Vector<Boss> boss;
+
     private final MouseManager mouseManager;
 
     private Vector<Crate> crates;
@@ -95,6 +98,14 @@ public class GameState extends State
                                    zombieTypes[rand.nextInt(3)]));
         }
 
+        boss = new Vector<>();
+//        for(int i = 0; i < settings.bossPerSpawn; i++)
+//        {
+//            boss.add(new Boss(new Vector2f(rand.nextInt(Config.SCREEN_WIDTH), rand.nextInt(Config.SCREEN_HEIGHT)),
+//                    new Vector2f(Config.BOSS_1_ASSET_WIDTH * settings.zoom, Config.BOSS_1_ASSET_HEIGHT * settings.zoom)));
+//        }
+
+
         crates = new Vector<>();
 //        crates.add(new Crate(new Vector2f(300, 100), new Vector2f((float) Config.CRATE_ASSET_WIDTH / 2 * settings.zoom, (float) Config.CRATE_ASSET_HEIGHT / 2 * settings.zoom)));
 
@@ -136,6 +147,7 @@ public class GameState extends State
                 itemsTick();
                 zombiesTick();
                 playerTick();
+                bossTick();
             }
         }
 
@@ -178,6 +190,10 @@ public class GameState extends State
             zombies.get(i).draw(g);
         }
 
+        for(int i = 0; i < boss.size(); i++)
+        {
+            boss.get(i).draw(g);
+        }
 
         player.draw(g);
 
@@ -408,21 +424,21 @@ public class GameState extends State
             }
         }
 
-        if(game.getMouseManager().getMouseButtonState(MouseEvent.BUTTON1))
-        {
-            Sound buttonPressed = new Sound(AssetManager.getInstance().getKnifeFX());
-            buttonPressed.setSound(-10);
-            buttonPressed.play();
-            soundEffects.add(buttonPressed);
-            for(int i = 0; i < zombies.size(); i++)
-            {
-                player.setAttackAnimate(true);
-                if(player.inRange(zombies.get(i)))
-                {
-                    player.attack(zombies.get(i));
-                }
-            }
-        }
+//        if(game.getMouseManager().getMouseButtonState(MouseEvent.BUTTON1))
+//        {
+//            Sound buttonPressed = new Sound(AssetManager.getInstance().getKnifeFX());
+//            buttonPressed.setSound(-10);
+//            buttonPressed.play();
+//            soundEffects.add(buttonPressed);
+//            for(int i = 0; i < zombies.size(); i++)
+//            {
+//                player.setAttackAnimate(true);
+//                if(player.inRange(zombies.get(i)))
+//                {
+//                    player.attack(zombies.get(i));
+//                }
+//            }
+//        }
 
         for(int i = 0; i < zombies.size(); i++)
         {
@@ -445,6 +461,78 @@ public class GameState extends State
                 zombies.get(i).animate();
             }
             zombies.get(i).update();
+        }
+    }
+
+    private void bossTick(){
+        if(animationCounter % settings.bossSpawnTimer == 0)
+        {
+
+            for(int i = 0; i < settings.bossPerSpawn; i++)
+            {
+                int xSign = rand.nextBoolean() ? 1 : -1;
+                Integer x = null;
+                while(x == null || (x >= 0 && x <= Config.SCREEN_WIDTH))
+                {
+                    x = rand.nextInt(Config.SCREEN_WIDTH + 100) * xSign;
+                }
+                int ySign = rand.nextBoolean() ? 1 : -1;
+                Integer y = null;
+                while(y == null || (y >= 0 && y <= Config.SCREEN_HEIGHT))
+                {
+                    y = rand.nextInt(Config.SCREEN_WIDTH + 100) * ySign;
+                }
+
+                boss.add(new Boss(new Vector2f(x, y), new Vector2f(Config.BOSS_1_ASSET_WIDTH * settings.zoom, Config.BOSS_1_ASSET_HEIGHT * settings.zoom)));
+            }
+        }
+
+//        if(game.getMouseManager().getMouseButtonState(MouseEvent.BUTTON1))
+//        {
+//            Sound buttonPressed = new Sound(AssetManager.getInstance().getKnifeFX());
+//            buttonPressed.setSound(-10);
+//            buttonPressed.play();
+//            soundEffects.add(buttonPressed);
+//            for(int i = 0; i < boss.size(); i++)
+//            {
+//                player.setAttackAnimate(true);
+//                if(player.inRange(boss.get(i)))
+//                {
+//                    player.attack(boss.get(i));
+//                }
+//            }
+//        }
+
+        for(int i = 0; i < boss.size(); i++)
+        {
+            if(boss.get(i).getHealthPoints() <= 0){
+//                boss.get(i).die();
+                boss.get(i).setDeadAnimate(true);
+                boss.remove(i);
+                score += 2;
+                continue;
+            }
+
+            boss.get(i).follow(player.getPos());
+
+            if (boss.get(i).inRange(player)) {
+                if(animationCounter % settings.bossAttackDelay == 0) {
+                    boss.get(i).setAttackAnimate(true);
+                    boss.get(i).attack(player);
+                }
+            }
+
+            if(animationCounter % settings.bossAttackCooldownDelay == 0) {
+                if(boss.get(i).isAttackAnimate()){
+                    boss.get(i).setAttackAnimate(false);
+                }
+            }
+
+            if(animationCounter % boss.get(i).getAnimationSpeed() == 0)
+            {
+                boss.get(i).animate();
+            }
+            boss.get(i).update();
         }
     }
 
@@ -504,6 +592,29 @@ public class GameState extends State
                 player.setAttackAnimate(false);
             }
         }
+        if(game.getMouseManager().getMouseButtonState(MouseEvent.BUTTON1))
+        {
+            Sound buttonPressed = new Sound(AssetManager.getInstance().getKnifeFX());
+            buttonPressed.setSound(-10);
+            buttonPressed.play();
+            soundEffects.add(buttonPressed);
+            player.setAttackAnimate(true);
+            for(int i = 0; i < boss.size(); i++)
+            {
+                if(player.inRange(boss.get(i)))
+                {
+                    player.attack(boss.get(i));
+                }
+            }
+            for(int i = 0; i < zombies.size(); i++)
+            {
+                if(player.inRange(zombies.get(i)))
+                {
+                    player.attack(zombies.get(i));
+                }
+            }
+        }
+
         player.update();
     }
 }

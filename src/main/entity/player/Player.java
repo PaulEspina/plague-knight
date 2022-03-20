@@ -5,6 +5,9 @@ import main.Config;
 import main.Drawable;
 import main.Vector2f;
 import main.entity.Item.Item;
+import main.entity.Item.Knife;
+import main.entity.Item.Weapon;
+import main.entity.enemy.Boss;
 import main.entity.enemy.Zombie;
 import main.gfx.AssetManager;
 import main.input.KeyManager;
@@ -179,6 +182,10 @@ public class Player extends Character implements Drawable{
         {
             attackable.damage(damage * attackBoost); // temporary... change when weapon system is online
         }
+        if(attackable instanceof Boss)
+        {
+            attackable.damage(damage * attackBoost); // temporary... change when weapon system is online
+        }
     }
 
     @Override
@@ -234,6 +241,56 @@ public class Player extends Character implements Drawable{
                   ((playerPosX) - 30 <= (zombiePosX + zombieSizeX / 2)) &&    //RIGHT
                   ((playerPosY) >= (zombiePosY - zombieSizeY / 2)) &&         //DOWN
                   ((playerPosY) <= (zombiePosY + zombieSizeY / 2))) {         //UP
+                    return true;
+                }
+                break;
+        }
+        return false;
+    }
+
+    public boolean inRange(Boss boss)
+    {
+        int playerPosX = (int) getPos().getX();           //30
+        int playerPosY = (int) getPos().getY();           //30
+        int playerSizeX = (int) getSize().getX();         //30
+        int playerSizeY = (int) getSize().getY();         //20
+        int bossPosX = (int) boss.getPos().getX();    //50
+        int bossPosY = (int) boss.getPos().getY();    //50
+        int bossSizeX = (int) boss.getSize().getX();  //30
+        int bossSizeY = (int) boss.getSize().getY();  //20
+        switch(direction)
+        {
+            case "north":
+                if(((playerPosX) >= (bossPosX - bossSizeX / 2)) &&        //LEFT
+                        ((playerPosX) <= (bossPosX + bossSizeX / 2)) &&         //RIGHT
+                        ((playerPosY) >= (bossPosY - bossSizeY / 2)) &&         //DOWN
+                        ((playerPosY) - 30 <= (bossPosY + bossSizeY / 2))) {    //UP
+                    return true;
+                }
+                break;
+            case "south":
+                if(((playerPosX) >= (bossPosX - bossSizeX / 2)) &&        //LEFT
+                        ((playerPosX) <= (bossPosX + bossSizeX / 2)) &&         //RIGHT
+                        ((playerPosY) + 30 >= (bossPosY - bossSizeY / 2)) &&    //DOWN
+                        ((playerPosY) <= (bossPosY + bossSizeY / 2))) {         //UP
+                    return true;
+                }
+                break;
+
+            case "east":
+                if(((playerPosX) + 30 >= (bossPosX - bossSizeX / 2)) &&   //LEFT
+                        ((playerPosX) <= (bossPosX + bossSizeX / 2)) &&         //RIGHT
+                        ((playerPosY) >= (bossPosY - bossSizeY / 2)) &&         //DOWN
+                        ((playerPosY) <= (bossPosY + bossSizeY / 2))) {         //UP
+                    return true;
+                }
+                break;
+
+            case "west":
+                if(((playerPosX) >= (bossPosX - bossSizeX / 2)) &&        //LEFT
+                        ((playerPosX) - 30 <= (bossPosX + bossSizeX / 2)) &&    //RIGHT
+                        ((playerPosY) >= (bossPosY - bossSizeY / 2)) &&         //DOWN
+                        ((playerPosY) <= (bossPosY + bossSizeY / 2))) {         //UP
                     return true;
                 }
                 break;

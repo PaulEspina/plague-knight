@@ -5,108 +5,83 @@ import main.Config;
 import main.Vector2f;
 import main.entity.player.Player;
 import main.gfx.AssetManager;
-import main.gfx.Sound;
 
-import javax.sound.sampled.AudioInputStream;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.util.Vector;
 
-public class Zombie extends Enemy
-{
-    private String type;
+public class Boss extends Enemy{
+    private boolean attackAnimate = false;
+    private boolean deadAnimate = false;
     private String direction;
     private BufferedImage sprite;
     private final BufferedImage[] images;
     private final BufferedImage[] currentImages;
     private int animationIndex;
-    private Sound soundFX;
-    private boolean visisble;
 
-    public Zombie()
-    {
-        type = "normal";
+    private final BufferedImage[] attackImages;
+    private int attackDirectionIndex;
+
+    private final BufferedImage[] deadImages;
+    private int deadDirectionIndex;
+
+    public Boss() {
         direction = "south";
         sprite = null;
-        images = new BufferedImage[12];
-        currentImages = new BufferedImage[3];
+        images = new BufferedImage[20];
+        currentImages = new BufferedImage[4];
+
+        attackImages = new BufferedImage[4];
+        deadImages = new BufferedImage[4];
         animationIndex = 0;
+        attackDirectionIndex = 0;
+        deadDirectionIndex = 0;
         animationSpeed = 20;
         movementSpeed = 1;
-        soundFX = null;
-        visisble = false;
     }
 
-    public Zombie(Vector2f pos, Vector2f size)
-    {
-        this(pos, size, "normal");
-    }
-
-    public Zombie(Vector2f pos, Vector2f size, String type)
+    public Boss(Vector2f pos, Vector2f size)
     {
         this();
         this.pos = pos;
         this.size = size;
-        this.type = type;
-        int index = 0;
-        if(type.equals("normal"))
-        {
-            index = 0;
+
+        sprite = AssetManager.getInstance().getBoss1();
+//        sprite = sprite.getSubimage(0, 0, Config.BOSS_1_ASSET_WIDTH * 12, Config.BOSS_1_ASSET_HEIGHT);
+
+        for(int i = 0; i < 20; i++){
+            images[i] = sprite.getSubimage(Config.BOSS_1_ASSET_WIDTH * i, 0, Config.BOSS_1_ASSET_WIDTH, Config.BOSS_1_ASSET_HEIGHT);
         }
-        else if(type.equals("fast"))
-        {
-            index = 1;
-        }
-        if(type.equals("slow"))
-        {
-            index = 2;
-        }
-        sprite = AssetManager.getInstance().getZombie();
-        sprite = sprite.getSubimage(0, Config.ZOMBIE_ASSET_HEIGHT * index, Config.ZOMBIE_ASSET_WIDTH * 12, Config.ZOMBIE_ASSET_HEIGHT);
-        for(int i = 0; i < 12; i++)
-        {
-            images[i] = sprite.getSubimage(Config.ZOMBIE_ASSET_WIDTH * i, 0, Config.ZOMBIE_ASSET_WIDTH, Config.ZOMBIE_ASSET_HEIGHT);
-        }
+
         currentImages[0] = images[0];
         currentImages[1] = images[1];
         currentImages[2] = images[2];
 
-        AudioInputStream zombieFX = null;
-        switch(type)
-        {
-            case "normal":
-                zombieFX = AssetManager.getInstance().getZombie1FX();
-                healthPoints = 50;
-                movementSpeed = 0.8f;
-                break;
-            case "fast":
-                zombieFX = AssetManager.getInstance().getZombie1FX(); // zombie 2 fx is terrible yuck
-                healthPoints = 20;
-                movementSpeed = 1.2f;
-                break;
-            case "slow":
-                zombieFX = AssetManager.getInstance().getZombie3FX();
-                healthPoints = 100;
-                movementSpeed = 0.4f;
-                break;
-        }
+        attackImages[0] = images[12];
+        attackImages[1] = images[13];
+        attackImages[2] = images[14];
+        attackImages[3] = images[15];
 
-        soundFX = new Sound(zombieFX);
-        soundFX.setSound(-15);
+        deadImages[0] = images[16];
+        deadImages[1] = images[17];
+        deadImages[2] = images[18];
+        deadImages[3] = images[19];
+
+        healthPoints = 200;
+        movementSpeed = 0.8f;
+
     }
 
+
     @Override
-    public void attack(Attackable attackable)
-    {
+    public void attack(Attackable attackable) {
         if(attackable instanceof Player)
         {
-            attackable.damage(1); // temporary magic number for testing
+            attackable.damage(2); // temporary magic number for testing
         }
     }
 
     @Override
-    public void damage(float damage)
-    {
+    public void damage(float damage) {
         if(healthPoints > 0)
         {
             healthPoints -= damage;
@@ -114,34 +89,35 @@ public class Zombie extends Enemy
     }
 
     @Override
-    public void update()
-    {
-        if(!visisble)
-        {
-            if(pos.getX() >= 0 && pos.getX() <= Config.SCREEN_WIDTH &&
-               pos.getY() >= 0 && pos.getY() <= Config.SCREEN_HEIGHT)
-            {
-                visisble = true;
-                soundFX.play();
-            }
-        }
-
+    public void update() {
         checkRotation();
     }
 
     @Override
-    public void draw(Graphics g)
-    {
-        g.drawImage(currentImages[animationIndex], (int) pos.getX() - (int) size.getX() / 2,
+    public void draw(Graphics g) {
+        if(deadAnimate){
+            g.drawImage(deadImages[deadDirectionIndex], (int) pos.getX() - (int) size.getX() / 2,
                     (int) pos.getY() - (int) size.getY() / 2,
                     (int) size.getX(),
                     (int) size.getY(),
                     null);
-    }
-
-    public void die()
-    {
-        soundFX.stop();
+        }
+        else{
+            if(attackAnimate){
+                g.drawImage(attackImages[attackDirectionIndex], (int) pos.getX() - (int) size.getX() / 2,
+                        (int) pos.getY() - (int) size.getY() / 2,
+                        (int) size.getX(),
+                        (int) size.getY(),
+                        null);
+            }
+            else{
+                g.drawImage(currentImages[animationIndex], (int) pos.getX() - (int) size.getX() / 2,
+                        (int) pos.getY() - (int) size.getY() / 2,
+                        (int) size.getX(),
+                        (int) size.getY(),
+                        null);
+            }
+        }
     }
 
     public boolean inRange(Player player){
@@ -149,15 +125,15 @@ public class Zombie extends Enemy
         int playerPosY = (int) player.getPos().getY();           //30
         int playerSizeX = (int) player.getSize().getX();         //30
         int playerSizeY = (int) player.getSize().getY();         //20
-        int zombiePosX = (int) getPos().getX();           //50
-        int zombiePosY = (int) getPos().getY();           //50
-        int zombieSizeX = (int) getSize().getX();         //30
-        int zombieSizeY = (int) getSize().getY();         //20
-        if(((zombiePosX) >= (playerPosX - playerSizeX / 2)) &&        //LEFT
-          ((zombiePosX) <= (playerPosX + playerSizeX / 2)) &&         //RIGHT
-          ((zombiePosY) >= (playerPosY - playerSizeY / 2)) &&         //DOWN
-          ((zombiePosY) <= (playerPosY + playerSizeY / 2))) {         //UP
-          return true;
+        int bossPosX = (int) getPos().getX();           //50
+        int bossPosY = (int) getPos().getY();           //50
+        int bossSizeX = (int) getSize().getX();         //30
+        int bosssSizeY = (int) getSize().getY();         //20
+        if(((bossPosX) >= (playerPosX - playerSizeX / 2) + 10) &&        //LEFT
+                ((bossPosX) <= (playerPosX + playerSizeX / 2) + 10) &&         //RIGHT
+                ((bossPosY) >= (playerPosY - playerSizeY / 2) + 10) &&         //DOWN
+                ((bossPosY) <= (playerPosY + playerSizeY / 2) + 10)) {         //UP
+            return true;
         }
         return false;
     }
@@ -175,7 +151,7 @@ public class Zombie extends Enemy
             float y = (float) Math.sin(theta);
 
             float newDistance = (float) Math.sqrt(Math.pow(Math.abs(target.getX() - (pos.getX() + x)), 2) +
-                                                  Math.pow(Math.abs(target.getY() - (pos.getY() + y)), 2));
+                    Math.pow(Math.abs(target.getY() - (pos.getY() + y)), 2));
             if(newDistance >= movementSpeed) // clamp
             {
                 pos.add(x * (float) movementSpeed, y * (float) movementSpeed);
@@ -222,27 +198,53 @@ public class Zombie extends Enemy
                 currentImages[0] = images[9];
                 currentImages[1] = images[10];
                 currentImages[2] = images[11];
+                attackDirectionIndex = 3;
+                deadDirectionIndex = 3;
                 break;
             case "south":
                 currentImages[0] = images[0];
                 currentImages[1] = images[1];
                 currentImages[2] = images[2];
+                attackDirectionIndex = 0;
+                deadDirectionIndex = 0;
                 break;
             case "west":
                 currentImages[0] = images[3];
                 currentImages[1] = images[4];
                 currentImages[2] = images[5];
+                attackDirectionIndex = 1;
+                deadDirectionIndex = 1;
                 break;
             case "east":
                 currentImages[0] = images[6];
                 currentImages[1] = images[7];
                 currentImages[2] = images[8];
+                attackDirectionIndex = 2;
+                deadDirectionIndex = 2;
                 break;
         }
+    }
+
+    public boolean isAttackAnimate() {
+        return attackAnimate;
+    }
+
+    public void setAttackAnimate(boolean attackAnimate){
+        this.attackAnimate = attackAnimate;
+    }
+
+    public boolean isDeadAnimate() {
+        return deadAnimate;
+    }
+
+    public void setDeadAnimate(boolean deadAnimate) {
+        this.deadAnimate = deadAnimate;
     }
 
     public void animate()
     {
         animationIndex = (animationIndex + 1) % 3;
     }
+
+
 }
