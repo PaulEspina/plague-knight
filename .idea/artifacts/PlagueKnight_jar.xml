@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="PlagueKnight:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/PlagueKnight_jar</output-path>
+    <root id="archive" name="PlagueKnight.jar">
+      <element id="module-output" name="PlagueKnight" />
+    </root>
+  </artifact>
+</component>
