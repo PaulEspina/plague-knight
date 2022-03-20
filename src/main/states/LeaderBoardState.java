@@ -132,7 +132,12 @@ public class LeaderBoardState extends State{
         if(storage.size() < columnOne)
         {
             columnOne = storage.size();
-            columnTwo = columnOne * 2;
+            if(columnOne < 7){
+                columnTwo = 0;
+            }
+            else{
+                columnTwo = columnOne * 2;
+            }
         }
 
         Collections.sort(storage, Collections.reverseOrder());
@@ -141,6 +146,7 @@ public class LeaderBoardState extends State{
         for(int i = 0; i < columnOne; i++){
             g.drawString("Rank " + (i + 1) + " ! " + String.valueOf(storage.get(i)), 200, 100 + (i * 30));
         }
+        System.out.println(columnTwo);
         for(int i = columnTwo; i < columnTwo * 2; i++){
             g.drawString("Rank " + (i + 1) + " ! " + String.valueOf(storage.get(i)), 400, 100 + ((columnTwo - (columnTwo - ctr)) * 30));
             ctr += 1;
