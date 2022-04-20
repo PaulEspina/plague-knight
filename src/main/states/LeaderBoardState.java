@@ -125,6 +125,7 @@ public class LeaderBoardState extends State{
         int ctr = 0;
         String line;
         ArrayList<Integer> storage = new ArrayList<>();
+
         while ((line = br.readLine()) != null)
         {
             storage.add(Integer.valueOf(line));
