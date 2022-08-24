@@ -284,6 +284,7 @@ public class GameState extends State
     private void scoreWriter(int score){
         try
         {
+
             FileWriter file = new FileWriter("scores.txt", true);
             file.write(score + "\n");
             file.close();
